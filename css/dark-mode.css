@@ -1,0 +1,661 @@
+/* dark-mode — styles organisés. */
+
+body.dark-mode #plan {
+    --analysis-muted: #bcbcc5;
+    --analysis-surface: #2b2b30;
+    --analysis-border: #404047;
+}
+
+body.dark-mode .nutrition-denutrition-ratio-result {
+    background: #304238;
+}
+
+body.dark-mode .nutrition-denutrition-row, body.dark-mode #calculs .nutrition-energy-main > div > small {
+    border-color: #404047;
+}
+
+body.dark-mode .nutrition-denutrition-row span, body.dark-mode .nutrition-denutrition-formulas, body.dark-mode #calculs .nutrition-energy-main > div > small {
+    color: #bcbcc5;
+}
+
+body.dark-mode #plan :is(.analyse-rca-table, .diabetes-carbs-table) tbody tr:hover, body.dark-mode #plan .diabetes-nutrient-row:not(.diabetes-nutrient-head):hover, body.dark-mode #plan .diabetes-distribution-row:hover {
+    color: var(--dark-text, #f5f5f7);
+    background: var(--dark-surface-hover);
+}
+
+body.dark-mode #anm-nutrition-modal .anm-nutrition-modal-close {
+    color: #e5e5ea;
+}
+
+body.dark-mode #anamnese .anm-meal-detail-button {
+    color: #f5f5f7;
+    background: #2c2c30;
+    border-color: #45454c;
+}
+
+body.dark-mode #anamnese .anm-meal-detail-button:hover {
+    background: #38383e;
+    border-color: #656570;
+}
+
+body.dark-mode #anamnese .anm-meal-detail-button:focus-visible {
+    outline-color: #c5c5cd;
+}
+
+body.dark-mode .biology-table-wrap {
+    background: var(--dark-surface) !important;
+    border-color: var(--dark-border) !important;
+}
+
+body.dark-mode .biology-table thead th, body.dark-mode .biology-section-row th {
+    color: var(--dark-text) !important;
+    background: var(--dark-surface-alt) !important;
+}
+
+body.dark-mode .biology-table th, body.dark-mode .biology-table td {
+    border-bottom-color: var(--dark-border) !important;
+}
+
+body.dark-mode .biology-table tbody th[scope="row"] {
+    color: var(--dark-text) !important;
+}
+
+body.dark-mode .biology-help {
+    color: var(--dark-text-secondary) !important;
+}
+
+body.dark-mode #patient #denutScreeningPanel {
+    background: #2c2c32;
+    border-color: #414148;
+}
+
+body.dark-mode #denutScreeningText {
+    color: #b5b5bf;
+}
+
+body.dark-mode #patient #denutEvaluationToggle {
+    color: #f5f5f7;
+    background: #38383e;
+    border-color: #55555d;
+}
+
+body.dark-mode {
+    --dark-bg: #18181b;
+    --dark-surface: #242428;
+    --dark-surface-alt: #2c2c31;
+    --dark-surface-hover: #333339;
+    --dark-border: #3a3a40;
+    --dark-border-strong: #484850;
+    --dark-text: #f5f5f7;
+    --dark-text-secondary: #b8b8be;
+    --dark-text-muted: #98989f;
+    --dark-input: #1e1e22;
+    color: var(--dark-text);
+    color-scheme: dark;
+    background: var(--dark-bg);
+}
+
+body.dark-mode details, body.dark-mode .results, body.dark-mode .result-card, body.dark-mode .pathology-guide, body.dark-mode .module-placeholder, body.dark-mode .patients-home-card, body.dark-mode .anm-meal, body.dark-mode .anm-totals-card, body.dark-mode .anm-details {
+    color: var(--dark-text) !important;
+    background: var(--dark-surface) !important;
+    border-color: var(--dark-border) !important;
+}
+
+body.dark-mode .section-content, body.dark-mode .workspace .section-content, body.dark-mode .anm-table-wrap {
+    color: var(--dark-text) !important;
+    background: transparent !important;
+}
+
+body.dark-mode .results, body.dark-mode .result-card, body.dark-mode .pathology-guide, body.dark-mode .anm-meal, body.dark-mode .anm-totals-card {
+    box-shadow: 0 3px 16px rgba(0, 0, 0, 0.18);
+}
+
+body.dark-mode h1, body.dark-mode h2, body.dark-mode h3, body.dark-mode h4, body.dark-mode summary, body.dark-mode .result-card strong, body.dark-mode .anm-food-name strong, body.dark-mode .anm-total-item strong, body.dark-mode .anm-meal-header h3 {
+    color: var(--dark-text) !important;
+}
+
+body.dark-mode p, body.dark-mode label, body.dark-mode .workspace-kicker, body.dark-mode .module-header p, body.dark-mode .result-card h3, body.dark-mode .anm-meal-header span, body.dark-mode .anm-food-name span, body.dark-mode .anm-card-heading p, body.dark-mode .anm-total-item span, body.dark-mode .anm-empty {
+    color: var(--dark-text-secondary) !important;
+}
+
+body.dark-mode hr {
+    border-color: var(--dark-border) !important;
+}
+
+body.dark-mode input, body.dark-mode select, body.dark-mode textarea, body.dark-mode #anamnese input, body.dark-mode #anamnese select, body.dark-mode #anamnese textarea {
+    color: var(--dark-text) !important;
+    background: var(--dark-input) !important;
+    border-color: #45454d !important;
+}
+
+body.dark-mode input::placeholder, body.dark-mode textarea::placeholder, body.dark-mode .anm-food-search::placeholder {
+    color: #85858d !important;
+}
+
+body.dark-mode input:focus, body.dark-mode select:focus, body.dark-mode textarea:focus {
+    background: var(--dark-input) !important;
+    border-color: #66666f !important;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08);
+}
+
+body.dark-mode option {
+    color: var(--dark-text);
+    background: var(--dark-input);
+}
+
+body.dark-mode .btn-secondary, body.dark-mode .settings-button, body.dark-mode .anm-secondary-button, body.dark-mode .anm-delete-button {
+    color: var(--dark-text) !important;
+    background: var(--dark-surface-alt) !important;
+    border-color: var(--dark-border-strong) !important;
+}
+
+body.dark-mode .btn-secondary:hover, body.dark-mode .settings-button:hover, body.dark-mode .anm-secondary-button:hover, body.dark-mode .anm-delete-button:hover {
+    color: #ffffff !important;
+    background: var(--dark-surface-hover) !important;
+}
+
+body.dark-mode .main-nav {
+    background: rgba(36, 36, 40, 0.96);
+    border-top-color: rgba(255, 255, 255, 0.08);
+    border-bottom-color: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+}
+
+body.dark-mode .nav-tab {
+    color: var(--dark-text-secondary) !important;
+}
+
+body.dark-mode .nav-tab:hover {
+    color: #ffffff !important;
+    background: var(--dark-surface-alt) !important;
+}
+
+body.dark-mode .nav-tab.active {
+    color: #ffffff !important;
+    background: #38383f !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.24);
+}
+
+body.dark-mode .nav-tab.active::after {
+    background: #ffffff;
+}
+
+body.dark-mode .nav-tab:focus-visible {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.10);
+}
+
+body.dark-mode .patients-sidebar .sidebar-brand strong, body.dark-mode .patients-sidebar .patient-list-info strong {
+    color: var(--dark-text) !important;
+}
+
+body.dark-mode .patients-sidebar .sidebar-brand span, body.dark-mode .patients-sidebar .patient-list-info span {
+    color: var(--dark-text-muted) !important;
+}
+
+body.dark-mode .patients-sidebar .sidebar-section-title span, body.dark-mode .patients-sidebar .sidebar-back-button {
+    color: #aaaab2 !important;
+}
+
+body.dark-mode .patients-sidebar .patient-avatar {
+    color: var(--dark-text) !important;
+    background: #3a3a40 !important;
+}
+
+body.dark-mode .patients-sidebar .sidebar-footer {
+    border-top-color: var(--dark-border) !important;
+}
+
+body.dark-mode .patients-sidebar .sidebar-back-button:hover {
+    color: #ffffff !important;
+    background: #303036 !important;
+}
+
+body.dark-mode .patient-more-button {
+    color: #f3f3f5;
+    background: #2c2c2e;
+    border-color: #3a3a3c;
+}
+
+body.dark-mode .patient-more-button:hover {
+    color: #f5f5f7;
+    background: #3a3a3c;
+    border-color: #48484a;
+}
+
+body.dark-mode .patient-delete-button {
+    color: #f03a3a;
+    background: #2a1d1d00;
+    border-color: #5b3535;
+}
+
+body.dark-mode .patient-delete-button:hover {
+    background: #351f1f;
+    border-color: #7a4545;
+}
+
+body.dark-mode .patient-search {
+    background: #18181a !important;
+    border-color: #343438 !important;
+}
+
+body.dark-mode .patient-search span {
+    color: #8e8e93 !important;
+}
+
+body.dark-mode .patient-search input {
+    color: #f5f5f7 !important;
+    background: transparent !important;
+}
+
+body.dark-mode .patient-search input::placeholder {
+    color: #85858d !important;
+}
+
+body.dark-mode .patient-search:focus-within {
+    background: #1c1c1e !important;
+    border-color: #55555c !important;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.06);
+}
+
+body.dark-mode #recherchePatient {
+    color: #f5f5f7;
+    background: #242424;
+    border-color: #3a3a3c;
+}
+
+body.dark-mode #recherchePatient::placeholder {
+    color: #98989d;
+}
+
+body.dark-mode #recherchePatient:focus {
+    background: #2c2c2e;
+    border-color: #636366;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.06);
+}
+
+body.dark-mode .settings-menu {
+    color: var(--dark-text) !important;
+    background: var(--dark-surface) !important;
+    border-color: var(--dark-border-strong) !important;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+}
+
+body.dark-mode .settings-menu-title, body.dark-mode .settings-option {
+    color: var(--dark-text) !important;
+}
+
+body.dark-mode table {
+    color: var(--dark-text);
+}
+
+body.dark-mode th {
+    color: var(--dark-text-secondary) !important;
+    background: var(--dark-surface-alt) !important;
+}
+
+body.dark-mode th, body.dark-mode td {
+    border-color: var(--dark-border) !important;
+}
+
+body.dark-mode #anamnese {
+    color: var(--dark-text);
+}
+
+body.dark-mode #anamnese .anm-meal-header {
+    background: #2a2a2f !important;
+    border-bottom-color: var(--dark-border) !important;
+}
+
+body.dark-mode #anamnese .anm-table th, body.dark-mode #anamnese .anm-table td {
+    color: var(--dark-text) !important;
+    background: transparent !important;
+    border-bottom-color: var(--dark-border) !important;
+}
+
+body.dark-mode #anamnese .anm-table th {
+    color: var(--dark-text-secondary) !important;
+}
+
+body.dark-mode #anamnese .anm-meal-nutrition {
+    background: #202024 !important;
+    border-color: var(--dark-border) !important;
+}
+
+body.dark-mode #anamnese .anm-meal-nutrient {
+    color: var(--dark-text) !important;
+    background: var(--dark-surface-alt) !important;
+    border-color: var(--dark-border) !important;
+}
+
+body.dark-mode #anamnese .anm-meal-nutrient span {
+    color: var(--dark-text-secondary) !important;
+}
+
+body.dark-mode #anamnese .anm-total-item {
+    color: var(--dark-text) !important;
+    background: var(--dark-surface-alt) !important;
+    border-color: var(--dark-border) !important;
+}
+
+body.dark-mode #anamnese .anm-details summary {
+    color: var(--dark-text) !important;
+}
+
+body.dark-mode #anamnese .anm-full-total {
+    color: var(--dark-text) !important;
+    background: #202024 !important;
+}
+
+body.dark-mode #anamnese .anm-help {
+    color: var(--dark-text-secondary) !important;
+}
+
+body.dark-mode .anm-search-results {
+    color: var(--dark-text) !important;
+    background: var(--dark-surface) !important;
+    border-color: var(--dark-border) !important;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.45) !important;
+}
+
+body.dark-mode .anm-search-item, body.dark-mode .anm-search-result {
+    color: var(--dark-text) !important;
+    background: var(--dark-surface) !important;
+    border-color: var(--dark-border) !important;
+}
+
+body.dark-mode .anm-search-item:hover, body.dark-mode .anm-search-result:hover {
+    background: var(--dark-surface-hover) !important;
+}
+
+body.dark-mode .anm-search-item small, body.dark-mode .anm-search-item-code, body.dark-mode .anm-search-empty {
+    color: var(--dark-text-secondary) !important;
+}
+
+body.dark-mode .autosave-status {
+    color: var(--dark-text-secondary);
+    background: var(--dark-surface-alt);
+}
+
+body.dark-mode .autosave-status.saving {
+    color: #fbbf24;
+    background: #2a2418;
+}
+
+body.dark-mode .autosave-status.saved {
+    color: #86efac;
+    background: #17251b;
+}
+
+body.dark-mode .nutrition-calc-card {
+    background: var(--dark-surface);
+    border-color: var(--dark-border);
+    box-shadow: none;
+}
+
+body.dark-mode .nutrition-calc-card-header h3, body.dark-mode .nutrition-hydration-content h3, body.dark-mode .nutrition-metric strong, body.dark-mode .nutrition-energy-main strong, body.dark-mode .nutrition-macro-item strong, body.dark-mode .nutrition-target-label, body.dark-mode .nutrition-hydration-content > strong {
+    color: var(--dark-text);
+}
+
+body.dark-mode .nutrition-metric, body.dark-mode .nutrition-energy-main > div, body.dark-mode .nutrition-macro-item {
+    background: var(--dark-surface-alt);
+}
+
+body.dark-mode .nutrition-target-input input {
+    color: var(--dark-text);
+    background: var(--dark-surface-alt);
+    border-color: var(--dark-border);
+}
+
+body.dark-mode .nutrition-protein-reference span {
+    color: #98989d;
+}
+
+body.dark-mode .nutrition-protein-reference strong {
+    color: #fcfcfc;
+}
+
+body.dark-mode .macro-slider {
+    background: linear-gradient( to right, var(--macro-couleur, #f5f5f7) 0%, var(--macro-couleur, #f5f5f7) calc(var(--valeur, 0) * 1%), rgba(255, 255, 255, 0.14) calc(var(--valeur, 0) * 1%), rgba(255, 255, 255, 0.14) 100% );
+}
+
+body.dark-mode .macro-slider::-moz-range-track {
+    background: rgba(255, 255, 255, 0.14);
+}
+
+body.dark-mode .macro-slider::-webkit-slider-thumb, body.dark-mode .macro-slider::-moz-range-thumb {
+    background: #f5f5f7;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5), 0 0 0 0.5px rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .diabete-details-inner {
+    background: rgba(255, 255, 255, 0.025);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+body.dark-mode .diabete-details-inner:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+body.dark-mode .diabete-details-inner label {
+    color: #a1a1a6;
+}
+
+body.dark-mode .diabete-details-title {
+    color: #f5f5f7;
+}
+
+body.dark-mode .diabete-details label {
+    color: #a1a1a6;
+}
+
+body.dark-mode .checkbox-group label {
+    color: #d1d1d6;
+    background: rgba(255, 255, 255, 0.035);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+body.dark-mode .checkbox-group label:hover {
+    background: rgba(255, 255, 255, 0.065);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+body.dark-mode .checkbox-group input[type="checkbox"] {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.28);
+}
+
+body.dark-mode .checkbox-group input[type="checkbox"]:checked {
+    background: #f5f5f7;
+    border-color: #f5f5f7;
+}
+
+body.dark-mode .checkbox-group input[type="checkbox"]:checked::after {
+    border-color: #1d1d1f;
+}
+
+body.dark-mode .pathology-item > label {
+    color: #d1d1d6;
+    background: rgba(255, 255, 255, 0.035);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+body.dark-mode .pathology-item > label:hover {
+    background: rgba(255, 255, 255, 0.065);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+body.dark-mode .pathology-item input[type="checkbox"] {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.28);
+}
+
+body.dark-mode .pathology-item input[type="checkbox"]:checked {
+    background: #f5f5f7;
+    border-color: #f5f5f7;
+}
+
+body.dark-mode .pathology-item input[type="checkbox"]:checked::after {
+    border-color: #1d1d1f;
+}
+
+body.dark-mode .pathology-item:has(input[type="checkbox"]:checked) > label {
+    background: rgba(255, 255, 255, 0.055);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+body.dark-mode .macro-slider::-webkit-slider-thumb {
+    background: #f5f4f4;
+}
+
+body.dark-mode .nutrition-macro-header span {
+    color: #fcfbfb;
+}
+
+body.dark-mode .nutrition-macro-values small {
+    color: #a59f9fea;
+}
+
+body.dark-mode .patient-overview-grid dt, body.dark-mode .patient-section-preview {
+    color: #b2c2b9;
+}
+
+body.dark-mode .patient-section-group > h2, body.dark-mode #patient-overview {
+    color: #f0f4f2;
+}
+
+body.dark-mode #patient-overview {
+    background: linear-gradient(110deg, #232e29, #242829);
+    border-color: #394b41;
+    border-left-color: #82b599;
+    box-shadow: none;
+}
+
+body.dark-mode .patient-overview-grid dd {
+    color: #e4eee8;
+}
+
+body.dark-mode .patient-overview-grid > div + div {
+    border-color: #3a4a41;
+}
+
+body.dark-mode .patients-sidebar {
+    color: var(--dark-text) !important;
+    background: #202024 !important;
+    background: #222222;
+    border-right-color: var(--dark-border) !important;
+    border-color: #383838;
+    box-shadow: 4px 0 24px rgba(0, 0, 0, 0.25);
+}
+
+body.dark-mode .patients-sidebar .patient-list-item {
+    color: var(--dark-text) !important;
+    background: #29292e !important;
+    background: transparent;
+    border-color: var(--dark-border) !important;
+    border-color: transparent;
+}
+
+body.dark-mode .patients-sidebar .patient-list-item:hover {
+    background: var(--dark-surface-hover) !important;
+    background: #303030;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.28), 0 2px 5px rgba(0, 0, 0, 0.18);
+}
+
+body.dark-mode .patients-sidebar .patient-list-item.patient-active {
+    color: #ffffff !important;
+    background: #38383f !important;
+    background: #393939;
+    box-shadow: inset 3px 0 #cccccc;
+}
+
+body.dark-mode .patients-sidebar .patient-search {
+    background: #2c2c2c;
+    border-color: #444444;
+}
+
+body.dark-mode .sidebar-collapse-button {
+    color: #cccccc;
+    border-color: #505050;
+}
+
+body.dark-mode .workspace .main-nav.nav-sticky-expanded {
+    background: rgba(30, 30, 34, 0.98) !important;
+    box-shadow: 0 8px 14px -8px rgba(0, 0, 0, 0.55),
+                0 18px 28px -16px rgba(0, 0, 0, 0.4);
+}
+
+/* ANALYSE HTA */
+body.dark-mode #plan .hta-objective-badge {
+    color: var(--dark-text);
+    background: #2e3933;
+    border-color: #405046;
+}
+
+body.dark-mode #plan .hta-analysis-table tbody tr:hover {
+    color: var(--dark-text);
+    background: var(--dark-surface-hover);
+    box-shadow: inset 3px 0 0 #66666f;
+}
+
+body.dark-mode #plan .hta-vigilance-item {
+    background: #393426;
+    border-color: #5a5034;
+}
+
+body.dark-mode #plan .hta-vigilance-item span {
+    color: #d2c6a5;
+}
+body.dark-mode #patient :is(.pathology-item, #htaDetails, #diabeteDetails, #obesiteDetails) {
+    --pathology-border: color-mix(in srgb, var(--pathology-accent, #176ac0) 45%, #303540);
+    --pathology-heading: color-mix(in srgb, var(--pathology-accent, #176ac0) 20%, #202630);
+    --pathology-ink: color-mix(in srgb, var(--pathology-accent, #176ac0) 35%, white);
+}
+
+body.dark-mode #patient .pathology-panel,
+body.dark-mode #patient #diabeteDetails > .diabete-details-inner {
+    background: #202630;
+}
+
+body.dark-mode #patient .pathology-panel-salt h4 {
+    color: var(--pathology-ink);
+    background: var(--pathology-heading);
+}
+
+body.dark-mode #patient .pathology-panel-clinical h4 {
+    color: var(--pathology-ink);
+    background: var(--pathology-heading);
+}
+
+@supports (appearance: base-select) {
+    body.dark-mode select:not([multiple]):not([size])::picker(select) {
+        color: #f2f2f5;
+        background: #29292e;
+        border-color: #45454d;
+    }
+
+    body.dark-mode select:not([multiple]):not([size]) option:checked {
+        color: #d9eaff;
+        background: #283f5b;
+    }
+}
+
+body.dark-mode #analyseObesiteContainer { background: var(--analysis-card, #202630); }
+
+body.dark-mode .anm-validation-card {
+    background: var(--dark-surface) !important;
+    border-color: var(--dark-border) !important;
+}
+
+body.dark-mode .anm-validation-copy p {
+    color: var(--dark-text-secondary) !important;
+}
+
+body.dark-mode .anm-validation-heading h3 {
+    color: var(--dark-text) !important;
+}
+
+body.dark-mode .anm-validation-button {
+    background: #f5f5f7 !important;
+    color: #1d1d1f !important;
+}

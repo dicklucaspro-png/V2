@@ -1,0 +1,14 @@
+const assert=require('assert/strict');
+const {validateBackup}=require('../JS/dossier-tools.js');
+const patient={id:1,nom:'Test',prenom:'Demo',formulaire:{poids:{value:'70'}},anamnese:[],objectifsRetenusConsultation:[{text:'Objectif',source:''}]};
+const backup={format:'NutriFlow',version:1,patients:[patient]};
+assert.deepEqual(validateBackup(backup),[patient]);
+assert.deepEqual(validateBackup({...backup,patients:[]}),[]);
+assert.throws(()=>validateBackup({...backup,version:2}));
+assert.throws(()=>validateBackup({...backup,patients:[patient,patient]}));
+assert.throws(()=>validateBackup({...backup,patients:[{...patient,id:'1'}]}));
+assert.throws(()=>validateBackup({...backup,patients:[{...patient,nom:''}]}));
+assert.throws(()=>validateBackup({...backup,patients:[{...patient,anamnese:{}}]}));
+assert.throws(()=>validateBackup({...backup,patients:[{...patient,formulaire:[]}]}));
+assert.throws(()=>validateBackup(JSON.parse('{"format":"NutriFlow","version":1,"patients":[],"__proto__":{}}')));
+console.log('9 contrôles de sauvegarde réussis : format, versions, identifiants et structure.');

@@ -1,0 +1,4098 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>NutriFlow</title>
+
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/modules.css">
+<link rel="stylesheet" href="css/dark-mode.css">
+<link rel="stylesheet" href="css/patient-experience.css">
+<link rel="stylesheet" href="css/biologie-adaptive.css">
+<link rel="stylesheet" href="css/dyslipidemie.css">
+<link rel="stylesheet" href="css/responsives.css">
+
+<link rel="stylesheet" href="css/clinical-theme.css">
+</head>
+
+<body>
+
+<button type="button" class="mobile-sidebar-toggle"
+    onclick="basculerSidebar()"
+    aria-label="Afficher les patients"
+    aria-controls="patientsSidebar"
+    aria-expanded="false">
+    ☰
+</button>
+
+<div class="container app-root">
+
+    <!-- =====================================================
+         INTERFACE PRINCIPALE 
+    ====================================================== -->
+
+    <div class="app-shell">
+
+        <!-- BARRE LATÉRALE : PATIENTS -->
+
+        <aside class="patients-sidebar" id="patientsSidebar">
+
+            <div class="sidebar-brand">
+                <div class="brand-mark">D</div>
+                <div>
+                    <strong>NutriFlow</strong>
+                    <span>Prise en charge diététique</span>
+                </div>
+            </div>
+
+            <div class="sidebar-section-title">
+                <span>Patients</span>
+                <button
+                    type="button"
+                    class="sidebar-new-button"
+                    onclick="nouveauPatient()"
+                    title="Nouveau patient"
+                    aria-label="Nouveau patient"
+                >+</button>
+            </div>
+
+            <div class="patient-search">
+                <span>⌕</span>
+                <input
+                    type="search"
+                    id="recherchePatient"
+                    placeholder="Rechercher un patient..."
+                    autocomplete="off"
+                    oninput="filtrerPatients(this.value)"
+                 aria-label="Rechercher un patient">
+            </div>
+
+            <div id="patients-list" class="patients-list">
+                <p class="patients-empty">Aucun patient enregistré.</p>
+            </div>
+
+            <div class="sidebar-footer">
+                <button
+                    type="button"
+                    class="sidebar-back-button"
+                    onclick="retourPatients()"
+                >
+                    <span>←</span>
+                    Liste des patients
+                </button>
+            </div>
+
+        </aside>
+
+        <!-- ZONE PRINCIPALE -->
+
+        <main class="workspace">
+
+            <header class="workspace-header">
+
+                <div class="workspace-title">
+                    <div class="workspace-kicker">DOSSIER PATIENT</div>
+                    <h1 id="patientActifNom">Aucun patient sélectionné</h1>
+                    <p id="patientActifSousTitre">
+                        Sélectionnez un patient ou créez un nouveau dossier.
+                    </p>
+                </div>
+
+                <div class="workspace-actions">
+                    <span id="autoSaveStatus" class="autosave-status saved" aria-live="polite">Aucun dossier ouvert</span>
+                    <button 
+                        type="button"
+                        class="settings-button"
+                        onclick="toggleSettingsMenu()"
+                        title="Paramètres"
+                        aria-label="Ouvrir les paramètres"
+                        aria-controls="settingsMenu"
+                        aria-expanded="false"
+                        >
+                   <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M19.43 12.98c.04-.32.07-.65.07-.98s-.02-.66-.07-.98l2.11-1.65-2-3.46-2.49 1a7.05 7.05 0 0 0-1.69-.98L15 3.5h-4l-.37 2.43c-.6.25-1.17.58-1.69.98l-2.49-1-2 3.46 2.11 1.65c-.04.32-.08.65-.08.98s.03.66.08.98l-2.11 1.65 2 3.46 2.49-1c.52.4 1.09.73 1.69.98L11 20.5h4l.37-2.43c.6-.25 1.17-.58 1.69-.98l2.49 1 2-3.46-2.12-1.65ZM13 15.5A3.5 3.5 0 1 1 13 8a3.5 3.5 0 0 1 0 7.5Z"/>
+</svg>
+                    </button>
+                </div>
+
+                <div id="settingsMenu" class="settings-menu" aria-hidden="true">
+    <div class="settings-menu-title">
+        Paramètres
+    </div>
+
+    <label class="settings-option">
+        <input type="checkbox" id="darkModeToggle">
+        <span>Mode sombre</span>
+    </label>
+</div>
+
+            </header>
+
+            <!-- BANDEAU HORIZONTAL DES MODULES -->
+
+            <nav class="main-nav" aria-label="Modules du dossier patient" role="tablist">
+
+                <button type="button" class="nav-tab active"
+                    onclick="ouvrirOnglet('patient', this)" id="tab-patient" role="tab" aria-controls="patient" aria-selected="true">
+                    Patient
+                </button>
+
+                <button type="button" class="nav-tab"
+                    onclick="ouvrirOnglet('calculs', this)" id="tab-calculs" role="tab" aria-controls="calculs" aria-selected="false">
+                    Calculs nutritionnels
+                </button>
+
+                <button type="button" class="nav-tab"
+                    onclick="ouvrirOnglet('anamnese', this)" id="tab-anamnese" role="tab" aria-controls="anamnese" aria-selected="false">
+                    Anamnèse alimentaire
+                </button>
+
+                <button type="button" class="nav-tab"
+                    onclick="ouvrirOnglet('plan', this)" id="tab-plan" role="tab" aria-controls="plan" aria-selected="false">
+                    Analyse
+                </button>
+
+                <button type="button" class="nav-tab"
+                    onclick="ouvrirOnglet('pathologies', this)" id="tab-pathologies" role="tab" aria-controls="pathologies" aria-selected="false">
+                    Prise en charge
+                </button>
+
+                <button type="button" class="nav-tab"
+                    onclick="ouvrirOnglet('recettes', this)" id="tab-recettes" role="tab" aria-controls="recettes" aria-selected="false">
+                    Recettes
+                </button>
+
+                <button type="button" class="nav-tab"
+                    onclick="ouvrirOnglet('aliments', this)" id="tab-aliments" role="tab" aria-controls="aliments" aria-selected="false">
+                    Aliments & équivalences
+                </button>
+
+                <button type="button" class="nav-tab"
+                    onclick="ouvrirOnglet('suivi', this)" id="tab-suivi" role="tab" aria-controls="suivi" aria-selected="false">
+                    Suivi
+                </button>
+
+                <button type="button" class="nav-tab"
+                    onclick="ouvrirOnglet('documents', this)" id="tab-documents" role="tab" aria-controls="documents" aria-selected="false">
+                    Documents
+                </button>
+
+            </nav>
+
+            <div id="patients-home" class="patients-home">
+                <div class="patients-home-card">
+                    <div>
+                        <div class="workspace-kicker">GESTION DES DOSSIERS</div>
+                        <h2>Patients</h2>
+                        <p>Créez, recherchez et ouvrez les dossiers patients depuis la barre latérale.</p>
+                    </div>
+
+                    <button type="button" class="btn-primary" onclick="nouveauPatient()">
+                        + Nouveau patient
+                    </button>
+                </div>
+            </div>
+
+
+
+
+ <!-- =====================================================
+         ONGLET PATIENT
+    ====================================================== -->
+
+    <div
+        id="patient"
+        class="tab-content active" role="tabpanel" aria-labelledby="tab-patient"
+    >
+
+        <!-- INFORMATIONS PATIENT -->
+
+        <details>
+
+            <summary>
+                Informations du patient
+            </summary>
+
+            <div class="section-content">
+
+                <label for="nom"> 
+                    Nom
+                </label>
+
+                <input 
+                type="text"
+                id="nom"
+                autocomplete="off"
+                >
+
+                <label for="prenom">
+                Prénom
+                </label>
+
+                <input
+                type="text"
+                id="prenom"
+                autocomplete="off"
+                >
+
+                <label for="dateNaissance">
+                    Date de naissance
+                </label>
+
+                <input
+                    type="date"
+                    id="dateNaissance"
+                    onchange="mettreAJourAgeDepuisDateNaissance()"
+                >
+
+                <label for="age">
+                    Âge (années)
+                </label>
+
+                <input
+                    type="number"
+                    id="age"
+                    min="0"
+                    placeholder="Calculé depuis la date de naissance"
+                >
+
+                <label for="telephone">
+                    Téléphone
+                </label>
+
+                <input
+                    type="tel"
+                    id="telephone"
+  
+                    autocomplete="tel"
+                    placeholder="Optionnel"
+                >
+
+                <label for="sexe">
+                    Sexe
+                </label>
+
+                <select id="sexe">
+
+                    <option value="">
+                        -- Sélectionner --
+                    </option>
+
+                    <option value="homme">
+                        Homme
+                    </option>
+
+                    <option value="femme">
+                        Femme
+                    </option>
+
+                </select>
+
+                <label for="taille">
+                    Taille (cm)
+                </label>
+
+                <input
+                    type="number"
+                    id="taille"
+                    step="0.1"
+                >
+
+                <label for="poids">
+                    Poids (kg)
+                </label>
+
+                <input
+                    type="number"
+                    id="poids"
+                    step="0.1"
+                >
+
+            </div>
+
+        </details>
+
+        <!-- MOTIF DE CONSULTATION -->
+
+        <details>
+            <summary>Motif de consultation</summary>
+            <div class="section-content">
+                <label for="motifConsultation">
+                    Motif principal
+                </label>
+                <select id="motifConsultation">
+                    <option value="">-- Sélectionner --</option>
+                    <option value="poids">Gestion du poids</option>
+                    <option value="pathologie">Prise en charge d'une pathologie</option>
+                    <option value="alimentation">Amélioration de l'alimentation</option>
+                    <option value="digestif">Troubles digestifs</option>
+                    <option value="sport">Nutrition et activité physique</option>
+                    <option value="autre">Autre</option>
+                </select>
+
+                <label for="motifConsultationDetails">
+                    Précisions / demande du patient
+                </label>
+                <textarea
+                    id="motifConsultationDetails"
+                    placeholder="Pourquoi le patient consulte-t-il ? Quelle est sa demande principale ?"
+                
+                 >
+                </textarea>
+            </div>
+        </details>
+
+        <div class="patient-two-columns">
+
+        <!-- Contexte de vie -->
+
+        <details>
+            <summary>Contexte de vie</summary>
+            <div class="section-content">
+                <label for="profession">
+                    Profession / activité principale
+                </label>
+                <input
+                    type="text"
+                    id="profession"
+                    placeholder="Ex. employé, étudiant, retraité..."
+                >
+
+                <label for="horairesTravail">
+                    Horaires / rythme de travail
+                </label>
+                <input
+                    type="text"
+                    id="horairesTravail"
+                    placeholder="Ex. 8h–16h, pauses, travail de nuit..."
+                >
+
+                <label for="lieuVie">
+                    Adresse / lieu de vie
+                </label>
+                <input
+                    type="text"
+                    id="lieuVie"
+                    placeholder="Ex. Lille, appartement, maison..."
+                >
+
+                <label for="transportTravail">
+                    Mode de transport pour aller au travail
+                </label>
+                <select id="transportTravail">
+                    <option value="">-- Sélectionner --</option>
+                    <option value="marche">Marche</option>
+                    <option value="velo">Vélo</option>
+                    <option value="transports">Transports en commun</option>
+                    <option value="voiture">Voiture / moto</option>
+                    <option value="mixte">Mixte</option>
+                    <option value="teletravail">Télétravail / pas de trajet</option>
+                    <option value="autre">Autre</option>
+                </select>
+
+                <label for="mutuelle">
+                    Mutuelle
+                </label>
+                <input type="text" id="mutuelle" placeholder="Optionnel">
+
+                <label for="situationFamiliale">
+                    Situation familiale
+                </label>
+                <select id="situationFamiliale">
+                    <option value="">-- Sélectionner --</option>
+                    <option value="seul">Seul(e)</option>
+                    <option value="couple">En couple</option>
+                    <option value="famille">En famille</option>
+                    <option value="colocation">Colocation</option>
+                    <option value="autre">Autre</option>
+                </select>
+
+                <label for="compositionFoyer">
+                    Nombre de personnes dans le foyer
+                </label>
+                <input type="number" id="compositionFoyer" min="1" step="1" placeholder="Ex. 4">
+
+                <label for="nombreEnfants">
+                    Nombre d'enfants
+                </label>
+                <input type="number" id="nombreEnfants" min="0" step="1" placeholder="Ex. 2">
+
+                <label for="agesEnfants">
+                    Âge(s) des enfants
+                </label>
+                <input type="text" id="agesEnfants" placeholder="Ex. 4 ans, 9 ans">
+
+                <label for="responsableCourses">
+                    Qui fait les courses ?
+                </label>
+                <select id="responsableCourses">
+                    <option value="">-- Sélectionner --</option>
+                    <option value="patient">Le patient</option>
+                    <option value="conjoint">Le/la conjoint(e)</option>
+                    <option value="partage">Partagé</option>
+                    <option value="autre">Une autre personne</option>
+                </select>
+
+                <label for="responsableCuisine">
+                    Qui cuisine ?
+                </label>
+                <select id="responsableCuisine">
+                    <option value="">-- Sélectionner --</option>
+                    <option value="patient">Le patient</option>
+                    <option value="conjoint">Le/la conjoint(e)</option>
+                    <option value="partage">Partagé</option>
+                    <option value="autre">Une autre personne</option>
+                </select>
+
+                <label for="animauxCompagnie">
+                    Animaux de compagnie
+                </label>
+                <select id="animauxCompagnie">
+                    <option value="">-- Sélectionner --</option>
+                    <option value="aucun">Aucun</option>
+                    <option value="chien">Chien</option>
+                    <option value="autre">Autre</option>
+                </select>
+
+                <label for="promenadeChien">
+                    Promenade du chien
+                </label>
+                <input type="text" id="promenadeChien" placeholder="Ex. 2 × 30 min/jour">
+
+                <label for="sommeilDuree">
+                    Sommeil moyen
+                </label>
+                <input
+                    type="text"
+                    id="sommeilDuree"
+                    placeholder="Ex. 7 h/nuit"
+                >
+
+                <label for="sommeilQualite">
+                    Qualité du sommeil
+                </label>
+                <select id="sommeilQualite">
+                    <option value="">-- Sélectionner --</option>
+                    <option value="bonne">Bonne</option>
+                    <option value="moyenne">Moyenne</option>
+                    <option value="mauvaise">Mauvaise</option>
+                </select>
+
+                <label for="contexteVie">
+                    Éléments de contexte à prendre en compte
+                </label>
+                <textarea
+                    id="contexteVie"
+                    placeholder="Événements, contraintes professionnelles ou familiales, changements récents..."
+                ></textarea>
+            </div>
+        </details>
+
+        <!-- Histoire pondérale -->
+
+        <details>
+            <summary>Histoire pondérale</summary>
+            <div class="section-content">
+                <label for="poidsHabituel">
+                    Poids habituel (kg)
+                </label>
+                <input type="number" id="poidsHabituel" min="0" step="0.1">
+
+                <label for="poidsMax">
+                    Poids maximal connu (kg)
+                </label>
+                <input type="number" id="poidsMax" min="0" step="0.1">
+
+                <label for="poidsMin">
+                    Poids minimal à l'âge adulte (kg)
+                </label>
+                <input type="number" id="poidsMin" min="0" step="0.1">
+
+                <label for="evolutionPoids">
+                    Évolution récente du poids
+                </label>
+                <input
+                    type="text"
+                    id="evolutionPoids"
+                    placeholder="Ex. +5 kg en 6 mois, stable..."
+                >
+
+                <label for="antecedentsRegimes">
+                    Régimes / prises en charge antérieurs
+                </label>
+                <textarea
+                    id="antecedentsRegimes"
+                    placeholder="Régimes suivis, durée, résultats, difficultés rencontrées..."
+                ></textarea>
+
+                <label for="evenementsPoids">
+                    Événements pouvant avoir influencé le poids
+                </label>
+                <textarea
+                    id="evenementsPoids"
+                    placeholder="Changement professionnel, arrêt du sport, grossesse, événement personnel..."
+                ></textarea>
+            </div>
+        </details>
+
+        </div>
+
+        <div class="patient-two-columns">
+
+        <!-- Anthropométrie complémentaire -->
+
+        <details>
+            <summary>Anthropométrie complémentaire</summary>
+            <div class="section-content">
+                <label for="tourTaille">
+                    Tour de taille (cm)
+                </label>
+                <input
+                    type="number"
+                    id="tourTaille"
+                    min="0"
+                    step="0.1"
+                    placeholder="Optionnel"
+                >
+
+                <label for="mesuresAnthropometriquesNotes">
+                    Autres mesures / remarques
+                </label>
+                <textarea
+                    id="mesuresAnthropometriquesNotes"
+                    placeholder="Autres mesures utiles au suivi..."
+                ></textarea>
+            </div>
+        </details>
+
+        </div>
+
+        <!-- Santé digestive et transit -->
+
+        <details>
+            <summary>Santé digestive et transit</summary>
+            <div class="section-content">
+                <label for="transitFrequence">Fréquence habituelle des selles</label>
+                <input type="text" id="transitFrequence" placeholder="Ex. 1/jour, 3/semaine...">
+
+                <label for="transitBristol">Consistance habituelle — échelle de Bristol</label>
+                <select id="transitBristol">
+                    <option value="">-- Sélectionner --</option>
+                    <option value="1">Type 1 — selles dures séparées</option>
+                    <option value="2">Type 2 — en saucisse mais grumeleuses</option>
+                    <option value="3">Type 3 — en saucisse avec fissures</option>
+                    <option value="4">Type 4 — lisses et souples</option>
+                    <option value="5">Type 5 — morceaux mous bien délimités</option>
+                    <option value="6">Type 6 — morceaux duveteux / pâteux</option>
+                    <option value="7">Type 7 — liquides</option>
+                </select>
+
+                <label for="transitHabituel">Transit habituel</label>
+                <select id="transitHabituel">
+                    <option value="">-- Sélectionner --</option>
+                    <option value="normal">Sans problème particulier</option>
+                    <option value="constipation">Constipation</option>
+                    <option value="diarrhee">Diarrhée</option>
+                    <option value="alternance">Alternance constipation / diarrhée</option>
+                    <option value="autre">Autre</option>
+                </select>
+
+                <label for="digestifBallonnements">Ballonnements</label>
+                <select id="digestifBallonnements">
+                    <option value="">-- Sélectionner --</option><option value="non">Non</option><option value="oui">Oui</option>
+                </select>
+
+                <label for="digestifDouleurs">Douleurs abdominales</label>
+                <select id="digestifDouleurs">
+                    <option value="">-- Sélectionner --</option><option value="non">Non</option><option value="oui">Oui</option>
+                </select>
+
+                <label for="digestifReflux">Reflux / brûlures</label>
+                <select id="digestifReflux">
+                    <option value="">-- Sélectionner --</option><option value="non">Non</option><option value="oui">Oui</option>
+                </select>
+
+                <label for="digestifNausees">Nausées / vomissements</label>
+                <select id="digestifNausees">
+                    <option value="">-- Sélectionner --</option><option value="non">Non</option><option value="oui">Oui</option>
+                </select>
+
+                <label for="transitEvolution">Évolution récente du transit</label>
+                <input type="text" id="transitEvolution" placeholder="Ex. stable, modification depuis 2 semaines...">
+
+                <label for="digestifDetails">Autres symptômes / précisions</label>
+                <textarea id="digestifDetails" placeholder="Déclencheurs, ancienneté, autres symptômes digestifs, remarques..."></textarea>
+            </div>
+        </details>
+
+        <!-- Antécédents médicaux -->
+
+        <details>
+            <summary>Antécédents médicaux</summary>
+            <div class="section-content">
+                <label for="antecedentsMedicaux">Antécédents médicaux personnels</label>
+                <textarea id="antecedentsMedicaux" placeholder="Pathologies antérieures ou autres éléments médicaux pertinents..."></textarea>
+
+                <label for="antecedentsChirurgicaux">Antécédents chirurgicaux</label>
+                <textarea id="antecedentsChirurgicaux" placeholder="Interventions, dates si utiles..."></textarea>
+
+                <label for="hospitalisationsAnterieures">Hospitalisations antérieures</label>
+                <textarea id="hospitalisationsAnterieures" placeholder="Motif, période, éléments utiles à la prise en charge..."></textarea>
+
+                <label for="antecedentsFamiliaux">Antécédents familiaux pertinents</label>
+                <textarea id="antecedentsFamiliaux" placeholder="Diabète, hypertension, obésité, troubles lipidiques, pathologies cardiovasculaires, etc. Précisez uniquement les éléments utiles à la prise en charge."></textarea>
+
+                <label for="grossesseActuelle">Grossesse actuelle</label>
+                <select id="grossesseActuelle">
+                    <option value="">-- Sélectionner --</option><option value="non">Non</option><option value="oui">Oui</option>
+                </select>
+
+                <label for="nombreGrossesses">Nombre de grossesses</label>
+                <input type="number" id="nombreGrossesses" min="0" step="1">
+
+                <label for="desirGrossesse">Projet / désir de grossesse</label>
+                <select id="desirGrossesse">
+                    <option value="">-- Sélectionner --</option><option value="non">Non</option><option value="oui">Oui</option><option value="nonConcerne">Non concerné</option>
+                </select>
+
+                <label for="toxoplasmoseImmunisee">Immunisée contre la toxoplasmose</label>
+                <select id="toxoplasmoseImmunisee">
+                    <option value="">-- Sélectionner --</option><option value="oui">Oui</option><option value="non">Non</option><option value="inconnu">Inconnu</option>
+                </select>
+
+                <label for="termeGrossesse">Terme de la grossesse</label>
+                <input type="text" id="termeGrossesse" placeholder="Ex. 24 SA">
+
+                <label for="poidsAvantGrossesse">Poids avant grossesse (kg)</label>
+                <input type="number" id="poidsAvantGrossesse" min="0" step="0.1">
+
+                <label for="prisePoidsGrossesseActuelle">Prise de poids depuis le début de la grossesse (kg)</label>
+                <input type="number" id="prisePoidsGrossesseActuelle" step="0.1">
+
+                <label for="prisePoidsGrossesses">Prise de poids lors de la/des grossesse(s) antérieure(s)</label>
+                <input type="text" id="prisePoidsGrossesses" placeholder="Ex. +12 kg lors de la première grossesse...">
+
+                <label for="antecedentDiabeteGestationnel">Antécédent de diabète gestationnel</label>
+                <select id="antecedentDiabeteGestationnel">
+                    <option value="">-- Sélectionner --</option><option value="non">Non</option><option value="oui">Oui</option><option value="inconnu">Inconnu</option>
+                </select>
+
+                <label for="antecedentPreeclampsie">Antécédent de pré-éclampsie</label>
+                <select id="antecedentPreeclampsie">
+                    <option value="">-- Sélectionner --</option><option value="non">Non</option><option value="oui">Oui</option><option value="inconnu">Inconnu</option>
+                </select>
+
+                <label for="poidsTailleNaissance">Poids et taille du/des enfant(s) à la naissance</label>
+                <textarea id="poidsTailleNaissance" placeholder="Ex. enfant 1 : 3,4 kg, 50 cm ; enfant 2 : ..."></textarea>
+
+                <label for="deroulementGrossesses">Déroulement / complications des grossesses</label>
+                <textarea id="deroulementGrossesses" placeholder="Précisez les événements ou complications utiles à la prise en charge..."></textarea>
+
+                <label for="menopause">Ménopause</label>
+                <select id="menopause">
+                    <option value="">-- Sélectionner --</option><option value="non">Non</option><option value="oui">Oui</option>
+                </select>
+
+                <label for="ageMenopause">Âge d'apparition de la ménopause</label>
+                <input type="number" id="ageMenopause" min="20" max="80" step="1">
+
+                <label for="traitementHormonalMenopause">Traitement hormonal de la ménopause</label>
+                <select id="traitementHormonalMenopause">
+                    <option value="">-- Sélectionner --</option><option value="non">Non</option><option value="oui">Oui</option>
+                </select>
+
+                <label for="detailsTraitementHormonalMenopause">Précisions sur le traitement hormonal</label>
+                <input type="text" id="detailsTraitementHormonalMenopause" placeholder="Traitement, durée, remarques...">
+
+                <label for="projetPaternite">Projet de paternité</label>
+                <select id="projetPaternite">
+                    <option value="">-- Sélectionner --</option><option value="non">Non</option><option value="oui">Oui</option><option value="nonConcerne">Non concerné</option>
+                </select>
+
+                <label for="antecedentsUrologiques">Antécédents urologiques / prostatiques pertinents</label>
+                <textarea id="antecedentsUrologiques" placeholder="À renseigner uniquement si pertinent pour la prise en charge..."></textarea>
+
+                <label for="traitementHormonalMasculin">Traitement hormonal</label>
+                <textarea id="traitementHormonalMasculin" placeholder="Traitement actuel ou antérieur, si pertinent..."></textarea>
+            </div>
+        </details>
+
+        <!-- Hobbies, activité physique et objectifs -->
+
+    <div class="patient-two-columns">
+
+        <details>
+
+            <summary>
+                Hobbies et activité physique
+            </summary>
+
+            <div class="section-content">
+
+                <label for="hobbies">
+                    Hobbies / loisirs
+                </label>
+                <textarea id="hobbies" placeholder="Ex. jardinage, lecture, bricolage, sorties... "></textarea>
+
+                <label for="sportPratique">
+                    Pratique d'un sport
+                </label>
+                <select id="sportPratique">
+                    <option value="">-- Sélectionner --</option>
+                    <option value="non">Non</option>
+                    <option value="oui">Oui</option>
+                </select>
+
+                <label for="sportType">
+                    Sport(s) pratiqué(s)
+                </label>
+                <input type="text" id="sportType" placeholder="Ex. course à pied, natation, musculation...">
+
+                <label for="sportFrequence">
+                    Fréquence
+                </label>
+                <input type="text" id="sportFrequence" placeholder="Ex. 3 séances/semaine">
+
+                <label for="sportDuree">
+                    Durée moyenne d'une séance
+                </label>
+                <input type="text" id="sportDuree" placeholder="Ex. 60 min">
+
+                <label for="sportMoment">
+                    Quand le patient pratique-t-il ?
+                </label>
+                <input type="text" id="sportMoment" placeholder="Ex. lundi, mercredi et vendredi vers 18 h">
+
+            </div>
+
+        </details>
+
+        <!-- OBJECTIFS -->
+
+        <details>
+
+            <summary>
+                Objectifs du patient
+            </summary>
+
+            <div class="section-content">
+
+                <label for="objectif">
+                    Objectif principal
+                </label>
+
+                <select id="objectif">
+
+                    <option value="">
+                        -- Sélectionner --
+                    </option>
+
+                    <option value="maintien">
+                        Maintien du poids
+                    </option>
+
+                    <option value="perte">
+                        Perte de poids
+                    </option>
+
+                    <option value="prise">
+                        Prise de poids
+                    </option>
+
+                    <option value="performance">
+                        Performance sportive
+                    </option>
+
+                    <option value="pathologie">
+                        Prise en charge d'une pathologie
+                    </option>
+
+                    <option value="autre">
+                        Autre
+                    </option>
+
+                </select>
+
+                <label for="objectifDetails">
+                    Précisions
+                </label>
+
+                <textarea
+                    id="objectifDetails"
+                    placeholder="Précisez les objectifs du patient..."
+                ></textarea>
+
+            </div>
+
+        </details>
+
+    </div>
+
+        <!-- Organisation alimentaire -->
+
+        <details id="patient-habitudes">
+
+            <summary>
+                Organisation alimentaire
+            </summary>
+
+            <div class="section-content">
+
+                <label for="repas">
+                    Nombre de repas par jour
+                </label>
+
+                <select id="repas">
+
+                    <option value="">
+                        -- Sélectionner --
+                    </option>
+
+                    <option value="1-2">
+                        1 à 2 repas
+                    </option>
+
+                    <option value="3">
+                        3 repas
+                    </option>
+
+                    <option value="4">
+                        4 repas
+                    </option>
+
+                    <option value="5">
+                        5 repas ou plus
+                    </option>
+
+                </select>
+
+                <label for="petitDejeuner">
+                    Petit-déjeuner
+                </label>
+
+                <select id="petitDejeuner">
+
+                    <option value="">
+                        -- Sélectionner --
+                    </option>
+
+                    <option value="toujours">
+                        Pris quotidiennement
+                    </option>
+
+                    <option value="parfois">
+                        Pris occasionnellement
+                    </option>
+
+                    <option value="jamais">
+                        Rarement / jamais
+                    </option>
+
+                </select>
+
+                <label for="habitudes">
+                    Organisation / remarques alimentaires
+                </label>
+
+                <textarea
+                    id="habitudes"
+                    placeholder="Horaires, organisation des repas, repas pris seul ou en famille, contraintes du quotidien..."
+                ></textarea>
+
+            </div>
+
+        </details>
+
+        <!-- ALLERGIES / INTOLÉRANCES -->
+
+        <details>
+            <summary>Allergies / intolérances</summary>
+            <div class="section-content">
+                <div class="checkbox-group allergy-group">
+                    <label><input type="checkbox" name="allergies" value="Céréales contenant du gluten"><span>Céréales contenant du gluten</span></label>
+                    <label><input type="checkbox" name="allergies" value="Crustacés"><span>Crustacés</span></label>
+                    <label><input type="checkbox" name="allergies" value="Œufs"><span>Œufs</span></label>
+                    <label><input type="checkbox" name="allergies" value="Poissons"><span>Poissons</span></label>
+                    <label><input type="checkbox" name="allergies" value="Arachides"><span>Arachides</span></label>
+                    <label><input type="checkbox" name="allergies" value="Soja"><span>Soja</span></label>
+                    <label><input type="checkbox" name="allergies" value="Lait"><span>Lait</span></label>
+                    <label><input type="checkbox" name="allergies" value="Fruits à coque"><span>Fruits à coque</span></label>
+                    <label><input type="checkbox" name="allergies" value="Céleri"><span>Céleri</span></label>
+                    <label><input type="checkbox" name="allergies" value="Moutarde"><span>Moutarde</span></label>
+                    <label><input type="checkbox" name="allergies" value="Graines de sésame"><span>Graines de sésame</span></label>
+                    <label><input type="checkbox" name="allergies" value="Anhydride sulfureux et sulfites"><span>Anhydride sulfureux et sulfites</span></label>
+                    <label><input type="checkbox" name="allergies" value="Lupin"><span>Lupin</span></label>
+                    <label><input type="checkbox" name="allergies" value="Mollusques"><span>Mollusques</span></label>
+                </div>
+
+                <label for="autresAllergies">
+                    Autres allergies / intolérances
+                </label>
+                <input
+                    type="text"
+                    id="autresAllergies"
+                    placeholder="Précisez..."
+                >
+            </div>
+        </details>
+
+        <!-- PATHOLOGIES -->
+
+        <details>
+
+            <summary>
+                Pathologies
+            </summary>
+
+            <div class="section-content">
+
+                <div class="pathology-selection" role="group" aria-label="Pathologies du patient"><div class="pathology-item"><label>
+            <input
+                type="checkbox"
+                name="pathologies"
+                value="Diabète"
+            >
+            <span>Diabète</span>
+        </label></div>
+<div class="pathology-item"><label>
+            <input
+                type="checkbox"
+                name="pathologies"
+                value="Hypertension"
+            >
+            <span>Hypertension artérielle</span>
+        </label></div>
+<div class="pathology-item"><label>
+            <input type="checkbox" name="pathologies" value="Dyslipidémie">
+            <span>Dyslipidémie</span>
+        </label></div>
+<div class="pathology-item"><label>
+            <input type="checkbox" name="pathologies" value="Maladie rénale">
+            <span>Maladie rénale chronique (en cours)</span>
+        </label></div>
+<div class="pathology-item"><label>
+            <input type="checkbox" name="pathologies" value="Obésité">
+            <span>Obésité</span>
+        </label></div>
+<div class="pathology-item"><label>
+            <input
+                type="checkbox"
+                name="pathologies"
+                value="Maladie cœliaque" disabled
+            >
+            <span>Maladie cœliaque</span>
+        </label></div></div>
+<div class="pathology-selected-details"><div id="diabeteDetails" class="diabete-details">
+
+    <div class="diabete-details-inner">
+        <h3 class="pathology-detail-title">Détail du diabète</h3>
+
+        <section class="pathology-panel">
+            <h4><span class="pathology-panel-number">1</span>Contexte et diagnostic</h4>
+            <div class="pathology-panel-fields">
+                <div class="diabete-field">
+                    <span>Type de diabète</span>
+                    <select id="diabeteType" aria-label="Type de diabète">
+                        <option value="">-- Sélectionner --</option>
+                        <option value="DT1">Diabète de type 1</option>
+                        <option value="DT2">Diabète de type 2</option>
+                    </select>
+                </div>
+
+                <div class="diabete-field">
+                    <span>Date du diagnostic</span>
+                    <input type="date" id="diabeteDateDiagnostic" aria-label="Date du diagnostic du diabète">
+                </div>
+
+                <div class="diabete-field hta-field-wide">
+                    <span>Ancienneté du diabète</span>
+                    <div id="diabeteDureeDiagnostic" class="nutrition-calc-note">Calculée automatiquement à partir de la date du diagnostic.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="pathology-panel">
+            <h4><span class="pathology-panel-number">2</span>Équilibre glycémique</h4>
+            <div class="pathology-panel-fields">
+                <div class="diabete-field">
+                    <span>HbA1c récente</span>
+                    <div class="diabete-input-unit">
+                        <input type="number" id="diabeteHba1c" min="0" max="30" step="0.1" placeholder="Ex. 7,2" aria-label="HbA1c récente">
+                        <span>%</span>
+                    </div>
+                </div>
+
+                <div class="diabete-field">
+                    <span>Date de l'HbA1c</span>
+                    <input type="date" id="diabeteHba1cDate" aria-label="Date de l'HbA1c">
+                </div>
+
+                <div class="diabete-field">
+                    <span>Objectif HbA1c individualisé</span>
+                    <div class="diabete-input-unit">
+                        <input type="number" id="diabeteHba1cObjectif" min="0" max="30" step="0.1" placeholder="Si connu" aria-label="Objectif HbA1c individualisé">
+                        <span>%</span>
+                    </div>
+                </div>
+
+                <div class="diabete-field">
+                    <span>Glycémie récente</span>
+                    <div class="diabete-input-unit">
+                        <input type="number" id="diabeteGlycemie" min="0" step="0.01" placeholder="Valeur" aria-label="Glycémie récente">
+                        <select id="diabeteGlycemieUnite" class="diabete-unit-select" aria-label="Unité de la glycémie">
+                            <option value="g/L">g/L</option>
+                            <option value="mmol/L">mmol/L</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="diabete-field">
+                    <span>Contexte de la glycémie</span>
+                    <select id="diabeteGlycemieContexte" aria-label="Contexte de la glycémie">
+                        <option value="">Non renseigné</option>
+                        <option value="jeun">À jeun</option>
+                        <option value="preprandiale">Préprandiale</option>
+                        <option value="postprandiale">Postprandiale</option>
+                        <option value="aleatoire">Aléatoire / autre</option>
+                    </select>
+                </div>
+
+                <div class="diabete-field">
+                    <span>Date de la glycémie</span>
+                    <input type="date" id="diabeteGlycemieDate" aria-label="Date de la glycémie">
+                </div>
+            </div>
+        </section>
+
+        <section class="pathology-panel">
+            <h4><span class="pathology-panel-number">3</span>Surveillance glycémique</h4>
+            <div class="pathology-panel-fields">
+                <div class="diabete-field">
+                    <span>Autosurveillance glycémique</span>
+                    <select id="diabeteAutosurveillance" aria-label="Autosurveillance glycémique">
+                        <option value="">Non renseignée</option>
+                        <option value="non">Non</option>
+                        <option value="oui">Oui</option>
+                    </select>
+                </div>
+
+                <div class="diabete-field">
+                    <span>Capteur de glucose / CGM</span>
+                    <select id="diabeteCapteurGlucose" aria-label="Capteur de glucose ou CGM">
+                        <option value="">Non renseigné</option>
+                        <option value="non">Non</option>
+                        <option value="oui">Oui</option>
+                    </select>
+                </div>
+
+                <div class="diabete-field hta-field-wide">
+                    <span>Fréquence / modalités de surveillance</span>
+                    <textarea id="diabeteSurveillanceDetails" placeholder="Ex. avant les repas, au coucher, capteur en continu, fréquence des contrôles..." aria-label="Fréquence et modalités de surveillance glycémique"></textarea>
+                </div>
+            </div>
+        </section>
+
+        <section class="pathology-panel pathology-panel-clinical">
+            <h4><span class="pathology-panel-number">4</span>Épisodes récents et sécurité</h4>
+            <div class="pathology-panel-fields">
+                <div class="diabete-field">
+                    <span>Hypoglycémies récentes</span>
+                    <select id="diabeteHypoglycemiesRecentes" aria-label="Hypoglycémies récentes">
+                        <option value="">Non renseignées</option>
+                        <option value="non">Non</option>
+                        <option value="oui">Oui</option>
+                        <option value="inconnu">Inconnu</option>
+                    </select>
+                </div>
+
+                <div class="diabete-field">
+                    <span>Hyperglycémies symptomatiques récentes</span>
+                    <select id="diabeteHyperglycemiesRecentes" aria-label="Hyperglycémies symptomatiques récentes">
+                        <option value="">Non renseignées</option>
+                        <option value="non">Non</option>
+                        <option value="oui">Oui</option>
+                        <option value="inconnu">Inconnu</option>
+                    </select>
+                </div>
+
+                <div class="diabete-field hta-field-wide">
+                    <span>Précisions sur les épisodes</span>
+                    <textarea id="diabeteEpisodesDetails" placeholder="Fréquence, circonstances, symptômes, lien avec repas, activité ou traitement..." aria-label="Précisions sur les épisodes glycémiques"></textarea>
+                </div>
+
+                <div class="diabete-field hta-field-wide" id="diabeteAcidocetoseGroupe" hidden>
+                    <span>Antécédent d'acidocétose diabétique (DT1)</span>
+                    <select id="diabeteAcidocetose" aria-label="Antécédent d'acidocétose diabétique">
+                        <option value="">Non renseigné</option>
+                        <option value="non">Non</option>
+                        <option value="oui">Oui</option>
+                        <option value="inconnu">Inconnu</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <section class="pathology-panel">
+            <h4><span class="pathology-panel-number">5</span>Complications connues</h4>
+            <div class="pathology-panel-fields">
+                <div class="diabete-field">
+                    <span>Rétinopathie</span>
+                    <select id="diabeteRetinopathie" aria-label="Rétinopathie"><option value="">Non renseignée</option><option value="non">Non</option><option value="oui">Oui</option><option value="inconnu">Inconnue</option></select>
+                </div>
+                <div class="diabete-field">
+                    <span>Neuropathie</span>
+                    <select id="diabeteNeuropathie" aria-label="Neuropathie"><option value="">Non renseignée</option><option value="non">Non</option><option value="oui">Oui</option><option value="inconnu">Inconnue</option></select>
+                </div>
+                <div class="diabete-field">
+                    <span>Néphropathie / albuminurie</span>
+                    <select id="diabeteNephropathie" aria-label="Néphropathie ou albuminurie"><option value="">Non renseignée</option><option value="non">Non</option><option value="oui">Oui</option><option value="inconnu">Inconnue</option></select>
+                </div>
+                <div class="diabete-field">
+                    <span>Pied diabétique / plaie</span>
+                    <select id="diabetePied" aria-label="Pied diabétique ou plaie"><option value="">Non renseigné</option><option value="non">Non</option><option value="oui">Oui</option><option value="inconnu">Inconnu</option></select>
+                </div>
+                <div class="diabete-field hta-field-wide">
+                    <span>Complication cardiovasculaire connue</span>
+                    <select id="diabeteComplicationCardiovasculaire" aria-label="Complication cardiovasculaire connue"><option value="">Non renseignée</option><option value="non">Non</option><option value="oui">Oui</option><option value="inconnu">Inconnue</option></select>
+                </div>
+            </div>
+        </section>
+
+        <section class="pathology-panel">
+            <h4><span class="pathology-panel-number">6</span>Éléments utiles en consultation diététique</h4>
+            <div class="pathology-panel-fields">
+                <div class="diabete-field">
+                    <span>Comptage des glucides utilisé / maîtrisé</span>
+                    <select id="diabeteComptageGlucidesPatient" aria-label="Comptage des glucides utilisé ou maîtrisé">
+                        <option value="">Non renseigné</option>
+                        <option value="non">Non</option>
+                        <option value="oui">Oui</option>
+                        <option value="partiel">Partiellement / en apprentissage</option>
+                    </select>
+                </div>
+                <div class="diabete-field">
+                    <span>Repas irréguliers / repas sautés</span>
+                    <select id="diabeteRepasIrreguliers" aria-label="Repas irréguliers ou repas sautés">
+                        <option value="">Non renseigné</option>
+                        <option value="non">Non</option>
+                        <option value="oui">Oui</option>
+                    </select>
+                </div>
+                <div class="diabete-field hta-field-wide">
+                    <span>Lien observé entre repas, activité physique et glycémie</span>
+                    <textarea id="diabeteLienRepasActiviteGlycemie" placeholder="Éléments rapportés par le patient ou observés lors du suivi..." aria-label="Lien observé entre repas, activité physique et glycémie"></textarea>
+                </div>
+            </div>
+        </section>
+    </div>
+
+</div>
+<div id="htaDetails" class="diabete-details hta-details">
+
+            <div class="diabete-details-inner hta-details-inner"><h3 class="pathology-detail-title">Détail HTA</h3><section class="pathology-panel "><h4><span class="pathology-panel-number">1</span>Contexte et diagnostic</h4><div class="pathology-panel-fields"><div class="diabete-field">
+                    <span>
+                        Contexte de l'HTA
+                    </span>
+
+                    <select id="htaContexte" aria-label="Contexte de l'HTA">
+                        <option value="">-- Sélectionner --</option>
+                        <option value="primaire">HTA primaire / non compliquée</option>
+                        <option value="secondaire">HTA secondaire diagnostiquée</option>
+                        <option value="resistante">HTA résistante diagnostiquée</option>
+                        <option value="non_precise">Non précisé</option>
+                    </select>
+                </div>
+<div class="diabete-field">
+                    <span>
+                        Date du diagnostic
+                    </span>
+
+                    <input
+                        type="date"
+                        id="htaDateDiagnostic"
+                        aria-label="Date du diagnostic de l'HTA"
+                    >
+                </div></div></section>
+<section class="pathology-panel "><h4><span class="pathology-panel-number">2</span>Mesures tensionnelles</h4><div class="pathology-panel-fields"><div class="diabete-field hta-field-wide">
+                    <span>Pression artérielle récente en consultation</span>
+
+                    <div class="hta-pa-grid">
+                        <div class="diabete-input-unit">
+                            <input
+                                type="number"
+                                id="htaPasCabinet"
+                                min="0"
+                                step="1"
+                                placeholder="PAS"
+                                aria-label="Pression artérielle systolique en consultation"
+                            >
+                            <span>mmHg</span>
+                        </div>
+
+                        <div class="diabete-input-unit">
+                            <input
+                                type="number"
+                                id="htaPadCabinet"
+                                min="0"
+                                step="1"
+                                placeholder="PAD"
+                                aria-label="Pression artérielle diastolique en consultation"
+                            >
+                            <span>mmHg</span>
+                        </div>
+
+                        <input
+                            type="date"
+                            id="htaPaCabinetDate"
+                            aria-label="Date de la pression artérielle en consultation"
+                        >
+                    </div>
+                </div>
+<div class="diabete-field hta-field-wide">
+                    <span>
+                        Mesure hors cabinet
+                    </span>
+
+                    <select id="htaMesureAmbulatoire" aria-label="Type de mesure tensionnelle hors cabinet">
+                        <option value="">Non renseignée</option>
+                        <option value="AMT">Automesure tensionnelle (AMT)</option>
+                        <option value="MAPA">MAPA</option>
+                    </select>
+
+                    <div class="hta-pa-grid">
+                        <div class="diabete-input-unit">
+                            <input
+                                type="number"
+                                id="htaPasAmbulatoire"
+                                min="0"
+                                step="1"
+                                placeholder="PAS moyenne"
+                                aria-label="Pression artérielle systolique moyenne hors cabinet"
+                            >
+                            <span>mmHg</span>
+                        </div>
+
+                        <div class="diabete-input-unit">
+                            <input
+                                type="number"
+                                id="htaPadAmbulatoire"
+                                min="0"
+                                step="1"
+                                placeholder="PAD moyenne"
+                                aria-label="Pression artérielle diastolique moyenne hors cabinet"
+                            >
+                            <span>mmHg</span>
+                        </div>
+
+                        <input
+                            type="date"
+                            id="htaPaAmbulatoireDate"
+                            aria-label="Date de la mesure tensionnelle hors cabinet"
+                        >
+                    </div>
+                </div></div></section>
+<section class="pathology-panel pathology-panel-clinical"><h4><span class="pathology-panel-number">3</span>Signes associés</h4><div class="pathology-panel-fields"><div class="diabete-field">
+                    <span>
+                        Hypotension orthostatique connue
+                    </span>
+
+                    <select id="htaHypotensionOrthostatique" aria-label="Hypotension orthostatique connue">
+                        <option value="">Non renseignée</option>
+                        <option value="non">Non</option>
+                        <option value="oui">Oui</option>
+                        <option value="inconnu">Inconnue</option>
+                    </select>
+                </div>
+<div class="diabete-field">
+                    <span>
+                        Protéinurie connue
+                    </span>
+
+                    <select id="htaProteinurie" aria-label="Protéinurie connue">
+                        <option value="">Non renseignée</option>
+                        <option value="non">Non</option>
+                        <option value="oui">Oui</option>
+                        <option value="inconnu">Inconnue</option>
+                    </select>
+                </div></div></section>
+<section class="pathology-panel pathology-panel-salt"><h4><span class="pathology-panel-number">4</span>Habitudes vis-à-vis du sel</h4><div class="pathology-panel-fields"><div class="diabete-field">
+                    <span>Sel ajouté à la cuisson</span>
+                    <select id="selCuisson" aria-label="Sel ajouté à la cuisson">
+                        <option value="">-- Sélectionner --</option>
+                        <option value="jamais">Jamais</option>
+                        <option value="rarement">Rarement</option>
+                        <option value="souvent">Souvent</option>
+                        <option value="systematique">Systématiquement / presque toujours</option>
+                    </select>
+                </div>
+<div class="diabete-field">
+                    <span>Sel ajouté à table</span>
+                    <select id="selTable" aria-label="Sel ajouté à table">
+                        <option value="">-- Sélectionner --</option>
+                        <option value="jamais">Jamais</option>
+                        <option value="rarement">Rarement</option>
+                        <option value="souvent">Souvent</option>
+                        <option value="systematique">Systématiquement / presque toujours</option>
+                    </select>
+                </div>
+<div class="diabete-field">
+                    <span>Bouillons, cubes, sauces ou assaisonnements salés</span>
+                    <select id="produitsAssaisonnementSales" aria-label="Bouillons, cubes, sauces ou assaisonnements salés">
+                        <option value="">-- Sélectionner --</option>
+                        <option value="jamais">Jamais / exceptionnellement</option>
+                        <option value="occasionnel">Occasionnellement</option>
+                        <option value="regulier">Régulièrement</option>
+                        <option value="quotidien">Quotidiennement</option>
+                    </select>
+                </div>
+<div class="diabete-field">
+                    <span>Substitut de sel</span>
+                    <select id="substitutSel" aria-label="Substitut de sel">
+                        <option value="">-- Sélectionner --</option>
+                        <option value="non">Non</option>
+                        <option value="oui_potassium">Oui — contenant du potassium</option>
+                        <option value="oui_inconnu">Oui — composition inconnue</option>
+                        <option value="inconnu">Inconnu</option>
+                    </select>
+                </div></div></section>
+<section class="pathology-panel "><h4><span class="pathology-panel-number">5</span>Natriurèse de 24 h</h4><div class="pathology-panel-fields"><div class="diabete-field">
+                    <span>
+                        Natriurèse de 24 h
+                    </span>
+
+                    <div class="diabete-input-unit">
+                        <input
+                            type="number"
+                            id="htaNatriurese24h"
+                            min="0"
+                            step="1"
+                            placeholder="Si disponible"
+                         aria-label="Natriurèse de 24 heures">
+                        <span>mmol/24 h</span>
+                    </div>
+                </div>
+<div class="diabete-field">
+                    <span>Date de la natriurèse</span>
+                    <input
+                        type="date"
+                        id="htaNatriureseDate"
+                        aria-label="Date de la natriurèse de 24 heures"
+                    >
+                </div>
+<div class="diabete-field">
+                    <span>Qualité du recueil des 24 h</span>
+                    <select id="htaNatriureseQualite" aria-label="Qualité du recueil urinaire de 24 heures">
+                        <option value="">Non renseignée</option>
+                        <option value="complet">Recueil déclaré complet</option>
+                        <option value="incomplet">Recueil possiblement incomplet</option>
+                        <option value="inconnu">Inconnue</option>
+                    </select>
+                </div></div></section>
+<section class="pathology-panel "><h4><span class="pathology-panel-number">6</span>Autres facteurs</h4><div class="pathology-panel-fields"><div class="diabete-field">
+                    <span>
+                        Consommation d'alcool
+                    </span>
+
+                    <div class="diabete-input-unit">
+                        <input
+                            type="number"
+                            id="htaAlcoolVerresJour"
+                            min="0"
+                            step="0.5"
+                            placeholder="Moyenne"
+                         aria-label="Consommation d'alcool en verres standard par jour">
+                        <span>verre(s) standard/j</span>
+                    </div>
+                </div>
+<div class="diabete-field">
+                    <span>
+                        Tabac
+                    </span>
+
+                    <select id="htaTabac" aria-label="Statut tabagique">
+                        <option value="">Non renseigné</option>
+                        <option value="non">Non-fumeur</option>
+                        <option value="ancien">Ancien fumeur</option>
+                        <option value="actif">Fumeur actif</option>
+                    </select>
+                </div>
+<div class="diabete-field">
+                    <span>
+                        Quantité / précisions tabac
+                    </span>
+
+                    <input
+                        type="text"
+                        id="htaTabacQuantite"
+                        placeholder="Ex. 10 cigarettes/j"
+                        aria-label="Quantité et précisions sur le tabac"
+                    >
+                </div></div></section></div>
+
+        </div></div>
+
+<div id="obesiteDetails" class="diabete-details hta-details">
+    <div class="diabete-details-inner hta-details-inner">
+        <h3 class="pathology-detail-title">Détail obésité</h3>
+
+        <section class="pathology-panel">
+            <h4><span class="pathology-panel-number">1</span>Histoire pondérale</h4>
+            <div class="pathology-panel-fields">
+                <div class="diabete-field">
+                    <span>Âge / période de début de la prise de poids</span>
+                    <input type="text" id="obesiteAgeDebut" placeholder="Ex. adolescence, 35 ans, après une grossesse..." aria-label="Âge ou période de début de la prise de poids">
+                </div>
+                <div class="diabete-field">
+                    <span>Poids de forme ressenti</span>
+                    <div class="diabete-input-unit">
+                        <input type="number" id="obesitePoidsForme" min="0" step="0.1" placeholder="Si connu" aria-label="Poids de forme ressenti">
+                        <span>kg</span>
+                    </div>
+                </div>
+                <div class="diabete-field">
+                    <span>Dynamique pondérale</span>
+                    <select id="obesiteDynamiquePoids" aria-label="Dynamique pondérale">
+                        <option value="">Non renseignée</option>
+                        <option value="stable">Stable</option>
+                        <option value="progressive">Prise de poids progressive</option>
+                        <option value="rapide">Prise de poids rapide récente</option>
+                        <option value="yoyo">Fluctuations / effet yo-yo</option>
+                        <option value="perte">Perte pondérale en cours</option>
+                    </select>
+                </div>
+                <div class="diabete-field hta-field-wide">
+                    <span>Précisions sur l'histoire pondérale</span>
+                    <textarea id="obesiteHistoireDetails" placeholder="Déclencheurs, reprises de poids, périodes de stabilité, vécu des prises en charge précédentes..." aria-label="Précisions sur l'histoire pondérale"></textarea>
+                </div>
+            </div>
+        </section>
+
+        <section class="pathology-panel">
+            <h4><span class="pathology-panel-number">2</span>Retentissement et complexité</h4>
+            <div class="pathology-panel-fields">
+                <div class="diabete-field">
+                    <span>Retentissement fonctionnel</span>
+                    <select id="obesiteRetentissementFonctionnel" aria-label="Retentissement fonctionnel">
+                        <option value="">Non renseigné</option>
+                        <option value="aucun">Aucun rapporté</option>
+                        <option value="leger">Léger</option>
+                        <option value="modere">Modéré</option>
+                        <option value="important">Important</option>
+                    </select>
+                </div>
+                <div class="diabete-field">
+                    <span>Stigmatisation / autostigmatisation rapportée</span>
+                    <select id="obesiteStigmatisation" aria-label="Stigmatisation ou autostigmatisation rapportée">
+                        <option value="">Non renseignée</option>
+                        <option value="non">Non</option>
+                        <option value="oui">Oui</option>
+                        <option value="inconnu">À explorer</option>
+                    </select>
+                </div>
+                <div class="diabete-field">
+                    <span>Signes évocateurs de SAHOS / troubles respiratoires du sommeil</span>
+                    <select id="obesiteSommeilAlerte" aria-label="Signes évocateurs de SAHOS ou troubles respiratoires du sommeil">
+                        <option value="">Non renseignés</option>
+                        <option value="non">Non rapportés</option>
+                        <option value="oui">Oui / à explorer</option>
+                        <option value="inconnu">Inconnu</option>
+                    </select>
+                </div>
+                <div class="diabete-field">
+                    <span>Médicament susceptible de favoriser une prise de poids</span>
+                    <select id="obesiteMedicamentPoids" aria-label="Médicament susceptible de favoriser une prise de poids">
+                        <option value="">Non renseigné</option>
+                        <option value="non">Non identifié</option>
+                        <option value="oui">Oui</option>
+                        <option value="inconnu">À vérifier</option>
+                    </select>
+                </div>
+                <div class="diabete-field">
+                    <span>Contexte de chirurgie bariatrique</span>
+                    <select id="obesiteChirurgieBariatrique" aria-label="Contexte de chirurgie bariatrique">
+                        <option value="">Non renseigné</option>
+                        <option value="non">Aucune chirurgie / aucun projet connu</option>
+                        <option value="projet">Projet / préparation préopératoire</option>
+                        <option value="sleeve">Après sleeve gastrectomie</option>
+                        <option value="bypass">Après bypass gastrique</option>
+                        <option value="autre_postop">Après autre chirurgie bariatrique</option>
+                    </select>
+                </div>
+                <div class="diabete-field hta-field-wide">
+                    <span>Précisions sur le retentissement / les traitements</span>
+                    <textarea id="obesiteRetentissementDetails" placeholder="Douleurs, mobilité, dyspnée, sommeil, traitement concerné, chirurgie bariatrique, contraintes professionnelles ou sociales..." aria-label="Précisions sur le retentissement et les traitements"></textarea>
+                </div>
+            </div>
+        </section>
+
+        <section class="pathology-panel">
+            <h4><span class="pathology-panel-number">3</span>Comportement alimentaire</h4>
+            <div class="pathology-panel-fields">
+                <div class="diabete-field">
+                    <span>Hyperphagie prandiale</span>
+                    <select id="obesiteHyperphagiePrandiale" aria-label="Hyperphagie prandiale">
+                        <option value="">Non renseignée</option>
+                        <option value="non">Non rapportée</option>
+                        <option value="oui">Oui / à explorer</option>
+                    </select>
+                </div>
+                <div class="diabete-field">
+                    <span>Tachyphagie</span>
+                    <select id="obesiteTachyphagie" aria-label="Tachyphagie">
+                        <option value="">Non renseignée</option>
+                        <option value="non">Non rapportée</option>
+                        <option value="oui">Oui / à explorer</option>
+                    </select>
+                </div>
+                <div class="diabete-field">
+                    <span>Alimentation émotionnelle</span>
+                    <select id="obesiteAlimentationEmotionnelle" aria-label="Alimentation émotionnelle">
+                        <option value="">Non renseignée</option>
+                        <option value="non">Non rapportée</option>
+                        <option value="oui">Oui / à explorer</option>
+                    </select>
+                </div>
+                <div class="diabete-field">
+                    <span>Grignotage / compulsions</span>
+                    <select id="obesiteGrignotageCompulsions" aria-label="Grignotage ou compulsions">
+                        <option value="">Non renseigné</option>
+                        <option value="non">Non rapporté</option>
+                        <option value="oui">Oui / à explorer</option>
+                    </select>
+                </div>
+                <div class="diabete-field">
+                    <span>Restriction cognitive / régimes répétés</span>
+                    <select id="obesiteRestrictionCognitive" aria-label="Restriction cognitive ou régimes répétés">
+                        <option value="">Non renseignée</option>
+                        <option value="non">Non rapportée</option>
+                        <option value="oui">Oui / à explorer</option>
+                    </select>
+                </div>
+                <div class="diabete-field">
+                    <span>Suspicion de trouble des conduites alimentaires</span>
+                    <select id="obesiteTcaAlerte" aria-label="Suspicion de trouble des conduites alimentaires">
+                        <option value="">Non renseignée</option>
+                        <option value="non">Pas de signe rapporté</option>
+                        <option value="oui">Oui / orientation à envisager</option>
+                        <option value="inconnu">À explorer</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <section class="pathology-panel">
+            <h4><span class="pathology-panel-number">4</span>Évaluation globale</h4>
+            <div class="pathology-panel-fields">
+                <div class="diabete-field">
+                    <span>Stade EOSS</span>
+                    <select id="obesiteEoss" aria-label="Stade EOSS">
+                        <option value="">Non évalué</option>
+                        <option value="0">Stade 0</option>
+                        <option value="1">Stade 1</option>
+                        <option value="2">Stade 2</option>
+                        <option value="3">Stade 3</option>
+                        <option value="4">Stade 4</option>
+                    </select>
+                    <small class="nutrition-calc-note">À renseigner uniquement s'il a été évalué par le professionnel ; NutriFlow ne l'attribue pas automatiquement.</small>
+                </div>
+                <div class="diabete-field">
+                    <span>Priorité exprimée par le patient</span>
+                    <select id="obesitePrioritePatient" aria-label="Priorité exprimée par le patient">
+                        <option value="">Non renseignée</option>
+                        <option value="sante">Amélioration de la santé</option>
+                        <option value="habitudes">Habitudes de vie / alimentation</option>
+                        <option value="mobilite">Mobilité / condition physique</option>
+                        <option value="poids">Objectif pondéral</option>
+                        <option value="bienetre">Bien-être / qualité de vie</option>
+                        <option value="autre">Autre</option>
+                    </select>
+                </div>
+                <div class="diabete-field hta-field-wide">
+                    <span>Attentes / préférences / éléments importants pour le patient</span>
+                    <textarea id="obesiteAttentes" placeholder="Objectifs réalistes, contraintes, préférences, éléments à préserver, motivation..." aria-label="Attentes, préférences et éléments importants pour le patient"></textarea>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+
+
+<div id="dyslipidemieDetails" class="diabete-details hta-details">
+    <div class="diabete-details-inner hta-details-inner">
+        <h3 class="pathology-detail-title">Détail dyslipidémie</h3>
+
+        <section class="pathology-panel">
+            <h4><span class="pathology-panel-number">1</span>Contexte clinique</h4>
+            <div class="pathology-panel-fields">
+                <div class="diabete-field">
+                    <span>Type de dyslipidémie connu</span>
+                    <select id="dyslipidemieType" aria-label="Type de dyslipidémie connu">
+                        <option value="">Non précisé</option>
+                        <option value="hypercholesterolemie">Hypercholestérolémie</option>
+                        <option value="hypertriglyceridemie">Hypertriglycéridémie</option>
+                        <option value="mixte">Dyslipidémie mixte</option>
+                        <option value="autre">Autre / à préciser</option>
+                    </select>
+                </div>
+
+                <div class="diabete-field">
+                    <span>Date du diagnostic</span>
+                    <input type="date" id="dyslipidemieDateDiagnostic" aria-label="Date du diagnostic de dyslipidémie">
+                </div>
+
+                <div class="diabete-field hta-field-wide">
+                    <span>Précisions utiles</span>
+                    <textarea id="dyslipidemieContexteDetails" aria-label="Précisions sur le contexte de la dyslipidémie" placeholder="Étiologie connue, contexte clinique, éléments communiqués par le médecin, antécédents utiles..."></textarea>
+                </div>
+            </div>
+        </section>
+
+        <section class="pathology-panel">
+            <h4><span class="pathology-panel-number">2</span>Risque cardiovasculaire et objectif LDL-C</h4>
+            <div class="pathology-panel-fields">
+                <div class="diabete-field">
+                    <span>Niveau de risque cardiovasculaire connu</span>
+                    <select id="dyslipidemieRisqueCv" aria-label="Niveau de risque cardiovasculaire connu">
+                        <option value="">Non évalué / non renseigné</option>
+                        <option value="faible">Faible</option>
+                        <option value="modere">Modéré</option>
+                        <option value="eleve">Élevé</option>
+                        <option value="tres_eleve">Très élevé</option>
+                    </select>
+                    <small class="nutrition-calc-note">À renseigner s'il a été déterminé cliniquement. NutriFlow ne calcule pas automatiquement SCORE2/SCORE2-OP dans cette version.</small>
+                </div>
+
+                <div class="diabete-field">
+                    <span>Objectif LDL-C individualisé si connu</span>
+                    <div class="dyslip-input-inline">
+                        <input type="number" id="dyslipidemieObjectifLdl" aria-label="Objectif LDL-C individualisé" min="0" step="0.01" placeholder="Valeur">
+                        <select id="dyslipidemieObjectifLdlUnite" aria-label="Unité de l'objectif LDL-C">
+                            <option value="mg/dL">mg/dL</option>
+                            <option value="g/L">g/L</option>
+                            <option value="mmol/L">mmol/L</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="diabete-field">
+                    <span>LDL-C avant traitement si documenté</span>
+                    <div class="dyslip-input-inline">
+                        <input type="number" id="dyslipidemieLdlAvantTraitement" aria-label="LDL-C avant traitement" min="0" step="0.01" placeholder="Valeur">
+                        <select id="dyslipidemieLdlAvantTraitementUnite" aria-label="Unité du LDL-C avant traitement">
+                            <option value="mg/dL">mg/dL</option>
+                            <option value="g/L">g/L</option>
+                            <option value="mmol/L">mmol/L</option>
+                        </select>
+                    </div>
+                    <small class="nutrition-calc-note">Utilisé uniquement pour évaluer une éventuelle réduction relative du LDL-C.</small>
+                </div>
+            </div>
+        </section>
+
+        <section class="pathology-panel">
+            <h4><span class="pathology-panel-number">3</span>Contexte familial</h4>
+            <div class="pathology-panel-fields">
+                <div class="diabete-field">
+                    <span>Hypercholestérolémie familiale diagnostiquée</span>
+                    <select id="dyslipidemieHfDiagnostiquee" aria-label="Hypercholestérolémie familiale diagnostiquée">
+                        <option value="">Non renseignée</option>
+                        <option value="non">Non</option>
+                        <option value="oui">Oui</option>
+                        <option value="inconnu">Inconnue</option>
+                    </select>
+                </div>
+
+                <div class="diabete-field">
+                    <span>Événement cardiovasculaire prématuré dans la famille</span>
+                    <select id="dyslipidemieEvenementCvFamilialPrecoce" aria-label="Événement cardiovasculaire prématuré dans la famille">
+                        <option value="">Non renseigné</option>
+                        <option value="non">Non rapporté</option>
+                        <option value="oui">Oui</option>
+                        <option value="inconnu">Inconnu</option>
+                    </select>
+                </div>
+
+                <div class="diabete-field hta-field-wide">
+                    <span>Précisions familiales</span>
+                    <textarea id="dyslipidemieContexteFamilialDetails" aria-label="Précisions sur le contexte familial" placeholder="Lien de parenté, âge de l'événement, hypercholestérolémie familiale connue, dépistage familial..."></textarea>
+                </div>
+            </div>
+        </section>
+
+        <section class="pathology-panel">
+            <h4><span class="pathology-panel-number">4</span>Bilan lipidique actuel</h4>
+            <div id="dyslipidemieBiologieResume" class="dyslip-biology-summary">
+                <p class="nutrition-calc-note">Les résultats sont repris automatiquement depuis la section Biologie sanguine.</p>
+            </div>
+        </section>
+    </div>
+</div>
+
+<div id="mrcDetails" class="diabete-details hta-details">
+    <div class="diabete-details-inner hta-details-inner">
+        <h3 class="pathology-detail-title">Détail maladie rénale chronique</h3>
+
+        <section class="pathology-panel">
+            <h4><span class="pathology-panel-number">1</span>Diagnostic et contexte</h4>
+            <div class="pathology-panel-fields">
+                <div class="diabete-field">
+                    <span>Date du diagnostic connu</span>
+                    <input type="date" id="mrcDateDiagnostic" aria-label="Date du diagnostic de MRC">
+                </div>
+                <div class="diabete-field">
+                    <span>Chronicité supérieure à 3 mois documentée</span>
+                    <select id="mrcChroniciteDocumentee" aria-label="Chronicité de la maladie rénale documentée">
+                        <option value="">Non renseignée</option>
+                        <option value="oui">Oui</option>
+                        <option value="non">Non</option>
+                        <option value="inconnu">Inconnue</option>
+                    </select>
+                </div>
+                <div class="diabete-field">
+                    <span>Contexte aigu rénal possible actuellement</span>
+                    <select id="mrcContexteAigu" aria-label="Contexte aigu rénal possible">
+                        <option value="">Non renseigné</option>
+                        <option value="non">Non rapporté</option>
+                        <option value="oui">Oui / à exclure</option>
+                        <option value="inconnu">Inconnu</option>
+                    </select>
+                </div>
+                <div class="diabete-field hta-field-wide">
+                    <span>Cause de la MRC si connue</span>
+                    <textarea id="mrcCause" aria-label="Cause connue de la MRC" placeholder="Cause documentée médicalement ; ne pas déduire du diabète ou de l'HTA."></textarea>
+                </div>
+            </div>
+        </section>
+
+        <section class="pathology-panel">
+            <h4><span class="pathology-panel-number">2</span>Historique rénal utile</h4>
+            <div class="pathology-panel-fields">
+                <div class="diabete-field">
+                    <span>DFG antérieur documenté</span>
+                    <div class="dyslip-input-inline">
+                        <input type="number" id="mrcDfgPrecedent" min="0" step="any" placeholder="Valeur" aria-label="DFG antérieur">
+                        <span>mL/min/1,73 m²</span>
+                    </div>
+                </div>
+                <div class="diabete-field">
+                    <span>Date du DFG antérieur</span>
+                    <input type="date" id="mrcDfgPrecedentDate" aria-label="Date du DFG antérieur">
+                </div>
+                <div class="diabete-field">
+                    <span>RAC antérieur documenté</span>
+                    <div class="dyslip-input-inline">
+                        <input type="number" id="mrcRacPrecedent" min="0" step="any" placeholder="Valeur" aria-label="RAC antérieur">
+                        <select id="mrcRacPrecedentUnite" aria-label="Unité du RAC antérieur">
+                            <option value="mg/g">mg/g</option>
+                            <option value="mg/mmol">mg/mmol</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="diabete-field">
+                    <span>Date du RAC antérieur</span>
+                    <input type="date" id="mrcRacPrecedentDate" aria-label="Date du RAC antérieur">
+                </div>
+            </div>
+        </section>
+
+        <section class="pathology-panel">
+            <h4><span class="pathology-panel-number">3</span>Suppléance et état hydrique</h4>
+            <div class="pathology-panel-fields">
+                <div class="diabete-field">
+                    <span>Situation de suppléance</span>
+                    <select id="mrcDialyse" aria-label="Situation de dialyse">
+                        <option value="aucune">Non dialysé</option>
+                        <option value="hemodialyse">Hémodialyse</option>
+                        <option value="peritoneale">Dialyse péritonéale</option>
+                    </select>
+                </div>
+                <div class="diabete-field">
+                    <span>Traitement conservateur documenté</span>
+                    <select id="mrcTraitementConservateur" aria-label="Traitement conservateur">
+                        <option value="">Non renseigné</option>
+                        <option value="non">Non</option>
+                        <option value="oui">Oui</option>
+                        <option value="inconnu">Inconnu</option>
+                    </select>
+                </div>
+                <div class="diabete-field">
+                    <span>Diurèse des 24 h si connue</span>
+                    <div class="diabete-input-unit">
+                        <input type="number" id="mrcDiurese24h" min="0" step="10" aria-label="Diurèse des 24 heures">
+                        <span>mL/24 h</span>
+                    </div>
+                </div>
+                <div class="diabete-field">
+                    <span>Œdèmes / surcharge hydrosodée</span>
+                    <select id="mrcOedemes" aria-label="Œdèmes ou surcharge hydrosodée">
+                        <option value="">Non renseigné</option>
+                        <option value="non">Non rapporté</option>
+                        <option value="oui">Oui</option>
+                        <option value="inconnu">Inconnu</option>
+                    </select>
+                </div>
+                <div class="diabete-field">
+                    <span>Déshydratation / pertes actuelles</span>
+                    <select id="mrcDeshydratation" aria-label="Déshydratation ou pertes">
+                        <option value="">Non renseigné</option>
+                        <option value="non">Non rapportée</option>
+                        <option value="oui">Oui</option>
+                        <option value="inconnu">Inconnue</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <section class="pathology-panel">
+            <h4><span class="pathology-panel-number">4</span>Modulateurs nutritionnels</h4>
+            <div class="pathology-panel-fields">
+                <div class="diabete-field">
+                    <span>Fragilité clinique documentée</span>
+                    <select id="mrcFragilite" aria-label="Fragilité clinique">
+                        <option value="">Non renseignée</option>
+                        <option value="non">Non</option>
+                        <option value="oui">Oui</option>
+                        <option value="inconnu">Inconnue</option>
+                    </select>
+                </div>
+                <div class="diabete-field">
+                    <span>Instabilité métabolique / épisode intercurrent</span>
+                    <select id="mrcInstabiliteMetabolique" aria-label="Instabilité métabolique">
+                        <option value="">Non renseignée</option>
+                        <option value="non">Non</option>
+                        <option value="oui">Oui</option>
+                        <option value="inconnu">Inconnue</option>
+                    </select>
+                </div>
+                <div class="diabete-field">
+                    <span>Néphropathie avec pertes sodées documentée</span>
+                    <select id="mrcPertesSodees" aria-label="Néphropathie avec pertes sodées">
+                        <option value="">Non renseignée</option>
+                        <option value="non">Non</option>
+                        <option value="oui">Oui</option>
+                        <option value="inconnu">Inconnue</option>
+                    </select>
+                </div>
+                <div class="diabete-field">
+                    <span>Poids nutritionnel de référence si différent</span>
+                    <div class="diabete-input-unit">
+                        <input type="number" id="mrcPoidsReference" min="0" step="0.1" aria-label="Poids nutritionnel de référence">
+                        <span>kg</span>
+                    </div>
+                </div>
+                <div class="diabete-field">
+                    <span>Objectif protéique spécialisé documenté</span>
+                    <div class="diabete-input-unit">
+                        <input type="number" id="mrcObjectifProteines" min="0" step="0.05" aria-label="Objectif protéique spécialisé">
+                        <span>g/kg/j</span>
+                    </div>
+                </div>
+                <div class="diabete-field">
+                    <span>Objectif hydrique spécialisé documenté</span>
+                    <div class="diabete-input-unit">
+                        <input type="number" id="mrcObjectifHydrique" min="0" step="50" aria-label="Objectif hydrique spécialisé">
+                        <span>mL/j</span>
+                    </div>
+                </div>
+            </div>
+            <p class="nutrition-calc-note">Ces champs documentent des informations déjà connues. NutriFlow ne déduit pas la cause, la dialyse, la fragilité ou une prescription spécialisée.</p>
+        </section>
+
+        <section class="pathology-panel">
+            <h4><span class="pathology-panel-number">5</span>Biologie rénale actuelle</h4>
+            <div id="mrcBiologieResume" class="dyslip-biology-summary">
+                <p class="nutrition-calc-note">DFG, RAC, potassium, bicarbonates, phosphore, calcium, PTH et hémoglobine sont repris automatiquement depuis la section Biologie sanguine.</p>
+            </div>
+        </section>
+    </div>
+</div>
+
+
+
+                <label for="autresPathologies">
+                    Autres pathologies
+                </label>
+
+                <input
+                    type="text"
+                    id="autresPathologies"
+                    placeholder="Précisez..."
+                >
+
+        </div>
+
+        </details>
+
+        <!-- Traitements -->
+
+        <details id="patient-traitements">
+
+            <summary>
+                Traitements
+            </summary>
+
+            <div class="section-content">
+
+            <!-- TRAITEMENT DU DIABÈTE -->
+
+                <div id="diabeteTraitementGroupe" class="treatmentInfo-group">
+        <h3 class="treatment-pathology-title">Diabète</h3>
+
+        
+
+        <div class="treatment-field">
+
+            <label for="diabeteTraitement">
+                Traitement actuel
+            </label>
+
+            <select id="diabeteTraitement" disabled>
+    <option value="">-- Sélectionner --</option>
+
+    <option value="aucun">
+        Aucun traitement
+    </option>
+
+    <option value="metformine">
+        Metformine
+    </option>
+
+    <option value="sulfamides">
+        Sulfamides hypoglycémiants
+    </option>
+
+    <option value="glinides">
+        Glinides
+    </option>
+
+    <option value="dpp4">
+        Inhibiteurs DPP-4
+    </option>
+
+    <option value="glp1">
+        Agonistes GLP-1
+    </option>
+
+    <option value="sglt2">
+        Inhibiteurs SGLT2
+    </option>
+
+    <option value="insuline">
+        Insuline
+    </option>
+
+    <option value="association">
+        Association de traitements
+    </option>
+
+    <option value="autre">
+        Autre traitement
+    </option>
+</select>
+
+</div>
+
+<div id="diabeteTraitementDT2Details" hidden>
+
+    <!-- == AUCUN TRAITEMENT == -->
+
+    <div id="dt2TraitementAucun" hidden>
+
+        <div class="treatment-field">
+            <label for="dt2AucunInformations">
+                Informations pertinentes
+            </label>
+
+            <textarea
+                id="dt2AucunInformations"
+                placeholder="Précisez les informations pertinentes concernant la prise en charge..."
+            ></textarea>
+        </div>
+
+    </div>
+
+
+    <!-- == METFORMINE == -->
+
+    <div id="dt2TraitementMetformine" hidden>
+
+        <div class="treatment-field">
+            <label for="dt2MetforminePosologie">
+                Posologie / schéma prescrit
+            </label>
+
+            <input
+                type="text"
+                id="dt2MetforminePosologie"
+                placeholder="Précisez..."
+            >
+        </div>
+
+        <div class="treatment-field">
+            <label for="dt2MetformineTolerance">
+                Tolérance digestive / effets indésirables
+            </label>
+
+            <textarea
+                id="dt2MetformineTolerance"
+                placeholder="Nausées, diarrhées, douleurs abdominales, autres..."
+            ></textarea>
+        </div>
+
+        <div class="treatment-field">
+            <label for="dt2MetformineRepas">
+                Prise en lien avec les repas
+            </label>
+
+            <textarea
+                id="dt2MetformineRepas"
+                placeholder="Informations concernant la prise du traitement..."
+            ></textarea>
+        </div>
+
+        <div class="treatment-field">
+            <label for="dt2MetformineObservance">
+                Observance / difficultés
+            </label>
+
+            <textarea
+                id="dt2MetformineObservance"
+                placeholder="Précisez..."
+            ></textarea>
+        </div>
+
+    </div>
+
+
+    <!-- == SULFAMIDES HYPOGLYCÉMIANTS == -->
+
+    <div id="dt2TraitementSulfamides" hidden>
+
+        <div class="treatment-field">
+            <label for="dt2SulfamidesTraitement">
+                Médicament / posologie
+            </label>
+
+            <input
+                type="text"
+                id="dt2SulfamidesTraitement"
+                placeholder="Précisez..."
+            >
+        </div>
+
+        <div class="treatment-field">
+            <label for="dt2SulfamidesHypoglycemies">
+                Hypoglycémies récentes
+            </label>
+
+            <select id="dt2SulfamidesHypoglycemies">
+                <option value="">-- Sélectionner --</option>
+                <option value="non">Non</option>
+                <option value="oui">Oui</option>
+                <option value="inconnu">Inconnu</option>
+            </select>
+        </div>
+
+        <div class="treatment-field">
+            <label for="dt2SulfamidesDetails">
+                Circonstances / informations complémentaires
+            </label>
+
+            <textarea
+                id="dt2SulfamidesDetails"
+                placeholder="Repas sautés, activité physique, symptômes, etc..."
+            ></textarea>
+        </div>
+
+        <div class="treatment-field">
+            <label for="dt2SulfamidesObservance">
+                Tolérance / observance
+            </label>
+
+            <textarea
+                id="dt2SulfamidesObservance"
+                placeholder="Précisez..."
+            ></textarea>
+        </div>
+
+    </div>
+
+
+    <!-- == GLINIDES == -->
+
+    <div id="dt2TraitementGlinides" hidden>
+
+        <div class="treatment-field">
+            <label for="dt2GlinidesTraitement">
+                Médicament / posologie
+            </label>
+
+            <input
+                type="text"
+                id="dt2GlinidesTraitement"
+                placeholder="Précisez..."
+            >
+        </div>
+
+        <div class="treatment-field">
+            <label for="dt2GlinidesRepas">
+                Prise en lien avec les repas
+            </label>
+
+            <textarea
+                id="dt2GlinidesRepas"
+                placeholder="Organisation des prises par rapport aux repas..."
+            ></textarea>
+        </div>
+
+        <div class="treatment-field">
+            <label for="dt2GlinidesHypoglycemies">
+                Hypoglycémies récentes
+            </label>
+
+            <select id="dt2GlinidesHypoglycemies">
+                <option value="">-- Sélectionner --</option>
+                <option value="non">Non</option>
+                <option value="oui">Oui</option>
+                <option value="inconnu">Inconnu</option>
+            </select>
+        </div>
+
+        <div class="treatment-field">
+            <label for="dt2GlinidesObservance">
+                Tolérance / observance / remarques
+            </label>
+
+            <textarea
+                id="dt2GlinidesObservance"
+                placeholder="Précisez..."
+            ></textarea>
+        </div>
+
+    </div>
+
+
+    <!-- == DPP-4 == -->
+
+    <div id="dt2TraitementDPP4" hidden>
+
+        <div class="treatment-field">
+            <label for="dt2DPP4Traitement">
+                Médicament / posologie
+            </label>
+
+            <input
+                type="text"
+                id="dt2DPP4Traitement"
+                placeholder="Précisez..."
+            >
+        </div>
+
+        <div class="treatment-field">
+            <label for="dt2DPP4Tolerance">
+                Tolérance / effets indésirables
+            </label>
+
+            <textarea
+                id="dt2DPP4Tolerance"
+                placeholder="Précisez..."
+            ></textarea>
+        </div>
+
+        <div class="treatment-field">
+            <label for="dt2DPP4Observance">
+                Observance / remarques
+            </label>
+
+            <textarea
+                id="dt2DPP4Observance"
+                placeholder="Précisez..."
+            ></textarea>
+        </div>
+
+    </div>
+
+
+    <!-- == GLP-1 == -->
+
+    <div id="dt2TraitementGLP1" hidden>
+
+        <div class="treatment-field">
+            <label for="dt2GLP1Traitement">
+                Médicament / posologie
+            </label>
+
+            <input
+                type="text"
+                id="dt2GLP1Traitement"
+                placeholder="Précisez..."
+            >
+        </div>
+
+        <div class="treatment-field">
+            <label for="dt2GLP1Appetit">
+                Appétit / satiété
+            </label>
+
+            <textarea
+                id="dt2GLP1Appetit"
+                placeholder="Évolution de l'appétit et de la satiété..."
+            ></textarea>
+        </div>
+
+        <div class="treatment-field">
+            <label for="dt2GLP1Poids">
+                Évolution pondérale
+            </label>
+
+            <textarea
+                id="dt2GLP1Poids"
+                placeholder="Évolution récente du poids..."
+            ></textarea>
+        </div>
+
+        <div class="treatment-field">
+            <label for="dt2GLP1Tolerance">
+                Tolérance digestive / effets indésirables
+            </label>
+
+            <textarea
+                id="dt2GLP1Tolerance"
+                placeholder="Nausées, vomissements, troubles digestifs, autres..."
+            ></textarea>
+        </div>
+
+        <div class="treatment-field">
+            <label for="dt2GLP1Observance">
+                Observance / difficultés
+            </label>
+
+            <textarea
+                id="dt2GLP1Observance"
+                placeholder="Précisez..."
+            ></textarea>
+        </div>
+
+    </div>
+
+
+    <!-- == SGLT2 == -->
+
+    <div id="dt2TraitementSGLT2" hidden>
+
+        <div class="treatment-field">
+            <label for="dt2SGLT2Traitement">
+                Médicament / posologie
+            </label>
+
+            <input
+                type="text"
+                id="dt2SGLT2Traitement"
+                placeholder="Précisez..."
+            >
+        </div>
+
+        <div class="treatment-field">
+            <label for="dt2SGLT2Hydratation">
+                Hydratation / habitudes de boissons
+            </label>
+
+            <textarea
+                id="dt2SGLT2Hydratation"
+                placeholder="Quantités, fréquence, habitudes..."
+            ></textarea>
+        </div>
+
+        <div class="treatment-field">
+            <label for="dt2SGLT2Tolerance">
+                Tolérance / effets indésirables
+            </label>
+
+            <textarea
+                id="dt2SGLT2Tolerance"
+                placeholder="Précisez..."
+            ></textarea>
+        </div>
+
+        <div class="treatment-field">
+            <label for="dt2SGLT2Observance">
+                Observance / remarques
+            </label>
+
+            <textarea
+                id="dt2SGLT2Observance"
+                placeholder="Précisez..."
+            ></textarea>
+        </div>
+
+    </div>
+
+    <!-- == INSULINE == -->
+
+    <div id="diabeteInsulineDT2" hidden>
+
+        <div class="treatment-field">
+            <label for="dt2TypeInsulinotherapie">
+                Type d'insulinothérapie
+            </label>
+
+            <select id="dt2TypeInsulinotherapie">
+                <option value="">-- Sélectionner --</option>
+                <option value="basale">Insuline basale</option>
+                <option value="basal_bolus">
+                    Basal-bolus / multi-injections
+                </option>
+                <option value="autre">Autre</option>
+            </select>
+        </div>
+
+        <div class="treatment-field">
+            <label for="dt2InsulineUtilisee">
+                Insuline utilisée
+            </label>
+
+            <input
+                type="text"
+                id="dt2InsulineUtilisee"
+                placeholder="Nom de l'insuline"
+            >
+        </div>
+
+        <div class="treatment-field">
+            <label for="dt2NombreInjections">
+                Nombre d'injections / jour
+            </label>
+
+            <input
+                type="number"
+                id="dt2NombreInjections"
+                min="0"
+                step="1"
+            >
+        </div>
+
+        <div class="treatment-field">
+            <label for="dt2MomentsInjections">
+                Moment(s) des injections
+            </label>
+
+            <input
+                type="text"
+                id="dt2MomentsInjections"
+                placeholder="Matin, midi, soir, coucher..."
+            >
+        </div>
+
+        <div class="treatment-field">
+            <label for="dt2ComptageGlucides">
+                Comptage des glucides
+            </label>
+
+            <select id="dt2ComptageGlucides">
+                <option value="">-- Sélectionner --</option>
+                <option value="oui">Oui</option>
+                <option value="non">Non</option>
+            </select>
+        </div>
+
+        <div class="treatment-field">
+            <label for="dt2Hypoglycemies">
+                Hypoglycémies récentes
+            </label>
+
+            <select id="dt2Hypoglycemies">
+                <option value="">-- Sélectionner --</option>
+                <option value="oui">Oui</option>
+                <option value="non">Non</option>
+            </select>
+        </div>
+
+        <div class="treatment-field">
+            <label for="dt2HypoglycemiesDetails">
+                Précisions sur les hypoglycémies
+            </label>
+
+            <textarea
+                id="dt2HypoglycemiesDetails"
+                placeholder="Fréquence, circonstances, moment de survenue..."
+            ></textarea>
+        </div>
+
+        <div class="treatment-field">
+            <label for="dt2RepasActivite">
+                Repas et activité physique
+            </label>
+
+            <textarea
+                id="dt2RepasActivite"
+                placeholder="Informations pertinentes..."
+            ></textarea>
+        </div>
+
+    </div>
+
+
+    <!-- == ASSOCIATION DE TRAITEMENTS == -->
+
+    <div id="dt2TraitementAssociation" hidden>
+
+
+        <div class="treatment-field">
+            <label for="dt2AssociationTraitements">
+                Traitements associés
+            </label>
+
+            <textarea
+                id="dt2AssociationTraitements"
+                placeholder="Indiquez les traitements associés..."
+            ></textarea>
+        </div>
+
+        <div class="treatment-field">
+            <label for="dt2AssociationHypoglycemies">
+                Hypoglycémies récentes
+            </label>
+
+            <select id="dt2AssociationHypoglycemies">
+                <option value="">-- Sélectionner --</option>
+                <option value="non">Non</option>
+                <option value="oui">Oui</option>
+                <option value="inconnu">Inconnu</option>
+            </select>
+        </div>
+
+        <div class="treatment-field">
+            <label for="dt2AssociationRemarques">
+                Tolérance / observance / remarques
+            </label>
+
+            <textarea
+                id="dt2AssociationRemarques"
+                placeholder="Précisez..."
+            ></textarea>
+        </div>
+
+    </div>
+
+
+    <!-- == AUTRE TRAITEMENT == -->
+         
+    <div id="dt2TraitementAutre" hidden>
+
+        <div class="treatment-field">
+            <label for="dt2AutreTraitement">
+                Préciser le traitement
+            </label>
+
+            <textarea
+                id="dt2AutreTraitement"
+                placeholder="Nom du traitement, posologie et informations pertinentes..."
+            ></textarea>
+        </div>
+
+    </div>
+
+</div>
+
+ 
+
+    <!-- == DT1 — INSULINOTHÉRAPIE == -->
+
+    <div id="diabeteInsulinotherapie" class="diabete-treatment-details" hidden>
+
+        <div class="treatment-field">
+            <label for="dt1TypeInsulinotherapie">
+                Type d'insulinothérapie
+            </label>
+
+            <select id="dt1TypeInsulinotherapie">
+                <option value="">-- Sélectionner --</option>
+                <option value="basale_bolus">
+                    Basale-bolus / multi-injections
+                </option>
+                <option value="conventionnelle">
+                    Conventionnelle
+                </option>
+                <option value="autre">
+                    Autre
+                </option>
+            </select>
+        </div>
+
+        <div class="treatment-field">
+            <label for="dt1InsulineUtilisee">
+                Insuline utilisée
+            </label>
+
+            <input
+                type="text"
+                id="dt1InsulineUtilisee"
+                placeholder="Nom de l'insuline"
+            >
+        </div>
+
+        <div class="treatment-field">
+            <label for="dt1NombreInjections">
+                Nombre d'injections / jour
+            </label>
+
+            <input
+                type="number"
+                id="dt1NombreInjections"
+                min="0"
+                step="1"
+            >
+        </div>
+
+        <div class="treatment-field">
+            <label for="dt1ComptageGlucides">
+                Comptage des glucides
+            </label>
+
+            <select id="dt1ComptageGlucides">
+                <option value="">-- Sélectionner --</option>
+                <option value="oui">Oui</option>
+                <option value="non">Non</option>
+            </select>
+        </div>
+
+        <div class="treatment-field">
+            <label for="dt1RatioInsulineGlucides">
+                Ratio insuline / glucides
+            </label>
+
+            <input
+                type="text"
+                id="dt1RatioInsulineGlucides"
+                placeholder="Valeur renseignée par le professionnel"
+            >
+        </div>
+
+        <div class="treatment-field">
+            <label for="dt1Hypoglycemies">
+                Hypoglycémies récentes
+            </label>
+
+            <select id="dt1Hypoglycemies">
+                <option value="">-- Sélectionner --</option>
+                <option value="oui">Oui</option>
+                <option value="non">Non</option>
+            </select>
+        </div>
+
+        <div class="treatment-field">
+            <label for="dt1HypoglycemiesDetails">
+                Précisions sur les hypoglycémies
+            </label>
+
+            <textarea
+                id="dt1HypoglycemiesDetails"
+                placeholder="Fréquence, circonstances, moment de survenue..."
+            ></textarea>
+        </div>
+
+        <div class="treatment-field">
+            <label for="dt1RepasActivite">
+                Repas et activité physique
+            </label>
+
+            <textarea
+                id="dt1RepasActivite"
+                placeholder="Informations pertinentes..."
+            ></textarea>
+        </div>
+
+    </div>
+
+    <!-- == DT1 — POMPE À INSULINE  == -->
+
+    <div
+        id="diabetePompe"
+        class="diabete-treatment-details"
+        hidden
+    >
+
+        <h3>Pompe à insuline</h3>
+
+
+        <div class="treatment-field">
+
+            <label for="dt1TypePompe">
+                Type de pompe
+            </label>
+
+            <input
+                type="text"
+                id="dt1TypePompe"
+                placeholder="Modèle ou type de pompe"
+            >
+
+        </div>
+
+
+        <div class="treatment-field">
+
+            <label for="dt1TypeInsulinePompe">
+                Insuline utilisée
+            </label>
+
+            <input
+                type="text"
+                id="dt1TypeInsulinePompe"
+                placeholder="Nom de l'insuline"
+            >
+
+        </div>
+
+
+        <div class="treatment-field">
+
+            <label for="dt1BolusRepas">
+                Bolus aux repas
+            </label>
+
+            <select id="dt1BolusRepas">
+
+                <option value="">
+                    -- Sélectionner --
+                </option>
+
+                <option value="oui">
+                    Oui
+                </option>
+
+                <option value="non">
+                    Non
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="treatment-field">
+
+            <label for="dt1ComptageGlucidesPompe">
+                Comptage des glucides
+            </label>
+
+            <select id="dt1ComptageGlucidesPompe">
+
+                <option value="">
+                    -- Sélectionner --
+                </option>
+
+                <option value="oui">
+                    Oui
+                </option>
+
+                <option value="non">
+                    Non
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="treatment-field">
+
+            <label for="dt1RatioPompe">
+                Ratio insuline / glucides
+            </label>
+
+            <input
+                type="number"
+                id="dt1RatioPompe"
+                min="0"
+                step="0.1"
+            >
+
+        </div>
+
+
+        <div class="treatment-field">
+
+            <label for="dt1FacteurCorrectionPompe">
+                Facteur de correction
+            </label>
+
+            <input
+                type="number"
+                id="dt1FacteurCorrectionPompe"
+                min="0"
+                step="0.1"
+            >
+
+        </div>
+
+
+        <div class="treatment-field">
+
+            <label for="dt1HypoglycemiesPompe">
+                Hypoglycémies récentes
+            </label>
+
+            <select id="dt1HypoglycemiesPompe">
+
+                <option value="">
+                    -- Sélectionner --
+                </option>
+
+                <option value="oui">
+                    Oui
+                </option>
+
+                <option value="non">
+                    Non
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <div class="treatment-field">
+
+            <label for="dt1ProblemesPompe">
+                Problèmes ou remarques concernant la pompe
+            </label>
+
+            <textarea
+                id="dt1ProblemesPompe"
+                placeholder="Informations pertinentes..."
+            ></textarea>
+
+        </div>
+
+
+        <div class="treatment-field">
+
+            <label for="dt1GestionActivitePompe">
+                Gestion des repas et de l'activité physique
+            </label>
+
+            <textarea
+                id="dt1GestionActivitePompe"
+                placeholder="Informations pertinentes..."
+            ></textarea>
+
+        </div>
+
+    </div>
+
+</div>
+
+    <!-- TRAITEMENT DE L'HYPERTENSION ARTÉRIELLE -->
+
+    <div id="htaTraitementGroupe" class="treatmentInfo-group" hidden>
+        <h3 class="treatment-pathology-title">Hypertension artérielle (HTA)</h3>
+
+        <div class="treatment-field">
+            <label for="htaSchemaTherapeutique">
+                Schéma thérapeutique
+            </label>
+
+            <select id="htaSchemaTherapeutique" disabled>
+                <option value="">-- Sélectionner --</option>
+                <option value="aucun">Aucun traitement antihypertenseur</option>
+                <option value="monotherapie">Monothérapie</option>
+                <option value="bitherapie">Bithérapie</option>
+                <option value="tritherapie">Trithérapie</option>
+                <option value="autre">Autre / traitement complexe</option>
+            </select>
+        </div>
+
+        <div id="htaClassesTraitement" hidden>
+
+            <div class="treatment-field" id="htaClasse1Groupe">
+                <label for="htaClasse1">
+                    Classe thérapeutique 1
+                </label>
+
+                <select id="htaClasse1">
+                    <option value="">-- Sélectionner --</option>
+                    <option value="iec">IEC</option>
+                    <option value="ara2">ARA2</option>
+                    <option value="inhibiteur_calcique">Inhibiteur calcique</option>
+                    <option value="diuretique_thiazidique">Diurétique thiazidique</option>
+                    <option value="diuretique_anse">Diurétique de l’anse</option>
+                    <option value="betabloquant">Bêtabloquant</option>
+                    <option value="spironolactone">Spironolactone</option>
+                    <option value="autre">Autre classe</option>
+                </select>
+            </div>
+
+            <div class="treatment-field" id="htaClasse2Groupe" hidden>
+                <label for="htaClasse2">
+                    Classe thérapeutique 2
+                </label>
+
+                <select id="htaClasse2">
+                    <option value="">-- Sélectionner --</option>
+                    <option value="iec">IEC</option>
+                    <option value="ara2">ARA2</option>
+                    <option value="inhibiteur_calcique">Inhibiteur calcique</option>
+                    <option value="diuretique_thiazidique">Diurétique thiazidique</option>
+                    <option value="diuretique_anse">Diurétique de l’anse</option>
+                    <option value="betabloquant">Bêtabloquant</option>
+                    <option value="spironolactone">Spironolactone</option>
+                    <option value="autre">Autre classe</option>
+                </select>
+            </div>
+
+            <div class="treatment-field" id="htaClasse3Groupe" hidden>
+                <label for="htaClasse3">
+                    Classe thérapeutique 3
+                </label>
+
+                <select id="htaClasse3">
+                    <option value="">-- Sélectionner --</option>
+                    <option value="iec">IEC</option>
+                    <option value="ara2">ARA2</option>
+                    <option value="inhibiteur_calcique">Inhibiteur calcique</option>
+                    <option value="diuretique_thiazidique">Diurétique thiazidique</option>
+                    <option value="diuretique_anse">Diurétique de l’anse</option>
+                    <option value="betabloquant">Bêtabloquant</option>
+                    <option value="spironolactone">Spironolactone</option>
+                    <option value="autre">Autre classe</option>
+                </select>
+            </div>
+
+        </div>
+
+        <div id="htaTraitementDetails" hidden>
+
+
+
+            <div class="treatment-field">
+                <label for="htaDateDebutTraitement">
+                    Début du traitement
+                </label>
+
+                <input type="date" id="htaDateDebutTraitement">
+            </div>
+
+            <div class="treatment-field">
+                <label for="htaDateModificationTraitement">
+                    Dernière modification
+                </label>
+
+                <input type="date" id="htaDateModificationTraitement">
+            </div>
+
+            <div class="treatment-field">
+                <label for="htaMedicamentsPosologies">
+                    Médicament(s) / posologie(s)
+                </label>
+
+                <textarea
+                    id="htaMedicamentsPosologies"
+                    placeholder="Précisez les molécules, doses et horaires de prise..."
+                ></textarea>
+            </div>
+
+            <div class="treatment-field">
+                <label for="htaToleranceTraitement">
+                    Tolérance / effets indésirables
+                </label>
+
+                <textarea
+                    id="htaToleranceTraitement"
+                    placeholder="Précisez les symptômes ou effets indésirables observés..."
+                ></textarea>
+            </div>
+
+            <div class="treatment-field">
+                <label for="htaObservanceTraitement">
+                    Observance / difficultés
+                </label>
+
+                <textarea
+                    id="htaObservanceTraitement"
+                    placeholder="Oublis, difficultés de prise, interruption, compréhension du traitement..."
+                ></textarea>
+            </div>
+
+            <div class="treatment-field">
+                <label for="htaTraitementRemarques">
+                    Remarques complémentaires
+                </label>
+
+                <textarea
+                    id="htaTraitementRemarques"
+                    placeholder="Informations complémentaires utiles..."
+                ></textarea>
+            </div>
+
+        </div>
+
+        <div id="htaAucunTraitementDetails" hidden>
+            <div class="treatment-field">
+                <label for="htaAucunTraitementInformations">
+                    Informations pertinentes
+                </label>
+
+                <textarea
+                    id="htaAucunTraitementInformations"
+                    placeholder="Précisez les informations pertinentes concernant l'absence de traitement..."
+                ></textarea>
+            </div>
+        </div>
+
+        <div id="htaTraitementComplexeDetails" hidden>
+            <div class="treatment-field">
+                <label for="htaTraitementComplexe">
+                    Description du traitement
+                </label>
+
+                <textarea
+                    id="htaTraitementComplexe"
+                    placeholder="Décrivez le schéma thérapeutique, les classes et les molécules..."
+                ></textarea>
+            </div>
+        </div>
+
+    </div>
+
+
+
+    <!-- TRAITEMENT DE LA DYSLIPIDÉMIE -->
+
+    <div id="dyslipidemieTraitementGroupe" class="treatmentInfo-group" hidden>
+        <h3 class="treatment-pathology-title">Dyslipidémie</h3>
+
+        <div class="treatment-field">
+            <label for="dyslipidemieTraitement">
+                Traitement hypolipémiant actuel
+            </label>
+
+            <select id="dyslipidemieTraitement" disabled>
+                <option value="">-- Sélectionner --</option>
+                <option value="aucun">Aucun traitement hypolipémiant</option>
+                <option value="statine">Statine</option>
+                <option value="ezetimibe">Ézétimibe</option>
+                <option value="fibrate">Fibrate</option>
+                <option value="pcsk9">Inhibiteur de PCSK9</option>
+                <option value="bempedoique">Acide bempédoïque</option>
+                <option value="association">Association de traitements</option>
+                <option value="autre">Autre</option>
+            </select>
+        </div>
+
+        <div class="treatment-field">
+            <label for="dyslipidemieTraitementDetails">Médicament(s) / schéma prescrit</label>
+            <textarea id="dyslipidemieTraitementDetails" placeholder="Molécule(s), dose(s), fréquence, informations utiles..."></textarea>
+        </div>
+
+        <div class="treatment-field">
+            <label for="dyslipidemieToleranceTraitement">Tolérance / effets indésirables rapportés</label>
+            <textarea id="dyslipidemieToleranceTraitement" placeholder="Précisez uniquement les éléments rapportés par le patient..."></textarea>
+        </div>
+
+        <div class="treatment-field">
+            <label for="dyslipidemieObservanceTraitement">Observance / difficultés</label>
+            <textarea id="dyslipidemieObservanceTraitement" placeholder="Oublis, arrêt, difficultés de prise, compréhension du traitement..."></textarea>
+        </div>
+    </div>
+
+    <!-- Informations complémentaires -->
+
+    <div class="treatment-group">
+
+        <h3>Informations complémentaires</h3>
+
+        <textarea
+            id="traitements"
+            placeholder="Autres traitements, associations ou informations pertinentes..."
+         aria-label="Autres traitements, associations ou informations pertinentes"></textarea>
+
+    </div>
+
+</div>
+
+    </details>
+
+<!-- BIOLOGIE SANGUINE -->
+
+<details class="patient-card patient-card-wide biology-card">
+
+    <summary>
+        <div class="patient-card-header">
+            <div>
+                <span class="patient-card-kicker">Biologie sanguine</span>
+            </div>
+        </div>
+    </summary>
+
+    <div class="biology-content">
+
+        <div class="biology-toolbar">
+            <div class="patient-field">
+                <label for="biologieDateBilan">Date générale du bilan</label>
+                <input type="date" id="biologieDateBilan">
+            </div>
+            <p class="biology-help">
+                Les résultats biologiques sont saisis une seule fois ici. La date générale est utilisée lorsqu'aucune date spécifique n'est renseignée sur une ligne. NutriFlow peut mettre en avant les paramètres pertinents selon les pathologies cochées, sans masquer le bilan complet.
+            </p>
+        </div>
+
+        <section
+            id="biologyContextSummary"
+            class="biology-context-summary"
+            aria-labelledby="biologyContextTitle"
+            hidden
+        >
+            <div class="biology-context-header">
+                <div>
+                    <span class="biology-context-kicker">Contexte clinique</span>
+                    <h4 id="biologyContextTitle">Biologie pertinente pour ce patient</h4>
+                    <p id="biologyContextDescription">
+                        Les paramètres ci-dessous sont issus du bilan biologique central.
+                    </p>
+                </div>
+
+                <div class="biology-context-legend" aria-label="Niveaux de pertinence">
+                    <span><i class="biology-context-dot priority"></i>Prioritaire</span>
+                    <span><i class="biology-context-dot relevant"></i>Pertinent</span>
+                </div>
+            </div>
+
+            <div id="biologyContextGrid" class="biology-context-grid"></div>
+
+            <p class="biology-context-note">
+                Le bilan complet reste disponible ci-dessous. Une donnée non renseignée n'est jamais considérée comme normale.
+            </p>
+        </section>
+
+        <div class="biology-table-wrap">
+            <table class="biology-table">
+                <caption class="sr-only">Résultats de biologie sanguine du patient</caption>
+                <thead>
+                    <tr>
+                        <th scope="col">Paramètre</th>
+                        <th scope="col">Résultat</th>
+                        <th scope="col">Unité</th>
+                        <th scope="col">Référence laboratoire</th>
+                        <th scope="col">Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="biology-section-row"><th colspan="5" scope="colgroup">Métabolisme glucidique</th></tr>
+                    <tr><th scope="row"><label for="bioGlycemie">Glycémie à jeun</label></th><td><input type="number" id="bioGlycemie" step="any" min="0"></td><td><input type="text" id="bioGlycemieUnite" value="g/L" aria-label="Unité glycémie à jeun"></td><td><input type="text" id="bioGlycemieReference" placeholder="Selon laboratoire" aria-label="Référence laboratoire glycémie à jeun"></td><td><input type="date" id="bioGlycemieDate" aria-label="Date glycémie à jeun"></td></tr>
+                    <tr><th scope="row"><label for="bioHba1c">HbA1c</label></th><td><input type="number" id="bioHba1c" step="any" min="0"></td><td><input type="text" id="bioHba1cUnite" value="%" aria-label="Unité HbA1c"></td><td><input type="text" id="bioHba1cReference" placeholder="Selon laboratoire" aria-label="Référence laboratoire HbA1c"></td><td><input type="date" id="bioHba1cDate" aria-label="Date HbA1c"></td></tr>
+                    <tr><th scope="row"><label for="bioInsulineJeun">Insulinémie à jeun</label></th><td><input type="number" id="bioInsulineJeun" step="any" min="0"></td><td><input type="text" id="bioInsulineJeunUnite" value="µUI/mL" aria-label="Unité insulinémie à jeun"></td><td><input type="text" id="bioInsulineJeunReference" placeholder="Selon laboratoire" aria-label="Référence laboratoire insulinémie à jeun"></td><td><input type="date" id="bioInsulineJeunDate" aria-label="Date insulinémie à jeun"></td></tr>
+                    <tr><th scope="row"><label for="bioHoma">HOMA-IR</label></th><td><input type="number" id="bioHoma" step="any" min="0"></td><td><input type="text" id="bioHomaUnite" value="—" aria-label="Unité HOMA-IR"></td><td><input type="text" id="bioHomaReference" placeholder="Selon laboratoire / méthode" aria-label="Référence laboratoire HOMA-IR"></td><td><input type="date" id="bioHomaDate" aria-label="Date HOMA-IR"></td></tr>
+
+                    <tr class="biology-section-row"><th colspan="5" scope="colgroup">Statut martial</th></tr>
+                    <tr><th scope="row"><label for="bioFerritine">Ferritine</label></th><td><input type="number" id="bioFerritine" step="any" min="0"></td><td><input type="text" id="bioFerritineUnite" value="µg/L" aria-label="Unité ferritine"></td><td><input type="text" id="bioFerritineReference" placeholder="Selon laboratoire" aria-label="Référence laboratoire ferritine"></td><td><input type="date" id="bioFerritineDate" aria-label="Date ferritine"></td></tr>
+                    <tr><th scope="row"><label for="bioFerSerique">Fer sérique</label></th><td><input type="number" id="bioFerSerique" step="any" min="0"></td><td><input type="text" id="bioFerSeriqueUnite" value="µmol/L" aria-label="Unité fer sérique"></td><td><input type="text" id="bioFerSeriqueReference" placeholder="Selon laboratoire" aria-label="Référence laboratoire fer sérique"></td><td><input type="date" id="bioFerSeriqueDate" aria-label="Date fer sérique"></td></tr>
+                    <tr><th scope="row"><label for="bioTransferrine">Transferrine</label></th><td><input type="number" id="bioTransferrine" step="any" min="0"></td><td><input type="text" id="bioTransferrineUnite" value="g/L" aria-label="Unité transferrine"></td><td><input type="text" id="bioTransferrineReference" placeholder="Selon laboratoire" aria-label="Référence laboratoire transferrine"></td><td><input type="date" id="bioTransferrineDate" aria-label="Date transferrine"></td></tr>
+                    <tr><th scope="row"><label for="bioCst">Coefficient de saturation de la transferrine (CST)</label></th><td><input type="number" id="bioCst" step="any" min="0"></td><td><input type="text" id="bioCstUnite" value="%" aria-label="Unité coefficient de saturation de la transferrine"></td><td><input type="text" id="bioCstReference" placeholder="Selon laboratoire" aria-label="Référence laboratoire coefficient de saturation de la transferrine"></td><td><input type="date" id="bioCstDate" aria-label="Date coefficient de saturation de la transferrine"></td></tr>
+                    <tr class="biology-section-row"><th colspan="5" scope="colgroup">Hématologie</th></tr>
+                    <tr><th scope="row"><label for="bioHemoglobine">Hémoglobine</label></th><td><input type="number" id="bioHemoglobine" step="any" min="0"></td><td><input type="text" id="bioHemoglobineUnite" value="g/dL" aria-label="Unité hémoglobine"></td><td><input type="text" id="bioHemoglobineReference" placeholder="Selon laboratoire" aria-label="Référence laboratoire hémoglobine"></td><td><input type="date" id="bioHemoglobineDate" aria-label="Date hémoglobine"></td></tr>
+                    <tr><th scope="row"><label for="bioReticulocytes">Réticulocytes</label></th><td><input type="number" id="bioReticulocytes" step="any" min="0"></td><td><input type="text" id="bioReticulocytesUnite" value="G/L" aria-label="Unité réticulocytes"></td><td><input type="text" id="bioReticulocytesReference" placeholder="Selon laboratoire" aria-label="Référence laboratoire réticulocytes"></td><td><input type="date" id="bioReticulocytesDate" aria-label="Date réticulocytes"></td></tr>
+                    <tr><th scope="row"><label for="bioVgm">VGM</label></th><td><input type="number" id="bioVgm" step="any" min="0"></td><td><input type="text" id="bioVgmUnite" value="fL" aria-label="Unité VGM"></td><td><input type="text" id="bioVgmReference" placeholder="Selon laboratoire" aria-label="Référence laboratoire VGM"></td><td><input type="date" id="bioVgmDate" aria-label="Date VGM"></td></tr>
+
+                    <tr class="biology-section-row"><th colspan="5" scope="colgroup">Inflammation / contexte biologique</th></tr>
+                    <tr><th scope="row"><label for="bioCrp">CRP</label></th><td><input type="number" id="bioCrp" step="any" min="0"></td><td><input type="text" id="bioCrpUnite" value="mg/L" aria-label="Unité CRP"></td><td><input type="text" id="bioCrpReference" placeholder="Selon laboratoire" aria-label="Référence laboratoire CRP"></td><td><input type="date" id="bioCrpDate" aria-label="Date CRP"></td></tr>
+                    <tr><th scope="row"><label for="bioVs">VS</label></th><td><input type="number" id="bioVs" step="any" min="0"></td><td><input type="text" id="bioVsUnite" value="mm/h" aria-label="Unité vitesse de sédimentation"></td><td><input type="text" id="bioVsReference" placeholder="Selon laboratoire" aria-label="Référence laboratoire vitesse de sédimentation"></td><td><input type="date" id="bioVsDate" aria-label="Date vitesse de sédimentation"></td></tr>
+                    <tr><th scope="row"><label for="bioAlbumine">Albumine</label></th><td><input type="number" id="bioAlbumine" step="any" min="0"></td><td><input type="text" id="bioAlbumineUnite" value="g/L" aria-label="Unité albumine"></td><td><input type="text" id="bioAlbumineReference" placeholder="Selon laboratoire" aria-label="Référence laboratoire albumine"></td><td><input type="date" id="bioAlbumineDate" aria-label="Date albumine"></td></tr>
+
+                    <tr class="biology-section-row"><th colspan="5" scope="colgroup">Fonction hépatique</th></tr>
+                    <tr><th scope="row"><label for="bioAsat">ASAT</label></th><td><input type="number" id="bioAsat" step="any" min="0"></td><td><input type="text" id="bioAsatUnite" value="U/L" aria-label="Unité ASAT"></td><td><input type="text" id="bioAsatReference" placeholder="Selon laboratoire" aria-label="Référence laboratoire ASAT"></td><td><input type="date" id="bioAsatDate" aria-label="Date ASAT"></td></tr>
+                    <tr><th scope="row"><label for="bioAlat">ALAT</label></th><td><input type="number" id="bioAlat" step="any" min="0"></td><td><input type="text" id="bioAlatUnite" value="U/L" aria-label="Unité ALAT"></td><td><input type="text" id="bioAlatReference" placeholder="Selon laboratoire" aria-label="Référence laboratoire ALAT"></td><td><input type="date" id="bioAlatDate" aria-label="Date ALAT"></td></tr>
+                    <tr><th scope="row"><label for="bioGgt">GGT</label></th><td><input type="number" id="bioGgt" step="any" min="0"></td><td><input type="text" id="bioGgtUnite" value="U/L" aria-label="Unité GGT"></td><td><input type="text" id="bioGgtReference" placeholder="Selon laboratoire" aria-label="Référence laboratoire GGT"></td><td><input type="date" id="bioGgtDate" aria-label="Date GGT"></td></tr>
+                    <tr><th scope="row"><label for="bioPal">Phosphatases alcalines</label></th><td><input type="number" id="bioPal" step="any" min="0"></td><td><input type="text" id="bioPalUnite" value="U/L" aria-label="Unité phosphatases alcalines"></td><td><input type="text" id="bioPalReference" placeholder="Selon laboratoire" aria-label="Référence laboratoire phosphatases alcalines"></td><td><input type="date" id="bioPalDate" aria-label="Date phosphatases alcalines"></td></tr>
+                    <tr><th scope="row"><label for="bioBilirubine">Bilirubine</label></th><td><input type="number" id="bioBilirubine" step="any" min="0"></td><td><input type="text" id="bioBilirubineUnite" value="µmol/L" aria-label="Unité bilirubine"></td><td><input type="text" id="bioBilirubineReference" placeholder="Selon laboratoire" aria-label="Référence laboratoire bilirubine"></td><td><input type="date" id="bioBilirubineDate" aria-label="Date bilirubine"></td></tr>
+
+                    <tr class="biology-section-row"><th colspan="5" scope="colgroup">Fonction rénale et métabolique</th></tr>
+                    <tr><th scope="row"><label for="bioSodium">Sodium plasmatique</label></th><td><input type="number" id="bioSodium" step="any"></td><td><input type="text" id="bioSodiumUnite" value="mmol/L" aria-label="Unité sodium plasmatique"></td><td><input type="text" id="bioSodiumReference" placeholder="Selon laboratoire" aria-label="Référence laboratoire sodium plasmatique"></td><td><input type="date" id="bioSodiumDate" aria-label="Date sodium plasmatique"></td></tr>
+                    <tr><th scope="row"><label for="bioPotassium">Potassium plasmatique</label></th><td><input type="number" id="bioPotassium" step="any"></td><td><input type="text" id="bioPotassiumUnite" value="mmol/L" aria-label="Unité potassium plasmatique"></td><td><input type="text" id="bioPotassiumReference" placeholder="Selon laboratoire" aria-label="Référence laboratoire potassium plasmatique"></td><td><input type="date" id="bioPotassiumDate" aria-label="Date potassium plasmatique"></td></tr>
+                    <tr><th scope="row"><label for="bioCreatinine">Créatinine</label></th><td><input type="number" id="bioCreatinine" step="any" min="0"></td><td><input type="text" id="bioCreatinineUnite" value="µmol/L" aria-label="Unité créatinine"></td><td><input type="text" id="bioCreatinineReference" placeholder="Selon laboratoire" aria-label="Référence laboratoire créatinine"></td><td><input type="date" id="bioCreatinineDate" aria-label="Date créatinine"></td></tr>
+                    <tr><th scope="row"><label for="bioDfg">DFG estimé</label></th><td><input type="number" id="bioDfg" step="any" min="0"></td><td><input type="text" id="bioDfgUnite" value="mL/min/1,73 m²" aria-label="Unité DFG estimé"></td><td><input type="text" id="bioDfgReference" placeholder="Selon laboratoire / méthode" aria-label="Référence laboratoire DFG estimé"></td><td><input type="date" id="bioDfgDate" aria-label="Date DFG estimé"></td></tr>
+                    <tr><th scope="row"><label for="bioRac">RAC — albuminurie/créatininurie</label></th><td><input type="number" id="bioRac" step="any" min="0"></td><td><input type="text" id="bioRacUnite" value="mg/g" aria-label="Unité RAC"></td><td><input type="text" id="bioRacReference" placeholder="Selon laboratoire" aria-label="Référence laboratoire RAC"></td><td><input type="date" id="bioRacDate" aria-label="Date RAC"></td></tr>
+                    <tr><th scope="row"><label for="bioBicarbonates">Bicarbonates (HCO₃⁻)</label></th><td><input type="number" id="bioBicarbonates" step="any" min="0"></td><td><input type="text" id="bioBicarbonatesUnite" value="mmol/L" aria-label="Unité bicarbonates"></td><td><input type="text" id="bioBicarbonatesReference" placeholder="Selon laboratoire" aria-label="Référence laboratoire bicarbonates"></td><td><input type="date" id="bioBicarbonatesDate" aria-label="Date bicarbonates"></td></tr>
+                    <tr><th scope="row"><label for="bioAcideUrique">Acide urique</label></th><td><input type="number" id="bioAcideUrique" step="any" min="0"></td><td><input type="text" id="bioAcideUriqueUnite" value="µmol/L" aria-label="Unité acide urique"></td><td><input type="text" id="bioAcideUriqueReference" placeholder="Selon laboratoire" aria-label="Référence laboratoire acide urique"></td><td><input type="date" id="bioAcideUriqueDate" aria-label="Date acide urique"></td></tr>
+
+                    <tr class="biology-section-row"><th colspan="5" scope="colgroup">Bilan lipidique</th></tr>
+                    <tr><th scope="row"><label for="bioCholesterolTotal">Cholestérol total</label></th><td><input type="number" id="bioCholesterolTotal" step="any" min="0"></td><td><input type="text" id="bioCholesterolTotalUnite" value="g/L" aria-label="Unité cholestérol total"></td><td><input type="text" id="bioCholesterolTotalReference" placeholder="Selon laboratoire" aria-label="Référence laboratoire cholestérol total"></td><td><input type="date" id="bioCholesterolTotalDate" aria-label="Date cholestérol total"></td></tr>
+                    <tr><th scope="row"><label for="bioLdl">LDL-cholestérol</label></th><td><input type="number" id="bioLdl" step="any" min="0"></td><td><input type="text" id="bioLdlUnite" value="g/L" aria-label="Unité LDL-cholestérol"></td><td><input type="text" id="bioLdlReference" placeholder="Selon laboratoire" aria-label="Référence laboratoire LDL-cholestérol"></td><td><input type="date" id="bioLdlDate" aria-label="Date LDL-cholestérol"></td></tr>
+                    <tr><th scope="row"><label for="bioHdl">HDL-cholestérol</label></th><td><input type="number" id="bioHdl" step="any" min="0"></td><td><input type="text" id="bioHdlUnite" value="g/L" aria-label="Unité HDL-cholestérol"></td><td><input type="text" id="bioHdlReference" placeholder="Selon laboratoire" aria-label="Référence laboratoire HDL-cholestérol"></td><td><input type="date" id="bioHdlDate" aria-label="Date HDL-cholestérol"></td></tr>
+                    <tr><th scope="row"><span id="bioNonHdlLabel">non-HDL-cholestérol</span></th><td><output id="bioNonHdl" class="biology-calculated-output" aria-labelledby="bioNonHdlLabel">—</output></td><td><span id="bioNonHdlUnite" class="biology-calculated-meta">—</span></td><td><span class="biology-calculated-meta">Calcul automatique : CT − HDL-C</span></td><td><span id="bioNonHdlDate" class="biology-calculated-meta">—</span></td></tr>
+                    <tr><th scope="row"><label for="bioTriglycerides">Triglycérides</label></th><td><input type="number" id="bioTriglycerides" step="any" min="0"></td><td><input type="text" id="bioTriglyceridesUnite" value="g/L" aria-label="Unité triglycérides"></td><td><input type="text" id="bioTriglyceridesReference" placeholder="Selon laboratoire" aria-label="Référence laboratoire triglycérides"></td><td><input type="date" id="bioTriglyceridesDate" aria-label="Date triglycérides"></td></tr>
+                    <tr><th scope="row"><label for="bioApoB">Apolipoprotéine B (ApoB)</label></th><td><input type="number" id="bioApoB" step="any" min="0"></td><td><input type="text" id="bioApoBUnite" value="g/L" aria-label="Unité ApoB"></td><td><input type="text" id="bioApoBReference" placeholder="Selon laboratoire" aria-label="Référence laboratoire ApoB"></td><td><input type="date" id="bioApoBDate" aria-label="Date ApoB"></td></tr>
+                    <tr><th scope="row"><label for="bioLpA">Lipoprotéine(a) — Lp(a)</label></th><td><input type="number" id="bioLpA" step="any" min="0"></td><td><input type="text" id="bioLpAUnite" value="mg/dL" aria-label="Unité Lp(a)"></td><td><input type="text" id="bioLpAReference" placeholder="Selon laboratoire" aria-label="Référence laboratoire Lp(a)"></td><td><input type="date" id="bioLpADate" aria-label="Date Lp(a)"></td></tr>
+
+                    <tr class="biology-section-row"><th colspan="5" scope="colgroup">Minéraux et électrolytes complémentaires</th></tr>
+                    <tr><th scope="row"><label for="bioCalcium">Calcium</label></th><td><input type="number" id="bioCalcium" step="any" min="0"></td><td><input type="text" id="bioCalciumUnite" value="mmol/L" aria-label="Unité calcium"></td><td><input type="text" id="bioCalciumReference" placeholder="Selon laboratoire" aria-label="Référence laboratoire calcium"></td><td><input type="date" id="bioCalciumDate" aria-label="Date calcium"></td></tr>
+                    <tr><th scope="row"><label for="bioMagnesium">Magnésium</label></th><td><input type="number" id="bioMagnesium" step="any" min="0"></td><td><input type="text" id="bioMagnesiumUnite" value="mmol/L" aria-label="Unité magnésium"></td><td><input type="text" id="bioMagnesiumReference" placeholder="Selon laboratoire" aria-label="Référence laboratoire magnésium"></td><td><input type="date" id="bioMagnesiumDate" aria-label="Date magnésium"></td></tr>
+                    <tr><th scope="row"><label for="bioPhosphore">Phosphate</label></th><td><input type="number" id="bioPhosphore" step="any" min="0"></td><td><input type="text" id="bioPhosphoreUnite" value="mmol/L" aria-label="Unité phosphate"></td><td><input type="text" id="bioPhosphoreReference" placeholder="Selon laboratoire" aria-label="Référence laboratoire phosphate"></td><td><input type="date" id="bioPhosphoreDate" aria-label="Date phosphate"></td></tr>
+                    <tr><th scope="row"><label for="bioPth">Parathormone (PTH)</label></th><td><input type="number" id="bioPth" step="any" min="0"></td><td><input type="text" id="bioPthUnite" value="pg/mL" aria-label="Unité PTH"></td><td><input type="text" id="bioPthReference" placeholder="Selon laboratoire / méthode" aria-label="Référence laboratoire PTH"></td><td><input type="date" id="bioPthDate" aria-label="Date PTH"></td></tr>
+                    <tr><th scope="row"><label for="bioZinc">Zinc</label></th><td><input type="number" id="bioZinc" step="any" min="0"></td><td><input type="text" id="bioZincUnite" value="µmol/L" aria-label="Unité zinc"></td><td><input type="text" id="bioZincReference" placeholder="Selon laboratoire" aria-label="Référence laboratoire zinc"></td><td><input type="date" id="bioZincDate" aria-label="Date zinc"></td></tr>
+
+                    <tr class="biology-section-row"><th colspan="5" scope="colgroup">Vitamines et micronutrition</th></tr>
+                    <tr><th scope="row"><label for="bioVitamineB1">Vitamine B1 (thiamine)</label></th><td><input type="number" id="bioVitamineB1" step="any" min="0"></td><td><input type="text" id="bioVitamineB1Unite" value="nmol/L" aria-label="Unité vitamine B1"></td><td><input type="text" id="bioVitamineB1Reference" placeholder="Selon laboratoire / méthode" aria-label="Référence laboratoire vitamine B1"></td><td><input type="date" id="bioVitamineB1Date" aria-label="Date vitamine B1"></td></tr>
+                    <tr><th scope="row"><label for="bioVitamineB9">Folates (vitamine B9)</label></th><td><input type="number" id="bioVitamineB9" step="any" min="0"></td><td><input type="text" id="bioVitamineB9Unite" value="ng/mL" aria-label="Unité folates"></td><td><input type="text" id="bioVitamineB9Reference" placeholder="Selon laboratoire" aria-label="Référence laboratoire folates"></td><td><input type="date" id="bioVitamineB9Date" aria-label="Date folates"></td></tr>
+                    <tr><th scope="row"><label for="bioVitamineB12">Vitamine B12</label></th><td><input type="number" id="bioVitamineB12" step="any" min="0"></td><td><input type="text" id="bioVitamineB12Unite" value="pg/mL" aria-label="Unité vitamine B12"></td><td><input type="text" id="bioVitamineB12Reference" placeholder="Selon laboratoire" aria-label="Référence laboratoire vitamine B12"></td><td><input type="date" id="bioVitamineB12Date" aria-label="Date vitamine B12"></td></tr>
+                    <tr><th scope="row"><label for="bioVitamineD">25-OH vitamine D</label></th><td><input type="number" id="bioVitamineD" step="any" min="0"></td><td><input type="text" id="bioVitamineDUnite" value="ng/mL" aria-label="Unité 25-OH vitamine D"></td><td><input type="text" id="bioVitamineDReference" placeholder="Selon laboratoire" aria-label="Référence laboratoire vitamine D"></td><td><input type="date" id="bioVitamineDDate" aria-label="Date vitamine D"></td></tr>
+
+                    <tr class="biology-section-row"><th colspan="5" scope="colgroup">Bilan thyroïdien</th></tr>
+                    <tr><th scope="row"><label for="bioTsh">TSH</label></th><td><input type="number" id="bioTsh" step="any" min="0"></td><td><input type="text" id="bioTshUnite" value="mUI/L" aria-label="Unité TSH"></td><td><input type="text" id="bioTshReference" placeholder="Selon laboratoire" aria-label="Référence laboratoire TSH"></td><td><input type="date" id="bioTshDate" aria-label="Date TSH"></td></tr>
+                    <tr><th scope="row"><label for="bioT4l">T4 libre</label></th><td><input type="number" id="bioT4l" step="any" min="0"></td><td><input type="text" id="bioT4lUnite" value="pmol/L" aria-label="Unité T4 libre"></td><td><input type="text" id="bioT4lReference" placeholder="Selon laboratoire" aria-label="Référence laboratoire T4 libre"></td><td><input type="date" id="bioT4lDate" aria-label="Date T4 libre"></td></tr>
+                    <tr><th scope="row"><label for="bioT3l">T3 libre</label></th><td><input type="number" id="bioT3l" step="any" min="0"></td><td><input type="text" id="bioT3lUnite" value="pmol/L" aria-label="Unité T3 libre"></td><td><input type="text" id="bioT3lReference" placeholder="Selon laboratoire" aria-label="Référence laboratoire T3 libre"></td><td><input type="date" id="bioT3lDate" aria-label="Date T3 libre"></td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</details>
+
+<!-- ETAT NUTRITIONNEL -->
+
+<details class="patient-card nutrition-status-card">
+
+    <summary>
+    <div class="patient-card-header">
+        <div>
+            <span class="patient-card-kicker">Dépistage de la dénutrition</span>
+            
+        </div>
+    </div>
+    </summary>
+
+    <div class="nutrition-status-content">
+
+    <!-- POIDS -->
+    <div class="nutrition-status-section">
+
+        <h4>Évolution pondérale</h4>
+
+        <div class="patient-form-grid">
+
+            <div class="form-group">
+                <label for="denutPoidsHabituel">
+                    Poids habituel avant maladie (kg)
+                </label>
+                <div class="input-unit">
+                    <input
+                        type="number"
+                        id="denutPoidsHabituel"
+                        min="0"
+                        step="0.1"
+        
+                    >
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="denutPoids6Mois">
+                    Poids il y a 6 mois (kg)
+                </label>
+                <div class="input-unit">
+                    <input
+                        type="number"
+                        id="denutPoids6Mois"
+                        min="0"
+                        step="0.1"
+                    >
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="denutPoids1Mois">
+                    Poids il y a 1 mois (kg)
+                </label>
+                <div class="input-unit">
+                    <input
+                        type="number"
+                        id="denutPoids1Mois"
+                        min="0"
+                        step="0.1"
+                    >
+                </div>
+            </div>
+
+        </div>
+
+        <!-- VARIATIONS -->
+
+        <div class="nutrition-weight-results">
+
+            <div>
+                <span>Poids habituel</span>
+                <strong id="denutPerteHabituelle">—</strong>
+            </div>
+
+            <div>
+                <span>6 mois</span>
+                <strong id="denutPerte6Mois">—</strong>
+            </div>
+
+            <div>
+                <span>1 mois</span>
+                <strong id="denutPerte1Mois">—</strong>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- APPORTS -->
+
+    <div class="nutrition-status-section">
+
+        <h4>Apports alimentaires</h4>
+
+        <div class="patient-form-grid">
+
+            <div class="form-group">
+                <label for="denutReductionApports">
+                    Réduction récente des apports
+                </label>
+
+                <select id="denutReductionApports">
+                    <option value="">Non renseigné</option>
+                    <option value="aucune">Aucune</option>
+                    <option value="moins50">
+                        Réduction inférieure à 50 %
+                    </option>
+                    <option value="plus50">
+                        Réduction d'au moins 50 %
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="denutDureeReduction">
+                    Durée
+                </label>
+
+                <select id="denutDureeReduction">
+                    <option value="">Non renseignée</option>
+                    <option value="moins1semaine">
+                        Moins d'une semaine
+                    </option>
+                    <option value="plus1semaine">
+                        Plus d'une semaine
+                    </option>
+                    <option value="plus2semaines">
+                        Plus de deux semaines
+                    </option>
+                </select>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- MNA-SF -->
+
+<div class="nutrition-status-section" id="mnaSection" hidden>
+
+    <div class="mna-header">
+
+        <div>
+            <h4>MNA-SF — Dépistage nutritionnel</h4>
+            <p>
+                Mini Nutritional Assessment — Short Form
+            </p>
+        </div>
+
+        <div class="mna-score-box">
+            <span>Score</span>
+            <strong id="mnaScore">— / 14</strong>
+        </div>
+
+    </div>
+
+
+    <!-- A -->
+
+    <div class="mna-question">
+
+        <label for="mnaApports">
+            A. Le patient a-t-il moins mangé ces 3 derniers mois ?
+        </label>
+
+        <select id="mnaApports">
+            <option value="">-- Sélectionner --</option>
+            <option value="0">
+                Baisse sévère des prises alimentaires
+            </option>
+            <option value="1">
+                Légère baisse des prises alimentaires
+            </option>
+            <option value="2">
+                Pas de baisse des prises alimentaires
+            </option>
+        </select>
+
+    </div>
+
+
+    <!-- B -->
+
+    <div class="mna-question">
+
+        <label for="mnaPertePoids">
+            B. Perte récente de poids (&lt; 3 mois)
+        </label>
+
+        <select id="mnaPertePoids">
+            <option value="">-- Sélectionner --</option>
+            <option value="0">
+                Perte de poids &gt; 3 kg
+            </option>
+            <option value="1">
+                Ne sait pas
+            </option>
+            <option value="2">
+                Perte de poids entre 1 et 3 kg
+            </option>
+            <option value="3">
+                Pas de perte de poids
+            </option>
+        </select>
+
+    </div>
+
+
+    <!-- C -->
+
+    <div class="mna-question">
+
+        <label for="mnaMotricite">
+            C. Motricité
+        </label>
+
+        <select id="mnaMotricite">
+            <option value="">-- Sélectionner --</option>
+            <option value="0">
+                Du lit au fauteuil
+            </option>
+            <option value="1">
+                Autonome à l’intérieur
+            </option>
+            <option value="2">
+                Sort du domicile
+            </option>
+        </select>
+
+    </div>
+
+
+    <!-- D -->
+
+    <div class="mna-question">
+
+        <label for="mnaMaladieAigue">
+            D. Maladie aiguë ou stress psychologique
+            lors des 3 derniers mois ?
+        </label>
+
+        <select id="mnaMaladieAigue">
+            <option value="">-- Sélectionner --</option>
+            <option value="0">Oui</option>
+            <option value="2">Non</option>
+        </select>
+
+    </div>
+
+
+    <!-- E -->
+
+    <div class="mna-question">
+
+        <label for="mnaNeuro">
+            E. Problèmes neuropsychologiques
+        </label>
+
+        <select id="mnaNeuro">
+            <option value="">-- Sélectionner --</option>
+            <option value="0">
+                Démence ou dépression sévère
+            </option>
+            <option value="1">
+                Démence légère
+            </option>
+            <option value="2">
+                Pas de problème psychologique
+            </option>
+        </select>
+
+    </div>
+
+
+    <!-- F1 -->
+
+    <div class="mna-question" id="mnaImcGroupe">
+
+        <label>
+            F1. Indice de masse corporelle
+        </label>
+
+        <div class="mna-auto-value">
+
+            <span>IMC calculé automatiquement</span>
+
+            <strong id="mnaImcValeur">
+                —
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <!-- F2 -->
+
+    <div class="mna-question" id="mnaMolletGroupe" hidden>
+
+        <label for="mnaMollet">
+            F2. Circonférence du mollet
+        </label>
+
+        <div class="input-unit">
+
+            <input
+                type="number"
+                id="mnaMollet"
+                min="0"
+                step="0.1"
+                placeholder="Ex. 32"
+            >
+
+            <span>cm</span>
+
+        </div>
+
+    </div>
+
+
+    <!-- RESULTAT -->
+
+    <div
+        class="mna-result neutral"
+        id="mnaResultat"
+        aria-live="polite"
+    >
+
+        <strong>
+            Dépistage en attente
+        </strong>
+
+        <span>
+            Complétez les informations nécessaires
+            pour calculer le score MNA-SF.
+        </span>
+
+    </div>
+
+  </div>
+
+ 
+
+    <!-- DECLENCHEMENT DE L'EVALUATION APPROFONDIE -->
+
+    <div class="nutrition-screening-panel" id="denutScreeningPanel">
+        <div class="nutrition-screening-copy">
+            <span class="nutrition-evaluation-type" id="denutScreeningType">Repérage</span>
+            <strong id="denutScreeningTitle">Aucun signal d’appel identifié</strong>
+            <span id="denutScreeningText">L’évaluation diagnostique détaillée reste disponible si le professionnel souhaite la réaliser.</span>
+        </div>
+        <button type="button" class="nutrition-screening-button" id="denutEvaluationToggle" aria-expanded="false">
+            Évaluer la dénutrition
+        </button>
+    </div>
+
+    <div id="denutEvaluationApprofondie" hidden>
+
+    <!-- CRITERES -->
+
+    <div class="nutrition-status-section">
+
+        <h4>Critères associés</h4>
+
+        <div class="nutrition-checkbox-list">
+
+            <label>
+                <input type="checkbox" id="denutMalabsorption">
+                <span>Absorption réduite / malabsorption / maldigestion</span>
+            </label>
+
+            <label>
+                <input type="checkbox" id="denutAgression">
+                <span>Situation d'agression / hypercatabolisme</span>
+            </label>
+
+            <!-- MUSCLE < 70 ANS -->
+
+            <label id="denutMasseMusculaireGroupe">
+                <input type="checkbox" id="denutMasseMusculaire">
+                <span> Réduction quantifiée de la masse et/ou de la fonction musculaire </span>
+            </label>
+
+            <!-- SARCOPENIE ≥ 70 ANS -->
+            <label id="denutSarcopenieGroupe" hidden>
+                <input type="checkbox" id="denutSarcopenieConfirmee">
+                <span> Sarcopénie confirmée
+                       (réduction quantifiée de la force et de la masse musculaire)
+                </span>
+            </label>
+
+        </div>
+
+    </div>
+
+    <!-- ALBUMINE -->
+
+    <div class="nutrition-status-section">
+
+        <h4>Donnée complémentaire</h4>
+
+        <div class="form-group">
+            <label for="denutAlbumine">
+                Albuminémie (g/L)
+            </label>
+
+            <div class="input-unit">
+                <input
+                    type="number"
+                    id="denutAlbumine"
+                    min="0"
+                    step="0.1"
+                    placeholder="Ex. 34"
+                >
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ALERTE -->
+
+    <!-- HAS -->
+
+    <div
+        class="nutrition-evaluation-block"
+        id="hasSection"
+        hidden
+    >
+
+    <div class="nutrition-evaluation-header">
+
+        <div>
+            <span class="nutrition-evaluation-type">
+                Évaluation diagnostique
+            </span>
+
+            <h4>Critères HAS</h4>
+        </div>
+
+        <span
+            class="nutrition-evaluation-badge neutral"
+            id="denutHASBadge"
+        >
+            Non évalué
+        </span>
+
+    </div>
+
+
+    <!-- RESULTAT -->
+
+    <div
+        class="nutrition-alert neutral"
+        id="denutAlerte"
+        aria-live="polite"
+    >
+        <strong>
+            Évaluation en attente
+        </strong>
+
+        <span>
+            Complétez les informations nécessaires
+            pour permettre l'évaluation.
+        </span>
+    </div>
+
+
+    <!-- DETAILS -->
+    <div
+        class="nutrition-evaluation-details"
+        id="denutHASDetails"
+        hidden
+    >
+    </div>
+
+</div>
+
+    </div><!-- /denutEvaluationApprofondie -->
+
+</details>
+
+</div>
+
+ <!-- =====================================================
+         ONGLET ANAMNESE 
+    ====================================================== -->
+
+    <div
+        id="anamnese"
+        class="tab-content" role="tabpanel" aria-labelledby="tab-anamnese"
+    >
+
+        <div class="module-header">
+
+            <h2>
+                Anamnèse alimentaire
+            </h2>
+
+            <p>
+                Analyse détaillée de l'alimentation habituelle du patient.
+            </p>
+
+        </div>
+
+        <div class="anm-toolbar">
+            <div class="anm-toolbar-spacer"></div>
+            <div class="anm-actions">
+                <button type="button" class="anm-secondary-button" onclick="anmEffacerTout()">
+                    Effacer l'anamnèse
+                </button>
+            </div>
+        </div>
+
+        <div class="anm-help">
+            Sélectionnez un aliment dans la base CIQUAL, indiquez sa quantité et sa fréquence
+            hebdomadaire. Le poids moyen quotidien et les apports nutritionnels sont calculés
+            automatiquement.
+        </div>
+
+        <section class="anm-validation-card" aria-labelledby="anm-validation-title">
+            <div class="anm-validation-copy">
+                <div class="anm-validation-heading">
+                    <h3 id="anm-validation-title">Validation avant analyse</h3>
+                    <span id="anm-validation-state" class="anm-validation-state is-warning">Saisie en cours</span>
+                </div>
+                <p id="anm-validation-text">
+                    Renseignez l’alimentation habituelle puis validez la saisie avant toute interprétation des apports.
+                </p>
+            </div>
+            <button type="button"
+                    id="anm-validation-button"
+                    class="anm-validation-button"
+                    onclick="anmValiderPourAnalyse()"
+                    disabled>
+                Valider l’anamnèse pour l’analyse
+            </button>
+        </section>
+
+        <div id="anm-repas-container" class="anm-repas-container"></div>
+
+        <section class="anm-totals-card">
+            <div class="anm-card-heading">
+                <div>
+                    <h3>Apports journaliers estimés</h3>
+                    <p>Calculés à partir des aliments saisis dans l'anamnèse.</p>
+                </div>
+            </div>
+           <div id="anm-totals-grid" class="anm-totals-grid"></div>
+
+<div class="anm-details-action">
+    <button type="button"
+            class="anm-details-button"
+            onclick="anmOuvrirDetailNutritionnel()">
+        Voir le détail nutritionnel complet
+        <span aria-hidden="true">→</span>
+    </button>
+</div>
+
+<div id="anm-nutrition-modal"
+     class="anm-nutrition-modal"
+     hidden
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="anm-nutrition-modal-title"
+     onclick="anmFermerDetailNutritionnelDepuisFond(event)">
+    <div class="anm-nutrition-modal-panel">
+        <div class="anm-nutrition-modal-header">
+            <div>
+                <span class="anm-nutrition-modal-kicker">ANAMNÈSE ALIMENTAIRE</span>
+                <h3 id="anm-nutrition-modal-title">Détail nutritionnel complet</h3>
+                <p>Apports journaliers estimés à partir des aliments renseignés dans Ciqual.</p>
+            </div>
+            <button type="button"
+                    class="anm-nutrition-modal-close"
+                    onclick="anmFermerDetailNutritionnel()"
+                    aria-label="Fermer le détail nutritionnel" title="Fermer"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg></button>
+        </div>
+
+        <div id="anm-full-totals" class="anm-full-totals"></div>
+    </div>
+</div>
+
+
+        </section>
+
+    </div>
+
+ <!-- =====================================================
+         ONGLET CALCULS
+    ====================================================== -->
+
+    <div
+        id="calculs"
+        class="tab-content" role="tabpanel" aria-labelledby="tab-calculs"
+    >
+
+        <div class="module-header">
+
+            <h2>
+                Calculs nutritionnels
+            </h2>
+
+            <p>
+                Calculs et estimations nutritionnelles.
+            </p>
+
+        </div>
+
+        <div id="calculsNutritionnels" class="nutrition-calculs-container">
+            <div class="module-placeholder">
+                <h3>Calculs nutritionnels</h3>
+                <p>Renseignez les données anthropométriques dans l’onglet Patient. La formule et le niveau d’activité sont ensuite choisis ici par le diététicien.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- =====================================================
+         ONGLET PATHOLOGIES
+    ====================================================== -->
+
+    <div
+        id="pathologies"
+        class="tab-content" role="tabpanel" aria-labelledby="tab-pathologies"
+    >
+
+        <div class="module-header">
+            <h2>Prise en charge</h2>
+            <p>Priorités, objectifs et pistes d’intervention à valider par le diététicien.</p>
+        </div>
+
+        <div id="priseEnChargePathologies" class="prise-en-charge-container">
+            <div class="module-placeholder">
+                <h3>Prise en charge personnalisée</h3>
+                <p>Sélectionnez une pathologie dans l’onglet Patient pour afficher les propositions correspondantes.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- =====================================================
+         ONGLET RECETTES
+    ====================================================== -->
+
+    <div
+        id="recettes"
+        class="tab-content" role="tabpanel" aria-labelledby="tab-recettes"
+    >
+
+        <div class="module-header">
+
+            <h2>
+                Recettes
+            </h2>
+
+            <p>
+                Recettes classées selon les besoins nutritionnels.
+            </p>
+
+        </div>
+
+        <div class="module-placeholder">
+
+            <h3>
+                Base de recettes
+            </h3>
+
+            <p>
+                Les recettes pourront être recherchées et filtrées
+                selon les pathologies, les types de repas et leurs
+                caractéristiques nutritionnelles.
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- =====================================================
+         ONGLET ALIMENTS
+    ====================================================== -->
+
+    <div
+        id="aliments"
+        class="tab-content" role="tabpanel" aria-labelledby="tab-aliments"
+    >
+
+        <div class="module-header">
+
+            <h2>
+                Aliments & équivalences
+            </h2>
+
+            <p>
+                Recherche d'aliments, valeurs nutritionnelles
+                et équivalences.
+            </p>
+
+        </div>
+
+        <div class="module-placeholder">
+
+            <h3>
+                Base alimentaire
+            </h3>
+
+            <p>
+                Cette section permettra de rechercher des aliments
+                et de consulter leurs valeurs nutritionnelles
+                et leurs équivalences.
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- =====================================================
+         ONGLET PLAN ALIMENTAIRE
+    ====================================================== -->
+    
+<div
+        id="plan"
+        class="tab-content" role="tabpanel" aria-labelledby="tab-plan"
+    >
+
+        <div class="module-header">
+
+            <h2>
+                Analyse nutritionnelle
+            </h2>
+
+            <p>
+                Synthèse des apports, comparaison aux besoins et analyse nutritionnelle adaptée à la situation du patient.
+            </p>
+
+        </div>
+
+        <div id="recommandationsNutritionnelles" class="recommendations-nutritionnelles-container">
+            <div class="module-placeholder">
+                <h3>Analyse des apports</h3>
+                <p>Renseignez les données du patient et son anamnèse alimentaire pour afficher la comparaison entre les apports et les besoins.</p>
+            </div>
+        </div>
+
+        
+
+        <section
+            id="analyseRapportCaloricoAzoteSection"
+            class="analyse-pathologie-section"
+            hidden
+        >
+            <div id="analyseRapportCaloricoAzoteContainer"></div>
+        </section>
+
+        <section 
+            id="analyseDiabeteSection"
+            class="analyse-pathologie-section"
+            hidden
+        >
+            <div id="analyseDiabeteContainer" ></div>
+    
+        </section>
+
+        <section
+            id="analyseHTASection"
+            class="analyse-pathologie-section"
+            hidden
+        >
+            <div id="analyseHTAContainer"></div>
+        </section>
+
+        <section
+            id="analyseObesiteSection"
+            class="analyse-pathologie-section"
+            hidden
+        >
+            <div id="analyseObesiteContainer"></div>
+        </section>
+
+
+        <section
+            id="analyseDyslipidemieSection"
+            class="analyse-pathologie-section"
+            hidden
+        >
+            <div id="analyseDyslipidemieContainer"></div>
+        </section>
+
+
+        <section
+            id="analyseMRCSection"
+            class="analyse-pathologie-section"
+            hidden
+        >
+            <div id="analyseMRCContainer"></div>
+        </section>
+
+
+
+
+
+        <!-- ETAT NUTRITIONNEL -->
+
+
+
+
+</div>
+
+    <!-- =====================================================
+         ONGLET SUIVI
+    ====================================================== -->
+
+    <div
+        id="suivi"
+        class="tab-content" role="tabpanel" aria-labelledby="tab-suivi"
+    >
+
+        <div class="module-header">
+
+            <h2>
+                Suivi
+            </h2>
+
+            <p>
+                Suivi de l'évolution du patient.
+            </p>
+
+        </div>
+
+        <div class="module-placeholder">
+
+            <h3>
+                Suivi du patient
+            </h3>
+
+            <p>
+                Cette section permettra de suivre l'évolution
+                du poids, des objectifs et des paramètres nutritionnels.
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- =====================================================
+         ONGLET DOCUMENTS
+    ====================================================== -->
+
+    <div
+        id="documents"
+        class="tab-content" role="tabpanel" aria-labelledby="tab-documents"
+    >
+
+        <div class="module-header">
+
+            <h2>
+                Documents
+            </h2>
+
+            <p>
+                Création de documents personnalisés.
+            </p>
+
+        </div>
+
+        <div class="module-placeholder">
+
+            <h3>
+                Documents
+            </h3>
+
+            <p>
+                Cette section permettra notamment de préparer
+                des fiches personnalisées pour le patient.
+            </p>
+
+        </div>
+
+    </div>
+
+</main>
+</div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Scripts -->
+<script src="JS/compo.js"></script>
+<script src="JS/script.js"></script>
+
+<!-- DENUTRITION -->
+<script src="JS/denut.js"></script>
+
+<!-- Scripts -->
+<script src="JS/patient-experience.js"></script>
+
+<!-- Scripts -->
+<script src="JS/synthese.js"></script>
+
+<!-- BIOLOGIE ADAPTATIVE -->
+<script src="JS/biologie.js"></script>
+
+<!-- MICRONUTRITION TRANSVERSALE -->
+<script src="JS/micronutrition.js"></script>
+
+<!-- DIABETE-->
+<script src="JS/diabete.js"></script>
+
+<!-- HTA -->
+<script src="JS/hta.js"></script>
+
+<!-- DYSLIPIDEMIE -->
+<script src="JS/dyslipidemie.js"></script>
+<script src="JS/mrc.js"></script>
+
+<!-- OBESITE -->
+<script src="JS/obesite.js"></script>
+
+<!-- Scripts -->
+<div id="anm-pdf-sheet" class="anm-pdf-sheet"></div>
+
+<script src="JS/clinical-content.js"></script>
+<script src="JS/clinical-workflow.js"></script>
+<script src="JS/dossier-tools.js"></script>
+</body>
+
+</html>

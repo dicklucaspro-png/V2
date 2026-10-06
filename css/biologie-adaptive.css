@@ -1,0 +1,295 @@
+/* =========================================================
+   NUTRIFLOW — BIOLOGIE ADAPTATIVE V1
+   ========================================================= */
+
+.biology-context-summary {
+    margin: 0 0 18px;
+    padding: 18px;
+    background: rgba(246, 248, 247, 0.82);
+    border: 1px solid rgba(45, 68, 57, 0.12);
+    border-radius: 14px;
+}
+
+.biology-context-summary[hidden] {
+    display: none !important;
+}
+
+.biology-context-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 14px;
+}
+
+.biology-context-kicker {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #6e746f;
+}
+
+.biology-context-header h4 {
+    margin: 0;
+    font-size: 16px;
+    color: #1d1d1f;
+}
+
+.biology-context-header p {
+    margin: 5px 0 0;
+    font-size: 13px;
+    line-height: 1.45;
+    color: #686b69;
+}
+
+.biology-context-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px 12px;
+    font-size: 11px;
+    color: #6e6e73;
+}
+
+.biology-context-legend > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.biology-context-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+}
+
+.biology-context-dot.priority {
+    background: #ff3d50ef
+}
+
+.biology-context-dot.relevant {
+    background: #f38b03;
+}
+
+.biology-context-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 10px;
+}
+
+.biology-context-card {
+    min-width: 0;
+    padding: 12px 13px;
+    background: rgba(255, 255, 255, 0.86);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 11px;
+}
+
+.biology-context-card-head,
+.biology-context-card-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+}
+
+.biology-context-card-label {
+    min-width: 0;
+    overflow: hidden;
+    font-size: 12px;
+    font-weight: 650;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #424245;
+}
+
+.biology-context-level {
+    flex: 0 0 auto;
+    padding: 3px 7px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    border-radius: 999px;
+}
+
+.biology-context-level-prioritaire {
+    color: #030303;
+    background: #ff3d505e;
+}
+
+.biology-context-level-pertinent {
+    color: #000000;
+    background: #f38b0363;
+}
+
+.biology-context-card-value {
+    display: block;
+    margin: 9px 0 8px;
+    font-size: 18px;
+    line-height: 1.2;
+    color: #1d1d1f;
+}
+
+.biology-context-card-value.is-missing {
+    font-size: 13px;
+    font-weight: 600;
+    color: #8a8a8f;
+}
+
+.biology-context-card-foot {
+    align-items: flex-end;
+    font-size: 10px;
+    color: #7b7d7b;
+}
+
+.biology-context-card-foot > span:first-child {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.biology-context-note {
+    margin: 12px 0 0;
+    font-size: 11px;
+    line-height: 1.45;
+    color: #737773;
+}
+
+.biology-table tbody tr:not(.biology-section-row) {
+    transition: background 0.18s ease, box-shadow 0.18s ease;
+}
+
+.biology-table tbody tr.biology-row-relevant {
+    background: rgba(85, 104, 94, 0.035);
+}
+
+.biology-table tbody tr.biology-row-priority {
+    background: rgba(49, 92, 71, 0.075);
+    box-shadow: inset 3px 0 0 rgba(49, 92, 71, 0.68);
+}
+
+.biology-row-contexts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 5px;
+}
+
+.biology-row-context {
+    display: inline-flex;
+    padding: 2px 6px;
+    font-size: 9px;
+    font-weight: 650;
+    line-height: 1.35;
+    border-radius: 999px;
+}
+
+.biology-row-context-prioritaire {
+    color: #244735;
+    background: #e0eee6;
+}
+
+.biology-row-context-pertinent {
+    color: #646764;
+    background: #eceeec;
+}
+
+.biology-calculated-output,
+.biology-calculated-meta {
+    display: inline-flex;
+    align-items: center;
+    min-height: 40px;
+    width: 100%;
+    padding: 9px 10px;
+    font-size: 13px;
+    color: #4e5350;
+    background: rgba(0, 0, 0, 0.025);
+    border: 1px dashed rgba(0, 0, 0, 0.12);
+    border-radius: 8px;
+}
+
+.biology-calculated-output {
+    font-weight: 650;
+    color: #1d1d1f;
+}
+
+body.dark-mode .biology-context-summary {
+    background: #292d2b;
+    border-color: #414743;
+}
+
+body.dark-mode .biology-context-header h4,
+body.dark-mode .biology-context-card-value,
+body.dark-mode .biology-calculated-output {
+    color: var(--dark-text, #f5f5f7);
+}
+
+body.dark-mode .biology-context-header p,
+body.dark-mode .biology-context-kicker,
+body.dark-mode .biology-context-note,
+body.dark-mode .biology-context-legend,
+body.dark-mode .biology-context-card-foot {
+    color: var(--dark-text-secondary, #b8b8be);
+}
+
+body.dark-mode .biology-context-card {
+    background: #242825;
+    border-color: #3e4440;
+}
+
+body.dark-mode .biology-context-card-label {
+    color: #d8dbd9;
+}
+
+body.dark-mode .biology-context-card-value.is-missing {
+    color: #9fa39f;
+}
+
+body.dark-mode .biology-context-level-prioritaire,
+body.dark-mode .biology-row-context-prioritaire {
+    color: #d7eee1;
+    background: #334b3e;
+}
+
+body.dark-mode .biology-context-level-pertinent,
+body.dark-mode .biology-row-context-pertinent {
+    color: #d4d6d4;
+    background: #3a3d3b;
+}
+
+body.dark-mode .biology-table tbody tr.biology-row-relevant {
+    background: rgba(131, 151, 140, 0.05);
+}
+
+body.dark-mode .biology-table tbody tr.biology-row-priority {
+    background: rgba(112, 155, 130, 0.10);
+    box-shadow: inset 3px 0 0 rgba(130, 177, 150, 0.72);
+}
+
+body.dark-mode .biology-calculated-output,
+body.dark-mode .biology-calculated-meta {
+    color: var(--dark-text-secondary, #b8b8be);
+    background: #202321;
+    border-color: #444a46;
+}
+
+@media (max-width: 760px) {
+    .biology-context-header {
+        flex-direction: column;
+    }
+
+    .biology-context-legend {
+        justify-content: flex-start;
+    }
+
+    .biology-context-grid {
+        grid-template-columns: 1fr;
+    }
+}
