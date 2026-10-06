@@ -1,0 +1,6123 @@
+/* modules — styles organisés. */
+
+* {
+    box-sizing: border-box;
+}
+
+.app-root, .app-shell, .workspace, .workspace-main, main, .tab-content {
+    box-sizing: border-box;
+    min-width: 0;
+    max-width: 100%;
+}
+
+.header {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 10px 20px 20px;
+    text-align: left;
+}
+
+.tab-content {
+    display: none;
+    width: 100%;
+}
+
+details, summary, .section-content {
+    transition: none !important;
+    animation: none !important;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px 14px;
+    font-family: inherit;
+    font-size: 14px;
+    color: #1d1d1f;
+    background: rgba(255, 255, 255, 0.75);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 10px;
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.checkbox-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(390px, 100%), 1fr));
+    grid-column: 1 / -1;
+    gap: 9px 12px;
+    width: 100%;
+}
+
+.pathology-column {
+    display: grid;
+    align-content: start;
+    gap: 9px;
+    min-width: 0;
+}
+
+.pathology-item {
+    align-items: start;
+    min-width: 0;
+}
+
+.pathology-item > label {
+    position: relative;
+    display: flex;
+    box-sizing: border-box;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 40px;
+    margin: 0;
+    padding: 9px 12px;
+    color: #424245;
+    background: rgba(255, 255, 255, 0.42);
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    border-radius: 10px;
+    transition: background 0.2s ease, border-color 0.2s ease;
+    cursor: pointer;
+}
+
+.pathology-item > label:hover {
+    background: rgba(0, 0, 0, 0.035);
+    border-color: rgba(0, 0, 0, 0.11);
+}
+
+.checkbox-group input[type="checkbox"], .nutrition-checkbox-list input[type="checkbox"] {
+    position: relative;
+    flex: 0 0 17px;
+    width: 17px;
+    height: 17px;
+    margin: 0;
+    padding: 0;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1.5px solid rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    transition: background 0.18s ease, border-color 0.18s ease, transform 0.12s ease;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.checkbox-group input[type="checkbox"]:active, .nutrition-checkbox-list input[type="checkbox"]:active {
+    transform: scale(0.9);
+}
+
+.checkbox-group input[type="checkbox"]:checked, .nutrition-checkbox-list input[type="checkbox"]:checked {
+    background: #1d1d1f;
+    border-color: #1d1d1f;
+}
+
+.checkbox-group input[type="checkbox"]:checked::after, .nutrition-checkbox-list input[type="checkbox"]:checked::after {
+    position: absolute;
+    left: 5px;
+    top: 2px;
+    width: 4px;
+    height: 8px;
+    content: "";
+    border: solid #ffffff;
+    border-width: 0 1.5px 1.5px 0;
+    transform: rotate(45deg);
+}
+
+.checkbox-group label:has(input[type="checkbox"]:checked) {
+    background: rgba(0, 0, 0, 0.045);
+    border-color: rgba(0, 0, 0, 0.12);
+}
+
+.diabete-details {
+    display: grid;
+    grid-template-rows: 0fr;
+    max-height: 0;
+    margin-top: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: grid-template-rows 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease, max-height 0.4s cubic-bezier(0.22, 1, 0.36, 1), margin-top 0.4s ease;
+}
+
+.diabete-details-inner {
+    min-height: 0;
+    padding: 11px 12px;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    border-radius: 9px;
+}
+
+label[for="autresPathologies"] {
+    grid-column: 1 / -1;
+    margin-top: 10px;
+    margin-left: 5px;
+}
+
+.diabete-details.est-visible {
+    grid-template-rows: 1fr;
+    max-height: 500px;
+    margin-top: 8px;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#diabeteTraitementGroupe.est-visible {
+    max-height: none;
+    margin-top: 0;
+    overflow: visible;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#diabeteTraitementGroupe.est-visible h3 {
+    font-size: 14px;
+}
+
+.diabete-field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.diabete-field label {
+    margin: 0;
+    font-size: 11px;
+    font-weight: 500;
+    color: #6e6e73;
+}
+
+.diabete-field span {
+    margin: 0;
+    padding: 5px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.diabete-input-unit {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.diabete-input-unit input {
+    min-width: 0;
+}
+
+.diabete-input-unit > span {
+    flex: 0 0 auto;
+    font-size: 12px;
+    color: #6e6e73;
+}
+
+.diabete-unit-select {
+    flex: 0 0 auto;
+    width: auto !important;
+    min-width: 85px;
+}
+
+.results {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: none;
+    margin: 26px 0 0;
+    padding: 26px;
+    background: rgba(255, 255, 255, 0.65);
+    border: 1px solid rgba(0, 0, 0, 0.10);
+    border-radius: 16px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.04);
+}
+
+.results h2 {
+    margin: 0 0 20px;
+    font-size: 21px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    color: #1d1d1f;
+}
+
+.results p {
+    font-size: 14px;
+    color: #6e6e73;
+}
+
+.result-card {
+    padding: 18px;
+    background: rgba(255, 255, 255, 0.70);
+    border: 1px solid rgba(0, 0, 0, 0.09);
+    border-radius: 12px;
+}
+
+.result-card h3 {
+    margin: 0 0 7px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #6e6e73;
+}
+
+.result-card strong {
+    font-size: 22px;
+    font-weight: 600;
+    color: #1d1d1f;
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.results-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.results-header:hover {
+    opacity: 0.82;
+}
+
+.results-header h2 {
+    margin: 0;
+}
+
+.results-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 4px 6px;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1;
+    color: #6e6e73;
+    background: rgba(0, 0, 0, 0.045);
+    border: none;
+    border-radius: 10px;
+    transition: background 0.2s ease, color 0.2s ease;
+    cursor: pointer;
+}
+
+.results-toggle:hover {
+    color: #1d1d1f;
+    background: rgba(0, 0, 0, 0.045);
+}
+
+.results-toggle:active {
+    background: rgba(0, 0, 0, 0.08);
+    transform: scale(0.92);
+}
+
+.results-content {
+    display: grid;
+    grid-template-rows: 1fr;
+    opacity: 1;
+    transition: grid-template-rows 0.45s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.25s ease;
+}
+
+#resultat.results-collapsed {
+    position: relative;
+    box-sizing: border-box;
+    height: 70px;
+    min-height: 70px;
+}
+
+.results-content > * {
+    min-height: 0;
+}
+
+#resultat.results-collapsed .results-header {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0 25px;
+    transform: translateY(-50%);
+}
+
+#resultat.results-collapsed .results-header h2 {
+    margin: 0;
+}
+
+.results-collapsed .results-content {
+    grid-template-rows: 0fr;
+    max-height: 0;
+    margin-top: 0;
+    opacity: 0;
+}
+
+#resultat {
+    display: none;
+    cursor: pointer;
+}
+
+#resultat.analyse-visible {
+    display: block;
+}
+
+#resultat .results-header, #resultat .results-content {
+    width: 100%;
+}
+
+.pathology-guide {
+    width: 100%;
+    margin-top: 22px;
+    padding: 22px;
+    background: rgba(255, 255, 255, 0.60);
+    border: 1px solid rgba(0, 0, 0, 0.09);
+    border-radius: 14px;
+}
+
+.pathology-guide p {
+    color: #111111;
+}
+
+.pathology-guide h3 {
+    margin-top: 0;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.pathology-guide h4 {
+    margin-top: 20px;
+    margin-bottom: 7px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.pathology-guide li {
+    margin-bottom: 6px;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #030303;
+}
+
+.module-header {
+    width: 100%;
+    max-width: none;
+    margin: 0 0 18px;
+}
+
+.module-header h2 {
+    margin: 0 0 5px;
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+}
+
+.module-header p {
+    margin-top: 15px;
+    margin-bottom: 25px;
+    font-size: 14px;
+    color: #6e6e73;
+}
+
+.module-placeholder {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 28px;
+    background: rgba(255, 255, 255, 0.65);
+    border: 1px solid rgba(0, 0, 0, 0.09);
+    border-radius: 16px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.035);
+}
+
+.module-placeholder h3 {
+    margin-top: 0;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.module-placeholder p {
+    margin-bottom: 0;
+    font-size: 14px;
+    color: #6e6e73;
+}
+
+.patient-header {
+    width: 100%;
+    max-width: none;
+    margin: 0 0 18px;
+}
+
+.patient-header h2 {
+    margin: 0 0 5px;
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+}
+
+.patient-header p {
+    margin: 0;
+    font-size: 14px;
+    color: #6e6e73;
+}
+
+.patient-card {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: none;
+    background: rgba(255, 255, 255, 0.65);
+    border: 1px solid rgba(0, 0, 0, 0.09);
+    border-radius: 16px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.035);
+}
+
+.card-title {
+    margin-bottom: 18px;
+}
+
+.card-title h3 {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 600;
+    color: #1d1d1f;
+}
+
+.patient-grid {
+    display: grid;
+    gap: 14px;
+}
+
+.patient-grid-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.patient-two-columns {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: 14px;
+    width: 100%;
+    max-width: none;
+    margin: 0 0 14px;
+}
+
+.patient-two-columns > details {
+    align-self: start;
+    max-width: none;
+    height: fit-content;
+    margin: 0;
+}
+
+.patient-two-columns .section-content {
+    grid-template-columns: 1fr;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.field label {
+    margin-bottom: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #424245;
+}
+
+.full-width-field {
+    margin-top: 16px;
+}
+
+.patient-card input, .patient-card select, .patient-card textarea {
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.patient-card textarea {
+    min-height: 90px;
+}
+
+.patient-card .large-textarea {
+    min-height: 120px;
+}
+
+.nutrition-status-card {
+    box-sizing: border-box;
+    width: 100%;
+    margin: 0;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 14px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.025);
+}
+
+.nutrition-status-card .patient-card-header {
+    min-width: 0;
+}
+
+.nutrition-status-card > summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    list-style: none;
+    cursor: pointer;
+}
+
+.nutrition-status-card > summary::-webkit-details-marker, .nutrition-status-card > summary::marker {
+    display: none;
+}
+
+.nutrition-status-card > summary::after {
+    display: grid;
+    flex: 0 0 28px;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
+    line-height: 1;
+    content: "+";
+    color: #6e6e73;
+    background: rgba(0, 0, 0, 0.045);
+    border-radius: 8px;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.nutrition-status-card > summary:hover::after {
+    color: #1d1d1f;
+    background: rgba(0, 0, 0, 0.08);
+}
+
+.nutrition-status-card[open] > summary::after {
+    content: "−";
+}
+
+.nutrition-status-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.nutrition-status-card[open] > .nutrition-status-content {
+    animation: patientCardOpen 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.nutrition-status-card .patient-card-header h3 {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 600;
+    color: #1d1d1f;
+}
+
+.nutrition-status-card .patient-card-header p {
+    margin: 4px 0 0;
+    font-size: 13px;
+    color: #6e6e73;
+}
+
+.nutrition-status-section {
+    padding: 16px 24px 24px;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.nutrition-status-section h4 {
+    margin: 0 0 16px;
+    font-size: 0.95rem;
+}
+
+.patient-form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.nutrition-status-card .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+.nutrition-status-card .form-group > label {
+    margin: 0;
+}
+
+.nutrition-weight-results {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.nutrition-weight-results div {
+    padding: 14px;
+    background: var(--surface-soft, #f8fafc);
+    border-radius: 12px;
+}
+
+.nutrition-weight-results span {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 0.8rem;
+    opacity: 0.7;
+}
+
+.nutrition-weight-results strong {
+    font-size: 1rem;
+}
+
+.nutrition-checkbox-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.nutrition-checkbox-list label {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    min-height: 72px;
+    padding: 12px;
+    font-size: 13px;
+    line-height: 1.35;
+    color: #424245;
+    background: rgba(255, 255, 255, 0.55);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 10px;
+    transition: background 0.2s ease, border-color 0.2s ease;
+    cursor: pointer;
+}
+
+.nutrition-checkbox-list label[hidden] {
+    display: none !important;
+}
+
+.nutrition-checkbox-list label:hover {
+    background: rgba(0, 0, 0, 0.035);
+    border-color: rgba(0, 0, 0, 0.12);
+}
+
+.nutrition-checkbox-list label:has(input:checked) {
+    background: rgba(0, 0, 0, 0.045);
+    border-color: rgba(0, 0, 0, 0.16);
+}
+
+.nutrition-alert {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 16px;
+    border-radius: 12px;
+}
+
+.nutrition-alert.neutral {
+    background: #f8fafc;
+}
+
+.nutrition-status-content > .nutrition-alert {
+    margin: 0 24px 24px;
+}
+
+.nutrition-alert.ok {
+    background: #ecfdf5;
+}
+
+.nutrition-alert.warning {
+    background: #fff7ed;
+}
+
+.nutrition-alert.danger {
+    color: #b91c1c;
+    background: #fef2f2;
+}
+
+.anm-toolbar {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    width: 100%;
+    margin: 0 0 12px;
+    margin-top: -40px;
+}
+
+.anm-toolbar-spacer {
+    flex: 1 1 auto;
+}
+
+.anm-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.anm-secondary-button {
+    padding: 10px 14px;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    color: #1d1d1f;
+    background: rgba(255, 255, 255, 0.76);
+    border: 1px solid rgba(0, 0, 0, 0.09);
+    border-radius: 10px;
+    transition: background 0.18s ease, border-color 0.18s ease, transform 0.15s ease, box-shadow 0.18s ease;
+    cursor: pointer;
+}
+
+.anm-secondary-button:hover {
+    background: #fff;
+    border-color: rgba(0, 0, 0, 0.15);
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+}
+
+.anm-secondary-button:active {
+    transform: scale(0.985);
+}
+
+.anm-food-picker input {
+    position: relative;
+    z-index: 10001;
+}
+
+.anm-food-search {
+    box-sizing: border-box;
+    width: 100% !important;
+    min-height: 38px;
+    padding: 9px 12px !important;
+    font: inherit;
+    font-size: 13px;
+    color: #1d1d1f;
+    background: rgba(248, 248, 250, 0.88) !important;
+    border: 1px solid rgba(0, 0, 0, 0.10) !important;
+    border-radius: 10px !important;
+    outline: none;
+    transition: background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.anm-food-search::placeholder {
+    color: #86868b;
+}
+
+.anm-food-search:focus {
+    background: #fff !important;
+    border-color: rgba(0, 0, 0, 0.18) !important;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.045);
+}
+
+.anm-search-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 10px 11px;
+    font: inherit;
+    text-align: left;
+    background: transparent;
+    border: 0;
+    border-radius: 9px;
+    transition: background 0.14s ease;
+    cursor: pointer;
+}
+
+.anm-search-item:hover {
+    background: #f5f5f7;
+}
+
+.anm-search-item-main {
+    min-width: 0;
+}
+
+.anm-search-item strong {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.anm-search-item small {
+    display: block;
+    margin-top: 3px;
+    overflow: hidden;
+    font-size: 11px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #6e6e73;
+}
+
+.anm-search-item-code {
+    flex: 0 0 auto;
+    font-size: 10px;
+    font-variant-numeric: tabular-nums;
+    color: #86868b;
+}
+
+.anm-search-empty {
+    padding: 13px 11px;
+    font-size: 12px;
+    text-align: center;
+    color: #86868b;
+}
+
+.anm-help {
+    margin: 0 0 18px;
+    padding: 11px 13px;
+    font-size: 13px;
+    color: #6e6e73;
+    background: rgba(255, 255, 255, 0.45);
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    border-radius: 10px;
+}
+
+.anm-repas-container {
+    display: grid;
+    gap: 18px;
+}
+
+.anm-meal {
+    width: 100%;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 11px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.025);
+}
+
+.anm-meal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px;
+    background: rgba(248, 248, 250, 0.78);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.anm-meal-header h3 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.anm-meal-header span {
+    font-size: 12px;
+    color: #6e6e73;
+}
+
+.anm-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.anm-table {
+    width: 100%;
+    min-width: 760px;
+    border-collapse: collapse;
+}
+
+.anm-table th, .anm-table td {
+    padding: 9px 10px;
+    font-size: 12px;
+    text-align: left;
+    vertical-align: middle;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.055);
+}
+
+.anm-table th {
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+    color: #6e6e73;
+}
+
+.anm-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.anm-food-name {
+    width: 34%;
+    min-width: 320px;
+    font-weight: 600;
+}
+
+.anm-food-name strong {
+    font-weight: 600;
+}
+
+.anm-food-name span {
+    display: block;
+    margin-top: 2px;
+    font-size: 10px;
+    color: #6e6e73;
+}
+
+.anm-number-input {
+    width: 82px !important;
+    padding: 8px 9px !important;
+}
+
+.anm-result-cell {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.anm-delete-button {
+    width: 30px;
+    height: 30px;
+    font-size: 16px;
+    color: #6e6e73;
+    background: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.anm-delete-button:hover {
+    color: #1d1d1f;
+    background: rgba(0, 0, 0, 0.035);
+}
+
+.anm-empty {
+    padding: 22px 16px;
+    font-size: 13px;
+    text-align: center;
+    color: #86868b;
+}
+
+.anm-totals-card {
+    width: 100%;
+    margin-top: 16px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(0, 0, 0, 0.09);
+    border-radius: 14px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.025);
+}
+
+.anm-card-heading h3 {
+    margin: 0 0 4px;
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.anm-card-heading p {
+    margin: 0 0 16px;
+    font-size: 13px;
+    color: #6e6e73;
+}
+
+.anm-totals-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.anm-total-item {
+    padding: 12px;
+    background: rgba(248, 248, 250, 0.7);
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    border-radius: 10px;
+}
+
+.anm-total-item span {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 11px;
+    color: #6e6e73;
+}
+
+.anm-total-item strong {
+    font-size: 17px;
+    font-weight: 600;
+}
+
+.anm-details-action {
+    margin-top: 14px;
+}
+
+.anm-details-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    padding: 13px 15px;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    color: inherit;
+    background: rgba(248, 248, 250, 0.72);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 11px;
+    transition: background .18s ease, border-color .18s ease, transform .18s ease;
+    cursor: pointer;
+}
+
+.anm-details-button:hover {
+    background: rgba(242, 242, 247, 0.95);
+    border-color: rgba(0, 0, 0, 0.13);
+}
+
+.anm-details-button:active {
+    transform: translateY(1px);
+}
+
+.anm-details-button span {
+    font-size: 17px;
+    line-height: 1;
+}
+
+.anm-meal-detail-action {
+    margin-top: 10px;
+}
+
+.anm-meal-detail-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    padding: 11px 13px;
+    font: inherit;
+    font-size: 11px;
+    font-weight: 600;
+    color: inherit;
+    background: rgba(248,248,250,.62);
+    border: 1px solid rgba(0,0,0,.07);
+    border-radius: 9px;
+    cursor: pointer;
+}
+
+.anm-meal-detail-button:hover {
+    background: rgba(242,242,247,.92);
+}
+
+.anm-meal-detail-button span {
+    font-size: 15px;
+}
+
+body.anm-modal-open {
+    overflow: hidden;
+}
+
+.anm-nutrition-modal[hidden] {
+    display: none;
+}
+
+.anm-nutrition-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+    padding: clamp(8px, 1.5vw, 20px);
+    background: rgba(18, 18, 22, 0.48);
+    backdrop-filter: blur(5px);
+}
+
+.anm-nutrition-modal-panel {
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    max-height: none;
+    margin: auto;
+    overflow: auto;
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, 0.10);
+    border-radius: 18px;
+    box-shadow: 0 28px 80px rgba(0, 0, 0, 0.22);
+}
+
+.anm-nutrition-modal-header {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 22px 24px 18px;
+    background: rgba(255, 255, 255, 0.96);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+    backdrop-filter: blur(12px);
+}
+
+.anm-nutrition-modal-kicker {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    color: #6e6e73;
+}
+
+.anm-nutrition-modal-header h3 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.anm-nutrition-modal-header p {
+    margin: 6px 0 0;
+    font-size: 12px;
+    color: #6e6e73;
+}
+
+.anm-nutrition-modal-close {
+    display: grid;
+    flex: 0 0 auto;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    font-size: 23px;
+    line-height: 1;
+    color: inherit;
+    background: rgba(118, 118, 128, 0.12);
+    border: 0;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.anm-full-totals {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    padding: 20px 24px 24px;
+}
+
+.anm-nutrient-group {
+    min-width: 0;
+    padding: 16px;
+    background: rgba(248, 248, 250, 0.58);
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    border-radius: 14px;
+}
+
+.anm-nutrient-group:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+}
+
+.anm-nutrient-group-heading {
+    margin-bottom: 11px;
+}
+
+.anm-nutrient-group-heading h4 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 650;
+}
+
+.anm-nutrient-group-heading span {
+    display: block;
+    margin-top: 3px;
+    font-size: 10px;
+    color: #7b7b80;
+}
+
+.anm-nutrient-group-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+}
+
+.anm-full-total {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+    min-width: 0;
+    padding: 8px 9px;
+    font-size: 11px;
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid rgba(0, 0, 0, 0.055);
+}
+
+.anm-search-results {
+    position: absolute !important;
+    left: 0;
+    right: 0;
+    top: calc(100% + 6px);
+    z-index: 2147483647 !important;
+    display: block;
+    max-height: 320px;
+    margin-top: 8px;
+    overflow: hidden;
+    overflow-y: auto;
+    background: #fff !important;
+    border: 1px solid rgba(0,0,0,.10);
+    border-radius: 14px;
+    box-shadow: 0 18px 45px rgba(0,0,0,.20) !important;
+    pointer-events: auto !important;
+    isolation: isolate;
+}
+
+.anm-search-results[hidden] {
+    display: none !important;
+}
+
+.anm-search-result, .anm-search-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
+    padding: 11px 14px;
+    text-align: left;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid rgba(0,0,0,.06);
+    transition: background .15s ease;
+    cursor: pointer;
+}
+
+.anm-search-result:last-child, .anm-search-item:last-child {
+    border-bottom: 0;
+}
+
+.anm-search-result:hover, .anm-search-item:hover {
+    background: rgba(0,0,0,.035);
+}
+
+.anm-food-group {
+    font-size: .82rem;
+    opacity: .55;
+}
+
+.anm-no-result {
+    padding: 12px 14px;
+    opacity: .6;
+}
+
+.anm-search-results:not([hidden]) {
+    display: block !important;
+}
+
+.anm-meal-nutrition {
+    display: block !important;
+    width: calc(100% - 28px) !important;
+    max-width: calc(100% - 28px) !important;
+    margin: 12px 14px 12px !important;
+    padding: 0 !important;
+    padding-top: 9px !important;
+    overflow: hidden !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    box-sizing: border-box !important;
+}
+
+.anm-meal-nutrition summary {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 7px 9px !important;
+    font-size: 11px !important;
+    font-weight: 500 !important;
+    line-height: 1.2 !important;
+    list-style: none !important;
+    color: #6e6e73 !important;
+    background: rgba(248, 248, 250, 0.65) !important;
+    border: 1px solid rgba(0, 0, 0, 0.07) !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+    box-sizing: border-box !important;
+    cursor: pointer !important;
+}
+
+.anm-meal-nutrition summary::-webkit-details-marker {
+    display: none !important;
+}
+
+.anm-meal-nutrition summary::after {
+    display: inline-block !important;
+    float: none !important;
+    margin-left: 8px !important;
+    font-size: 17px !important;
+    line-height: 1 !important;
+    content: "›" !important;
+    color: #8e8e93 !important;
+    transform: rotate(90deg) !important;
+    transition: transform 0.15s ease !important;
+}
+
+.anm-meal-nutrition[open] summary::after {
+    transform: rotate(-90deg) !important;
+}
+
+.anm-meal-nutrition-content {
+    display: block !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 9px 0 2px !important;
+    overflow: hidden !important;
+}
+
+.anm-meal-nutrient {
+    display: block !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 6px !important;
+    overflow: hidden !important;
+    background: rgba(248, 248, 250, 0.72) !important;
+    border: 1px solid rgba(0, 0, 0, 0.06) !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+}
+
+.anm-meal-nutrient span {
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    margin: 0 0 2px !important;
+    overflow: hidden !important;
+    font-size: 9px !important;
+    line-height: 1.2 !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    color: #6e6e73 !important;
+    opacity: .58;
+}
+
+.anm-meal-nutrient strong {
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    margin-top: 3px;
+    margin: 0 !important;
+    overflow: hidden !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    line-height: 1.2 !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    color: #1d1d1f !important;
+}
+
+.anm-food-row, .anm-aliment-row, .anm-search-wrapper, .anm-search-container {
+    position: relative;
+    z-index: 20;
+    overflow: visible !important;
+}
+
+.anm-search-result {
+    position: relative !important;
+    z-index: 2147483647 !important;
+    background: #fff !important;
+}
+
+#anamnese {
+    position: relative !important;
+    z-index: 1000 !important;
+    overflow: visible !important;
+    isolation: isolate;
+}
+
+#anamnese .module-header, #anamnese .anm-meals, #anamnese .anm-repas-container, #anamnese .anm-meal, #anamnese details, #anamnese section, #anamnese .module-placeholder {
+    position: relative;
+    z-index: 1 !important;
+    overflow: visible !important;
+}
+
+#anamnese .anm-search-wrapper, #anamnese .anm-search-container, #anamnese .anm-food-row, #anamnese .anm-aliment-row {
+    position: relative !important;
+    z-index: 10000 !important;
+    overflow: visible !important;
+}
+
+.anm-nutrition-toggle, .anm-show-nutrition, button[id*="nutrition"], button[class*="nutrition"] {
+    display: inline-flex !important;
+    align-items: center;
+    width: auto !important;
+    min-height: 0 !important;
+    margin-top: 6px !important;
+    padding: 4px 8px !important;
+    font-size: 11px !important;
+    font-weight: 500 !important;
+    line-height: 1.2 !important;
+    border-radius: 7px !important;
+    box-shadow: none !important;
+}
+
+.anm-row-search-results {
+    position: absolute !important;
+    left: 0;
+    top: calc(100% + 6px);
+    z-index: 2147483647 !important;
+    display: block;
+    width: 100%;
+    max-height: 320px;
+    margin: 0 !important;
+    padding: 5px !important;
+    overflow-y: auto;
+    overflow-x: hidden;
+    color: #111111 !important;
+    background: #ffffff !important;
+    border: 1px solid rgba(0, 0, 0, 0.16) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.22), 0 5px 14px rgba(0, 0, 0, 0.10) !important;
+    box-sizing: border-box;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+}
+
+.anm-row-search-results[hidden] {
+    display: none !important;
+}
+
+.anm-row-search-results .anm-search-item {
+    position: relative !important;
+    display: flex !important;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: space-between;
+    width: 100% !important;
+    min-height: 42px;
+    margin: 0 !important;
+    padding: 8px 10px !important;
+    text-align: left;
+    color: #111111 !important;
+    background: #ffffff !important;
+    border: 0 !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.07) !important;
+    border-radius: 8px !important;
+    cursor: pointer;
+}
+
+.anm-row-search-results .anm-search-item:last-child {
+    border-bottom: 0 !important;
+}
+
+.anm-row-search-results .anm-search-item:hover {
+    background: #f2f2f7 !important;
+}
+
+.anm-row-search-results .anm-search-item-main {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding-right: 10px;
+}
+
+.anm-row-search-results .anm-search-item-main strong {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.25;
+    color: #111111 !important;
+}
+
+.anm-row-search-results .anm-search-item-main small {
+    display: block;
+    margin-top: 2px;
+    font-size: 10px;
+    line-height: 1.2;
+    color: #6e6e73 !important;
+}
+
+.anm-row-search-results .anm-search-item-code {
+    flex-shrink: 0;
+    flex: 0 0 auto;
+    margin-left: 8px;
+    font-size: 9px;
+    color: #8e8e93 !important;
+}
+
+.anm-row-search-results .anm-search-empty {
+    padding: 12px 10px !important;
+    font-size: 12px;
+    color: #6e6e73 !important;
+    background: #ffffff !important;
+}
+
+.anm-row-search-results .anm-search-item:hover, .anm-row-search-results .anm-search-item:focus {
+    background: #f2f2f7 !important;
+    outline: none;
+}
+
+.anm-meal-nutrition-grid {
+    display: grid !important;
+    box-sizing: border-box !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 5px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+}
+
+.anm-full-total span {
+    display: block;
+    margin-bottom: 2px;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 2.5;
+    color: #6e6e73;
+}
+
+.anm-full-total strong {
+    display: block;
+    flex: 0 0 auto;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.2;
+    text-align: right;
+    color: #1d1d1f;
+}
+
+.anm-meal-nutrient span, .anm-meal-nutrient strong {
+    display: block !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+}
+
+.anm-pdf-sheet {
+    display: none;
+}
+
+.patients-home {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto 20px;
+    padding: 4px 0 0;
+}
+
+.patients-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 18px;
+}
+
+.patients-header h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    color: #1d1d1f;
+}
+
+.patients-header p {
+    margin: 5px 0 0;
+    font-size: 13px;
+    color: #6e6e73;
+}
+
+.patients-list {
+    display: grid;
+    box-sizing: border-box;
+    gap: 10px;
+    width: 100%;
+    min-height: 120px;
+    padding: 14px;
+    background: rgba(255, 255, 255, 0.65);
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    border-radius: 14px;
+}
+
+.patients-empty {
+    margin: 0;
+    padding: 30px 10px;
+    font-size: 13px;
+    text-align: center;
+    color: #8e8e93;
+}
+
+.patient-list-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 8px 10px;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    border-radius: 11px;
+}
+
+.patient-list-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+
+.patient-list-info strong {
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+    color: #1d1d1f;
+}
+
+.patient-list-info span {
+    font-size: 12px;
+    white-space: nowrap;
+    color: #6e6e73;
+}
+
+.patient-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin: 0 0 14px;
+}
+
+html, body {
+    width: 100%;
+    max-width: 100%;
+    min-height: 100%;
+    overflow-x: hidden;
+}
+
+.brand-mark {
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    background: #1d1d1f;
+    border-radius: 10px;
+}
+
+.patient-avatar {
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #424245;
+    background: #ededf0;
+    border-radius: 9px;
+}
+
+.patient-list-copy {
+    flex: 1;
+    min-width: 0;
+}
+
+.patients-home-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+    padding: 28px;
+    background: rgba(255,255,255,.72);
+    border: 1px solid rgba(0,0,0,.08);
+    border-radius: 16px;
+    box-shadow: 0 5px 22px rgba(0,0,0,.035);
+}
+
+.patients-home-card h2 {
+    margin: 0;
+    font-size: 25px;
+    font-weight: 650;
+}
+
+.patients-home-card p {
+    margin: 5px 0 0;
+    font-size: 13px;
+    color: #6e6e73;
+}
+
+.mobile-sidebar-toggle {
+    display: none;
+}
+
+.autosave-status {
+    display: inline-flex;
+    align-items: center;
+    min-height: 32px;
+    padding: 6px 10px;
+    font-size: 0.78rem;
+    white-space: nowrap;
+    color: #4b5563;
+    background: #f3f4f6;
+    border-radius: 999px;
+}
+
+.autosave-status.saving {
+    color: #92400e;
+    background: #f7d6bc;
+}
+
+.autosave-status.error {
+    color: #991b1b;
+    background: #fdbdbd;
+}
+
+.autosave-status.saved {
+    color: #166534;
+    background: #b4ffca;
+}
+
+.patient-list-actions {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 6px;
+    margin-left: auto;
+}
+
+.nutrition-calculs-container {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.nutrition-calc-card-header h3, .nutrition-hydration-content h3 {
+    margin: 3px 0 0;
+    font-size: 18px;
+    color: #1d1d1f;
+}
+
+.nutrition-metric span, .nutrition-energy-main span {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 12px;
+    color: #6e6e73;
+}
+
+#nutritionMacros.nutrition-macros-grid {
+    display: grid !important;
+    box-sizing: border-box;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 14px;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    margin-top : -55px;
+}
+
+#nutritionMacros.nutrition-macros-grid > .nutrition-macro-item {
+    box-sizing: border-box;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    padding: 16px 16px 15px;
+    background: rgb(245, 245, 247);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 14px;
+    transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+}
+
+#nutritionMacros {
+    display: grid !important;
+    box-sizing: border-box;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    grid-auto-flow: row;
+    gap: 14px;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+}
+
+#nutritionMacros > .nutrition-macro-item {
+    display: grid;
+    box-sizing: border-box;
+    grid-column: auto !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+}
+
+.nutrition-macro-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.nutrition-macro-header span {
+    display: block;
+    margin: 0;
+    font-weight: 500;
+    font-size: 14px;
+    color: #0a0a0a;
+}
+
+.nutrition-macro-header strong {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 900;
+    color: #070707;
+}
+
+.macro-slider {
+    display: block;
+    width: 100%;
+    height: 4px;
+    margin: 10px 0 20px;
+    border-radius: 999px;
+    outline: none;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.macro-slider::-webkit-slider-thumb {
+    width: 16px;
+    height: 16px;
+    background: #000000;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.22), 0 0 0 0.5px rgba(0, 0, 0, 0.06);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+.macro-slider::-webkit-slider-thumb:active {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.28), 0 0 0 0.5px rgba(0, 0, 0, 0.08);
+    transform: scale(1.2);
+}
+
+.macro-slider::-moz-range-track {
+    height: 4px;
+    background: rgba(0, 0, 0, 0.08);
+    border-radius: 999px;
+}
+
+.macro-slider::-moz-range-progress {
+    height: 4px;
+    background: var(--macro-couleur, #1d1d1f);
+    border-radius: 999px;
+}
+
+.macro-slider::-moz-range-thumb {
+    width: 16px;
+    height: 1px;
+    background: #ffffff;
+    border-radius: 50%;
+    border: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.22), 0 0 0 0.5px rgba(0, 0, 0, 0.06);
+    transition: transform 0.15s ease;
+    cursor: pointer;
+}
+
+.macro-slider::-moz-range-thumb:active {
+    transform: scale(1.2);
+}
+
+.nutrition-macro-values strong {
+    margin: 0;
+    font-size: 15px;
+    color: #1d1d1f;
+}
+
+.nutrition-macro-values small {
+    margin: 0;
+    font-size: 11px;
+    color: #6e6e73;
+}
+
+.nutrition-protein-reference small {
+    font-size: 11px;
+    color: #6e6e73;
+}
+
+.nutrition-calculs-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.nutrition-calc-card {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 22px;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e8e8ed;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+.nutrition-calc-card-header {
+    margin-bottom: 18px;
+}
+
+.nutrition-calc-kicker {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #8a8a92;
+}
+
+.nutrition-calc-card-header h3 {
+    margin: 0;
+    font-size: 19px;
+    font-weight: 650;
+    line-height: 1.25;
+    color: #1d1d1f;
+}
+
+.nutrition-calc-card-header p {
+    margin: 7px 0 0;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #8a8a92;
+}
+
+.nutrition-metrics {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.nutrition-metric {
+    min-width: 0;
+    padding: 14px;
+    background: #f7f7f9;
+    border: 1px solid #ededf0;
+    border-radius: 12px;
+}
+
+.nutrition-metric span {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 11px;
+    color: #8a8a92;
+}
+
+.nutrition-metric strong {
+    display: block;
+    font-size: 18px;
+    font-weight: 650;
+    line-height: 1.2;
+    color: #1d1d1f;
+}
+
+.nutrition-metric small {
+    display: block;
+    margin-top: 5px;
+    font-size: 11px;
+    line-height: 1.4;
+    color: #8a8a92;
+}
+
+.nutrition-energy-main {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.nutrition-energy-main > div {
+    padding: 15px;
+    background: #f7f7f9;
+    border: 1px solid #ededf0;
+    border-radius: 12px;
+}
+
+.nutrition-energy-main span {
+    display: block;
+    margin-bottom: 7px;
+    font-size: 11px;
+    line-height: 1.4;
+    color: #8a8a92;
+}
+
+.nutrition-energy-main strong {
+    display: block;
+    font-size: 22px;
+    font-weight: 650;
+    line-height: 1.1;
+    color: #1d1d1f;
+}
+
+.nutrition-energy-main strong small {
+    font-size: 11px;
+    font-weight: 500;
+    color: #8a8a92;
+}
+
+.nutrition-target-label {
+    display: block;
+    margin: 16px 0 6px;
+    margin-bottom: 7px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #5f5f66;
+}
+
+.nutrition-target-input {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.nutrition-target-input input {
+    box-sizing: border-box;
+    width: 130px;
+    height: 38px;
+    padding: 0 11px;
+    font: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1d1d1f;
+    background: #ffffff;
+    border: 1px solid #dcdce2;
+    border-radius: 9px;
+    outline: none;
+}
+
+.nutrition-target-input input:focus {
+    border-color: #b5b5bd;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.04);
+}
+
+.nutrition-target-input span {
+    font-size: 12px;
+    color: #8a8a92;
+}
+
+.nutrition-calc-note {
+    margin: 12px 0 0;
+    font-size: 11px;
+    line-height: 1.5;
+    color: #8a8a92;
+}
+
+.nutrition-macros-card {
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.nutrition-protein-reference {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+    margin: 0 0 18px;
+}
+
+.nutrition-protein-reference-main {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.nutrition-protein-reference span {
+    font-weight: 500;
+    font-size: 13px;
+    color: #8a8a92;
+    margin-top: -20px;
+}
+
+.nutrition-protein-reference strong {
+    margin-right: 1px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #1d1d1f;
+}
+
+.nutrition-protein-reference > small {
+    font-size: 11px;
+    color: #8a8a92;
+}
+
+.nutrition-macros-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.nutrition-macro-item {
+    min-width: 0;
+    padding: 16px;
+    background: #f7f7f9;
+    border: 1px solid #ededf0;
+    border-radius: 12px;
+}
+
+.nutrition-macro-item > span {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #5f5f66;
+}
+
+.nutrition-macro-values {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 2px;
+}
+
+.nutrition-macro-values > strong {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 650;
+    line-height: 1;
+    letter-spacing: -0.4px;
+    color: #1d1d1f;
+}
+
+.nutrition-macro-gkg {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 4px;
+    font-size: 12px;
+    line-height: 1.2;
+    color: #8a8a92;
+}
+
+.nutrition-macro-gkg strong {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 600;
+    color: #5f5f66;
+}
+
+.nutrition-reference-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #7b7b8134;
+    border-radius: 12px;
+}
+
+.nutrition-reference-table th, .nutrition-reference-table td {
+    padding: 11px 13px;
+    text-align: left;
+    vertical-align: middle;
+    border-bottom: 1px solid #ededf0;
+}
+
+.nutrition-reference-table thead th {
+    font-size: 13px;
+    font-weight: 650;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: #030303;
+    background: rgb(247, 247, 249);
+}
+
+.nutrition-reference-table tbody td {
+    color: #3f3f44;
+}
+
+.nutrition-reference-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.nutrition-reference-table tbody td:nth-child(2), .nutrition-reference-table tbody td:nth-child(3), .nutrition-reference-table tbody td:nth-child(4) {
+    white-space: nowrap;
+}
+
+.nutrition-reference-table tbody td:nth-child(4) {
+    font-weight: 600;
+    color: #1d1d1f;
+}
+
+.nutrition-reference-table .nutrition-reference-section th {
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    padding-top: 12px;
+    text-transform: uppercase;
+    color: #050505c9;
+    background: #bbbbc21a;
+    border-top: 1px solid #e4e4e8;
+    border-bottom: 1px solid #e4e4e8;
+}
+
+.nutrition-reference-table tbody tr:not(.nutrition-reference-section) {
+    transition: background-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.nutrition-reference-table tbody tr:not(.nutrition-reference-section):hover {
+    background: #f5f5f7;
+    box-shadow: inset 3px 0 0 #b8b8be;
+}
+
+.nutrition-reference-table tbody tr:not(.nutrition-reference-section):hover td {
+    color: #1d1d1f;
+}
+
+.nutrition-reference-table tbody tr:not(.nutrition-reference-section):hover td:nth-child(4) {
+    font-weight: 700;
+}
+
+.nutrition-reference-table {
+    width: 100%;
+    font-size: 14px;
+    background: #ffffff;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+.nutrition-reference-table th:nth-child(1), .nutrition-reference-table td:nth-child(1) {
+    width: 33%;
+}
+
+.nutrition-reference-table th:nth-child(2), .nutrition-reference-table td:nth-child(2) {
+    width: 33%;
+    text-align: center;
+}
+
+.nutrition-reference-table th:nth-child(3), .nutrition-reference-table td:nth-child(3) {
+    width: 33%;
+    text-align: center;
+}
+
+.nutrition-reference-table th:nth-child(4), .nutrition-reference-table td:nth-child(4) {
+    width: 33%;
+    text-align: center;
+}
+
+.nutrition-hydration-card {
+    margin-bottom: 18px;
+}
+
+.nutrition-hydration-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.nutrition-hydration-content h3 {
+    margin: 0;
+    font-size: 19px;
+    font-weight: 650;
+    color: #1d1d1f;
+}
+
+.nutrition-hydration-content > strong {
+    flex-shrink: 0;
+    font-size: 26px;
+    font-weight: 650;
+    line-height: 1;
+    letter-spacing: -0.5px;
+    color: #1d1d1f;
+}
+
+.patient-more-button {
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1;
+    color: #6e6e73;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    transition: background 0.25s ease, border-color 0.25s ease, color 0.25s ease, transform 0.25s ease;
+    cursor: pointer;
+}
+
+.patient-more-button:hover {
+    color: #1d1d1f;
+    background: #f5f5f7;
+    border-color: #d1d1d6;
+    transform: scale(1.05);
+}
+
+.patient-delete-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    font-size: 15px;
+    line-height: 1;
+    color: #ff0d00;
+    background: rgba(255, 59, 48, 0.06);
+    border: 1px solid rgba(255, 59, 48, 0.25);
+    border-radius: 8px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(4px);
+    transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+    cursor: pointer;
+    pointer-events: none;
+}
+
+.patient-list-item.actions-ouvertes .patient-delete-button {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+    pointer-events: auto;
+}
+
+.patient-delete-button:hover {
+    background: rgba(255, 59, 48, 0.12);
+    border-color: rgba(255, 59, 48, 0.40);
+}
+
+#patient {
+    flex-direction: column;
+    gap: 16px;
+}
+
+#patient.tab-content.active {
+    display: flex;
+}
+
+#patient > details, #patient .patient-two-columns {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+}
+
+#patient-habitudes {
+    order: 1;
+}
+
+.patient-independent-columns {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: 16px;
+    width: 100%;
+}
+
+.patient-independent-column {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+    min-width: 0;
+}
+
+.patient-independent-column > details {
+    width: 100%;
+    margin: 0;
+}
+
+#patient .patient-two-columns > details {
+    width: 100%;
+}
+
+#patient details {
+    overflow: hidden;
+}
+
+#patient details > summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    font-size: 17px;
+    font-weight: 600;
+    list-style: none;
+    border-radius: 10px;
+    transition: background 0.2s ease, color 0.2s ease;
+    cursor: pointer;
+    user-select: none;
+}
+
+#patient .section-content {
+    column-gap: 24px;
+    row-gap: 14px;
+    padding: 16px 24px 24px;
+}
+
+#patient .section-content > label {
+    margin: 0;
+}
+
+#patient details > summary::-webkit-details-marker {
+    display: none;
+}
+
+#patient details > summary::after {
+    display: flex;
+    flex: 0 0 28px;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1;
+    content: "+";
+    color: #6e6e73;
+    background: rgba(0, 0, 0, 0.045);
+    border-radius: 8px;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+#patient details > summary:hover::after {
+    color: #1d1d1f;
+    background: rgba(0, 0, 0, 0.08);
+}
+
+@keyframes patientCardOpen {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#patient details[open] > .section-content {
+    animation: patientCardOpen 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+#patient-traitements .section-content {
+    display: grid;
+    box-sizing: border-box;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 20px;
+    width: 100%;
+}
+
+#patient-traitements .treatmentInfo-group, #patient-traitements .diabete-treatment-details, #patient-traitements .treatment-group {
+    box-sizing: border-box;
+    grid-column: 1 / -1;
+    width: 100%;
+}
+
+#patient-traitements h3, #patient-traitements h4, #patient-traitements #diabeteTraitementDT2Details {
+    grid-column: 1 / -1;
+    margin: 0;
+}
+
+#patient-traitements .treatment-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-width: 0;
+}
+
+#patient-traitements .treatmentInfo-group > .treatment-pathology-title {
+    grid-column: 1 / -1;
+    margin: 0;
+    padding-bottom: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+    border-bottom: 1px solid var(--analysis-border, #e5e5ea);
+}
+
+#patient-traitements .treatment-field label {
+    margin: 0;
+    margin-top: 15px;
+    margin-bottom: 0px;
+}
+
+#patient details[open] > summary::after {
+    content: "−";
+}
+
+#patient details > summary:hover {
+    background: rgba(0, 0, 0, 0.045);
+}
+
+#patient-traitements .treatmentInfo-group, #patient-traitements .diabete-treatment-details, #patient-traitements .treatment-group, #patient-traitements #diabeteTraitementDT2Details > div:not([hidden]) {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 20px;
+    width: 100%;
+}
+
+#patient-traitements .treatment-field, #patient-traitements input, #patient-traitements select, #patient-traitements textarea {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+}
+
+#diabeteTraitementGroupe {
+    box-sizing: border-box;
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+}
+
+#diabeteTraitementGroupe, #diabeteTraitementGroupe #diabeteTraitementDT2Details > div:not([hidden]) {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 20px;
+}
+
+#diabeteTraitementGroupe h3 {
+    grid-column: 1 / -1;
+}
+
+#diabeteTraitementGroupe > .treatment-field {
+    grid-column: 1 / -1;
+}
+
+.recommendations-nutritionnelles-container {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.recommendations-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4,minmax(0,1fr));
+    gap: 14px;
+}
+
+.recommendations-summary-grid >div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 18px;
+    border: 1px solid var(--border-color,#ddd);
+    border-radius: 14px;
+}
+
+.recommendations-summary-grid strong {
+    font-size: 1.7rem;
+}
+
+.recommendations-summary-grid span {
+    color: var(--text-secondary,#666);
+}
+
+.recommendations-table th, .recommendations-table td {
+    vertical-align: middle;
+}
+
+
+.analysis-partial-note {
+    display: block;
+    margin-top: 3px;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 1.3;
+    color: #7a7a80;
+}
+
+.recommendation-status {
+    display: inline-flex;
+    align-items: center;
+    padding: 5px 10px;
+    font-weight: 700;
+    font-size: .82rem;
+    border-radius: 999px;
+}
+
+.recommendation-status.insuffisant, .recommendation-priority.insuffisant {
+    background: rgba(220,53,69,.10);
+}
+
+.recommendation-status.eleve, .recommendation-priority.eleve {
+    background: rgba(255,193,7,.14);
+}
+
+.recommendation-status.adequat, .recommendation-priority.adequat {
+    background: rgba(40,167,69,.10);
+}
+
+.recommendations-priority-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.recommendation-priority {
+    padding: 13px 15px;
+    border-radius: 12px;
+}
+
+.nutrition-recommendation-card {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 24px;
+    padding: 22px;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 16px;
+}
+
+#mnaSection {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 20px;
+}
+
+#mnaSection .mna-header, #mnaSection .mna-result {
+    grid-column: 1 / -1;
+}
+
+.mna-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.mna-header h4 {
+    margin: 0;
+}
+
+.mna-header p {
+    margin: 4px 0 0;
+    font-size: 0.85rem;
+    opacity: 0.65;
+}
+
+.nutrition-evaluation-block {
+    display: grid;
+    gap: 14px;
+    padding: 20px 24px 24px;
+    border-top: 1px solid var(--border-color, #e5e7eb);
+}
+
+.nutrition-evaluation-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.nutrition-evaluation-header h4 {
+    margin: 3px 0 0;
+}
+
+.nutrition-evaluation-type {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    opacity: 0.6;
+}
+
+.nutrition-evaluation-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 10px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    white-space: nowrap;
+    border-radius: 999px;
+}
+
+.nutrition-evaluation-badge.neutral {
+    color: #4b5563;
+    background: #f3f4f6;
+}
+
+.nutrition-evaluation-badge.ok {
+    color: #047857;
+    background: #ecfdf5;
+}
+
+.nutrition-evaluation-badge.warning {
+    color: #c2410c;
+    background: #fff7ed;
+}
+
+.nutrition-evaluation-badge.danger {
+    color: #b91c1c;
+    background: #fef2f2;
+}
+
+.nutrition-evaluation-details {
+    display: grid;
+    gap: 14px;
+    padding: 16px;
+    background: var(--surface-soft, #f8fafc);
+    border-radius: 12px;
+}
+
+.nutrition-evaluation-details[hidden] {
+    display: none !important;
+}
+
+.nutrition-evaluation-details h5 {
+    margin: 0 0 6px;
+    font-size: 0.85rem;
+}
+
+.nutrition-evaluation-details ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.nutrition-evaluation-details li + li {
+    margin-top: 4px;
+}
+
+.mna-score-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+    padding: 10px 14px;
+    background: #f8fafc;
+    border-radius: 12px;
+}
+
+.mna-score-box span {
+    font-size: 0.75rem;
+    opacity: 0.65;
+}
+
+.mna-score-box strong {
+    font-size: 1.05rem;
+}
+
+.mna-question {
+    display: grid;
+    gap: 7px;
+    margin: 0;
+}
+
+.mna-question label {
+    margin: 0;
+    font-weight: 600;
+}
+
+.mna-auto-value {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 14px;
+    background: #f8fafc;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 10px;
+}
+
+.mna-auto-value span {
+    font-size: 0.85rem;
+    opacity: 0.7;
+}
+
+.mna-result {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 0;
+    padding: 15px 16px;
+    border-radius: 12px;
+}
+
+.mna-result.neutral {
+    background: #f8fafc;
+}
+
+.mna-result.ok {
+    color: #047857;
+    background: #ecfdf5;
+}
+
+.mna-result.warning {
+    color: #c2410c;
+    background: #fff7ed;
+}
+
+.mna-result.danger {
+    color: #b91c1c;
+    background: #fef2f2;
+}
+
+#mnaSection[hidden], #mnaMolletGroupe[hidden] {
+    display: none !important;
+}
+
+.nutrition-recommendation-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.nutrition-recommendation-header h3 {
+    margin: 3px 0 0;
+}
+
+.nutrition-recommendation-kicker {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    opacity: 0.6;
+}
+
+.nutrition-recommendation-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 10px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    white-space: nowrap;
+    border-radius: 999px;
+}
+
+.nutrition-recommendation-badge.neutral {
+    color: #4b5563;
+    background: #f3f4f6;
+}
+
+.nutrition-recommendation-badge.ok {
+    color: #047857;
+    background: #ecfdf5;
+}
+
+.nutrition-recommendation-badge.warning {
+    color: #c2410c;
+    background: #fff7ed;
+}
+
+.nutrition-recommendation-badge.danger {
+    color: #b91c1c;
+    background: #fef2f2;
+}
+
+.nutrition-recommendation-content {
+    display: grid;
+    gap: 16px;
+}
+
+.nutrition-recommendation-section {
+    padding-top: 14px;
+    border-top: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.nutrition-recommendation-section h4 {
+    margin: 0 0 8px;
+    font-size: 0.9rem;
+}
+
+.nutrition-recommendation-section ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.nutrition-priority {
+    padding: 14px 16px;
+    font-weight: 600;
+    border-radius: 12px;
+}
+
+.nutrition-priority.low {
+    color: #047857;
+    background: #ecfdf5;
+}
+
+.nutrition-priority.medium {
+    color: #c2410c;
+    background: #fff7ed;
+}
+
+.nutrition-priority.high {
+    color: #b91c1c;
+    background: #fef2f2;
+}
+
+.allergy-group {
+    grid-column: 1 / -1;
+}
+
+.allergy-group label {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin: 0;
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.55);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.allergy-group label input[type="checkbox"] {
+    flex: 0 0 17px;
+    width: 17px;
+    height: 17px;
+    margin: 0;
+}
+
+.allergy-group label:has(input:checked) {
+    background: rgba(0, 0, 0, 0.045);
+    border-color: rgba(0, 0, 0, 0.12);
+}
+
+#patient .patient-section-preview, #anamnese .anm-food-name > span {
+    display: none;
+}
+
+html {
+    overflow-x: clip;
+    overflow-y: visible;
+    scroll-behavior: smooth;
+}
+
+body:not(.anm-modal-open) {
+    overflow-x: clip;
+    overflow-y: visible;
+}
+
+#plan {
+    --analysis-muted: #686871;
+    --analysis-surface: #f7f7f9;
+    --analysis-border: #e7e7ec;
+}
+
+#plan > .nutrition-calc-card:has(#recommandationDenutritionContenu), #plan > .analyse-pathologie-section {
+    margin-top: 24px;
+}
+
+#plan > :is(#analyseDiabeteSection, #analyseHTASection) {
+    margin-top: 18px;
+}
+
+#plan .analyse-rca-card {
+    margin: 0;
+}
+
+#plan .nutrition-calc-card:has(#recommandationDenutritionContenu), #plan .analyse-rca-card, #plan .analyse-diabetes-card {
+    padding-bottom: 24px;
+    border-radius: 16px;
+}
+
+#plan .nutrition-calc-card-header {
+    margin-bottom: 20px;
+}
+
+#recommandationDenutritionContenu {
+    display: grid;
+    gap: 18px;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+#recommandationDenutritionContenu p {
+    margin: 0;
+}
+
+#recommandationDenutritionContenu .nutrition-recommendation-section {
+    padding: 16px;
+    background: var(--analysis-surface);
+    border: 1px solid var(--analysis-border);
+    border-radius: 12px;
+}
+
+#recommandationDenutritionContenu h4 {
+    margin: 0 0 10px;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+#recommandationDenutritionContenu li + li {
+    margin-top: 6px;
+}
+
+#plan .nutrition-recommendation-header {
+    align-items: center;
+    margin-bottom: 18px;
+}
+
+#plan .nutrition-recommendation-header h4 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.analyse-rca-table-wrap {
+    overflow-x: auto;
+    background: var(--analysis-surface);
+    border: 1px solid var(--analysis-border);
+    border-radius: 12px;
+}
+
+.analyse-rca-table {
+    width: 100%;
+    font-size: 14px;
+    line-height: 1.5;
+    border-collapse: collapse;
+}
+
+.analyse-rca-table th, .analyse-rca-table td {
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--analysis-border);
+}
+
+.analyse-rca-table th {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--analysis-muted);
+}
+
+.analyse-rca-table td:not(:first-child) {
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+}
+
+.analyse-rca-table .analyse-rca-final td {
+    font-weight: 650;
+    border-bottom: 0;
+}
+
+.analyse-rca-table .analyse-rca-final td:not(:first-child) {
+    font-size: 17px;
+}
+
+.analyse-rca-summary {
+    display: grid;
+    gap: 6px;
+    margin-top: 16px;
+    padding: 16px;
+    background: var(--analysis-surface);
+    border-radius: 12px;
+}
+
+.analyse-rca-summary span {
+    font-size: 12px;
+    color: var(--analysis-muted);
+}
+
+.analyse-rca-summary strong {
+    font-size: 16px;
+    font-weight: 600;
+}
+
+#calculs .nutrition-denutrition-ratio {
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border: 0;
+}
+
+.nutrition-denutrition-ratio-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.nutrition-denutrition-ratio-header h4 {
+    margin: 4px 0 0;
+    font-size: 18px;
+    font-weight: 650;
+    line-height: 1.4;
+}
+
+.nutrition-denutrition-ratio-result {
+    padding: 5px 10px;
+    font-size: 15px;
+    font-weight: 650;
+    white-space: nowrap;
+    background: #f0f5f2;
+    border-radius: 12px;
+}
+
+.nutrition-denutrition-ratio-grid {
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 0 24px;
+}
+
+.nutrition-denutrition-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 13px 0;
+    font-size: 13px;
+    line-height: 1.5;
+    border-bottom: 1px solid #e7e7ec;
+}
+
+.nutrition-denutrition-row span {
+    color: #686871;
+}
+
+.nutrition-denutrition-row strong {
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+}
+
+.nutrition-denutrition-formulas {
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 8px 24px;
+    margin-top: 18px;
+    font-size: 12px;
+    line-height: 1.6;
+    color: #686871;
+}
+
+#calculs .nutrition-energy-main > div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+#calculs .nutrition-energy-main > div > span {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+#calculs .nutrition-energy-main > div > strong {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px;
+    line-height: 1.35;
+}
+
+#calculs .nutrition-energy-main > div > small {
+    display: block;
+    padding-top: 10px;
+    font-size: 12px;
+    line-height: 1.6;
+    color: #686871;
+    border-top: 1px solid #e7e7ec;
+}
+
+#anamnese .anm-meal-detail-action {
+    margin: 0;
+    padding: 8px 12px;
+}
+
+#anamnese .anm-table input, #anamnese .anm-table select {
+    text-align: center;
+    text-align-last: center;
+}
+
+#anamnese .anm-table input::placeholder {
+    text-align: center;
+}
+
+#plan .analyse-diabetes-card {
+    display: grid;
+    gap: 24px;
+    min-width: 0;
+}
+
+#plan .analyse-diabetes-card > .diabetes-sources-columns,
+#plan .analyse-diabetes-card > .diabetes-analysis-block ~ .diabetes-analysis-block {
+    padding-top: 24px;
+    border-top: 1px solid var(--analysis-border);
+}
+
+#plan .diabetes-analysis-block {
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+}
+
+#plan .diabetes-analysis-block-header {
+    margin-bottom: 14px;
+}
+
+#plan .diabetes-analysis-block-header h4 {
+    margin: 0 0 6px;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+#plan .diabetes-analysis-block-header span {
+    display: block;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--analysis-muted);
+}
+
+#plan .diabetes-carbs-table-wrap, #plan .diabetes-nutrient-table, #plan .diabetes-distribution {
+    overflow: hidden;
+    border: 1px solid var(--analysis-border);
+    border-radius: 12px;
+}
+
+#plan .diabetes-carbs-table-wrap {
+    overflow-x: auto;
+}
+
+#plan .diabetes-carbs-table {
+    width: 100%;
+    font-size: 14px;
+    border-collapse: collapse;
+}
+
+#plan .diabetes-carbs-table th, #plan .diabetes-carbs-table td {
+    padding: 11px 13px;
+    text-align: left;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--analysis-border);
+}
+
+#plan .diabetes-carbs-table thead th, #plan .diabetes-nutrient-head {
+    font-size: 12px;
+    font-weight: 650;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    background: var(--analysis-surface);
+}
+
+#plan .diabetes-carbs-table tr > :not(:first-child) {
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+    white-space: nowrap;
+}
+
+#plan .diabetes-carbs-table tbody th {
+    font-weight: 500;
+}
+
+#plan .diabetes-carbs-table tfoot {
+    font-weight: 650;
+    background: var(--analysis-surface);
+}
+
+#plan .diabetes-carbs-table tfoot th, #plan .diabetes-carbs-table tfoot td {
+    border-bottom: 0;
+}
+
+#plan .diabetes-sources-columns {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: 28px;
+}
+
+#plan .diabetes-nutrient-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(70px, .65fr) minmax(0, 1fr);
+    align-items: center;
+    gap: 12px;
+    padding: 13px 15px;
+    overflow-wrap: anywhere;
+    font-size: 13px;
+    line-height: 1.5;
+    border-bottom: 1px solid var(--analysis-border);
+}
+
+#plan .diabetes-nutrient-row > :nth-child(2) {
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+}
+
+#plan .diabetes-nutrient-row > :last-child {
+    text-align: right;
+}
+
+#plan .diabetes-nutrient-head {
+    font-size: 11px;
+}
+
+#plan .diabetes-nutrient-row:last-child, #plan .diabetes-distribution-row:last-child {
+    border-bottom: 0;
+}
+
+#plan .diabetes-distribution-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 13px 15px;
+    font-size: 13px;
+    line-height: 1.5;
+    border-bottom: 1px solid var(--analysis-border);
+}
+
+#plan .diabetes-distribution-name {
+    display: grid;
+    gap: 4px;
+}
+
+#plan .diabetes-distribution-name strong {
+    font-weight: 500;
+}
+
+#plan .diabetes-distribution-name span {
+    color: var(--analysis-muted);
+}
+
+#plan .diabetes-distribution-value {
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+#plan .diabetes-distribution-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
+    gap: 16px;
+    margin-top: 18px;
+}
+
+#plan .diabetes-analysis-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 16px;
+    font-size: 13px;
+    line-height: 1.6;
+    background: var(--analysis-surface);
+    border-radius: 10px;
+}
+
+#plan .diabetes-analysis-info > span, #plan .diabetes-analysis-info small, #plan .diabetes-analysis-empty {
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--analysis-muted);
+}
+
+#plan .diabetes-analysis-info strong {
+    font-weight: 600;
+    font-size: 17px;
+}
+
+#plan .analyse-diabetes-vigilance-card {
+    margin-top: 24px;
+    padding: 24px;
+    border-radius: 16px;
+}
+
+#plan .analyse-rca-table-wrap {
+    background: transparent;
+}
+
+#plan .analyse-rca-table thead, #plan .analyse-rca-table .analyse-rca-final {
+    background: var(--analysis-surface);
+}
+
+#plan .analyse-rca-table th, #plan .analyse-rca-table td {
+    border-color: var(--analysis-border);
+}
+
+#plan :is(.analyse-rca-table, .diabetes-carbs-table) tbody tr, #plan .diabetes-nutrient-row:not(.diabetes-nutrient-head), #plan .diabetes-distribution-row {
+    transition: background-color .18s ease, box-shadow .18s ease;
+}
+
+#plan :is(.analyse-rca-table, .diabetes-carbs-table) tbody tr:hover, #plan .diabetes-nutrient-row:not(.diabetes-nutrient-head):hover, #plan .diabetes-distribution-row:hover {
+    color: #1d1d1f;
+    background: #f5f5f7;
+    box-shadow: inset 3px 0 0 #b8b8be;
+}
+
+#plan .nutrition-calc-card:has(> .recommendations-priority-list) {
+    container: attention / inline-size;
+}
+
+#plan .recommendations-priority-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+#plan .recommendation-priority {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+#plan .recommendation-priority:only-child {
+    grid-column: 1 / -1;
+}
+
+.nav-scroll-anchor {
+    height: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    pointer-events: none;
+}
+
+.workspace .main-nav, .workspace .main-nav.nav-sticky-expanded {
+    height: 60px;
+}
+
+.prise-en-charge-container {
+    width: 100%;
+    min-width: 0;
+}
+
+.pec-diabetes-card {
+    display: grid;
+    gap: 22px;
+}
+
+.pec-diabetes-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.pec-diabetes-header h3 {
+    margin: 4px 0 4px;
+    font-size: 22px;
+}
+
+.pec-diabetes-header p {
+    margin: 0;
+    color: #6e6e73;
+}
+
+.pec-diabetes-kicker {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    color: #6e6e73;
+}
+
+.pec-diabetes-validation {
+    flex: 0 0 auto;
+    padding: 7px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    background: rgba(0,0,0,.025);
+    border: 1px solid rgba(0,0,0,.09);
+    border-radius: 999px;
+}
+
+.pec-diabetes-notice {
+    padding: 13px 15px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #555;
+    background: rgba(0,0,0,.025);
+    border-radius: 11px;
+}
+
+.pec-diabetes-section {
+    display: grid;
+    gap: 12px;
+    min-width: 0;
+}
+
+.pec-diabetes-section-title h4 {
+    margin: 0 0 3px;
+    font-size: 16px;
+}
+
+.pec-diabetes-section-title span {
+    font-size: 12px;
+    color: #6e6e73;
+}
+
+.pec-diabetes-grid {
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 12px;
+}
+
+.pec-diabetes-item {
+    min-width: 0;
+    padding: 16px;
+    background: rgba(255,255,255,.58);
+    border: 1px solid rgba(0,0,0,.08);
+    border-radius: 12px;
+}
+
+.pec-diabetes-item-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.pec-diabetes-item-head h4 {
+    margin: 0 0 2px;
+    font-size: 14px;
+}
+
+.pec-diabetes-item-head span {
+    font-size: 11px;
+    color: #6e6e73;
+}
+
+.pec-diabetes-rank {
+    display: grid;
+    flex: 0 0 28px;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    font-weight: 700;
+    color: #fff !important;
+    background: #1d1d1f;
+    border-radius: 50%;
+}
+
+.pec-diabetes-item p {
+    margin: 12px 0;
+    font-size: 13px;
+    line-height: 1.55;
+    color: #424245;
+}
+
+.pec-diabetes-objective {
+    display: grid;
+    gap: 4px;
+    padding-top: 11px;
+    border-top: 1px solid rgba(0,0,0,.06);
+}
+
+.pec-diabetes-objective strong {
+    font-size: 11px;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+.pec-diabetes-objective span {
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.pec-diabetes-source {
+    margin-top: 10px;
+    font-size: 10px;
+    color: #86868b;
+}
+
+.pec-diabetes-two-columns {
+    display: grid;
+    grid-template-columns: repeat(2,minmax(0,1fr));
+    gap: 12px;
+}
+
+.pec-diabetes-panel {
+    padding: 17px;
+    border: 1px solid rgba(0,0,0,.08);
+    border-radius: 12px;
+}
+
+.pec-diabetes-panel ul {
+    margin: 2px 0 0;
+    padding-left: 19px;
+}
+
+.pec-diabetes-panel li {
+    margin-bottom: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.pec-diabetes-followup {
+    padding-top: 18px;
+    border-top: 1px solid rgba(0,0,0,.07);
+}
+
+.pec-diabetes-followup-grid {
+    display: grid;
+    grid-template-columns: repeat(3,minmax(0,1fr));
+    gap: 8px;
+}
+
+.pec-diabetes-followup-grid span {
+    padding: 10px 12px;
+    font-size: 12px;
+    background: rgba(0,0,0,.025);
+    border-radius: 9px;
+}
+
+.pec-diabetes-empty {
+    grid-column: 1/-1;
+    padding: 16px;
+    font-size: 13px;
+    color: #6e6e73;
+    border: 1px dashed rgba(0,0,0,.12);
+    border-radius: 12px;
+}
+
+.pec-diabetes-support-card {
+    margin-top: 24px;
+}
+
+#patient details:has(#nom) .patient-fields-grid, #patient #patient-habitudes .patient-fields-grid {
+    align-items: start;
+    gap: 20px 24px;
+}
+
+#patient details:has(#nom) .patient-field :is(input, select), #patient #patient-habitudes .patient-field :is(input, select) {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: none;
+}
+
+#patient details:has(#autresAllergies) {
+    grid-column: auto;
+}
+
+#patient .allergy-group {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 20px;
+}
+
+#patient .allergy-group label {
+    box-sizing: border-box;
+    min-width: 0;
+    min-height: 44px;
+}
+
+#patient .allergy-group label span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+#patient details:has(#autresAllergies) #autresAllergies {
+    box-sizing: border-box;
+    width: 100%;
+}
+
+#patient:has(#diabeteType option[value="DT1"]:checked) #patient-traitements .treatment-group:has(#traitements), #patient:has(#diabeteType option[value="DT2"]:checked) #patient-traitements .treatment-group:has(#traitements) {
+    display: none;
+}
+
+#patient-traitements :is(#diabeteInsulinotherapie, #diabetePompe, #diabeteTraitementDT2Details > div) {
+    align-items: start;
+}
+
+#patient-traitements :is(#diabeteInsulinotherapie, #diabeteTraitementDT2Details) .treatment-field:has(textarea) {
+    grid-column: 1 / -1;
+}
+
+#patient-traitements .treatment-field:has(textarea[hidden]) {
+    display: none;
+}
+
+#patient-traitements #diabetePompe {
+    gap: 14px 20px;
+}
+
+#patient-traitements #diabetePompe .treatment-field label {
+    margin: 0;
+}
+
+#patient-traitements #diabetePompe .treatment-field:has(#dt1HypoglycemiesPompe) {
+    grid-column: 1 / -1;
+    max-width: calc(50% - 10px);
+}
+
+#patient-traitements #diabetePompe textarea {
+    height: 84px;
+    min-height: 84px;
+    resize: vertical;
+}
+
+#anm-nutrition-modal .anm-nutrition-modal-close:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 3px;
+}
+
+#anm-nutrition-modal .anm-nutrition-modal-close {
+    box-sizing: border-box;
+    align-self: flex-start;
+    width: 36px;
+    min-width: 36px;
+    height: 36px;
+    min-height: 36px;
+    max-height: 36px;
+    margin: 0;
+    padding: 0;
+    font-size: 22px;
+    line-height: 1;
+    color: #606069;
+    background: transparent;
+    border: 1px solid rgba(118,118,128,.18);
+    border-radius: 9px;
+    box-shadow: none;
+    transition: background-color .15s ease;
+}
+
+#anm-nutrition-modal .anm-nutrition-modal-close svg {
+    display: block;
+    pointer-events: none;
+}
+
+#anm-nutrition-modal .anm-nutrition-modal-close:hover {
+    color: #1d1d1f;
+    background: rgba(118,118,128,.10);
+}
+
+#anm-nutrition-modal .anm-nutrition-modal-header {
+    padding: 16px 20px;
+}
+
+#anm-nutrition-modal .anm-full-totals {
+    align-items: start;
+    gap: 12px;
+    padding: 16px 20px;
+}
+
+#anm-nutrition-modal {
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    background: transparent;
+    backdrop-filter: none;
+}
+
+body.anm-modal-open #anamnese {
+    filter: blur(6px);
+}
+
+#anamnese .anm-meal-detail-button {
+    width: 100%;
+    min-height: 36px;
+    padding: 7px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #1d1d1f;
+    background: #f5f5f7;
+    border: 1px solid #dce8e1;
+    border-radius: 8px;
+    border-color: #dedee3;
+    box-shadow: none;
+}
+
+#anamnese .anm-meal-detail-button:hover {
+    background: #eaeaee;
+    border-color: #c5c5cd;
+}
+
+#anamnese .anm-meal-detail-button:focus-visible {
+    outline: 2px solid #398366;
+    outline-offset: 2px;
+    outline-color: #606069;
+}
+
+#anamnese #anm-totals-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+#anm-nutrition-modal .anm-nutrition-modal-panel {
+    flex: 0 1 auto;
+    width: calc(100% - 24px);
+    max-width: 1460px;
+    height: auto;
+    max-height: 100%;
+    margin: auto;
+    border: 0;
+    box-shadow: none;
+    box-sizing: border-box;
+    container-type: inline-size;
+}
+
+#anm-nutrition-modal .anm-nutrient-group-heading h4 {
+    font-size: 15px;
+}
+
+#anm-nutrition-modal .anm-nutrient-group-heading span {
+    font-size: 11px;
+}
+
+#anm-nutrition-modal .anm-full-total {
+    font-size: 12.5px;
+}
+
+#anm-nutrition-modal .anm-full-total strong {
+    font-size: 13px;
+}
+
+/* Carte Pathologies : panneaux cliniques et hiérarchie visuelle. */
+#patient details:has(input[name="pathologies"]) {
+    --pathology-border: #dce6f2;
+    --pathology-heading: #eef4ff;
+    --pathology-ink: #203b60;
+}
+
+#patient .pathology-item > label {
+    padding: 10px 12px;
+    font-size: 13px;
+    font-weight: 500;
+    border: 1px solid var(--pathology-border);
+    border-radius: 8px;
+}
+
+#patient .pathology-selection {
+    display: grid;
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    gap: 8px;
+    border-radius: 10px;
+}
+
+#patient .pathology-selection .pathology-item > label {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    box-sizing: border-box;
+    height: 100%;
+    min-height: 46px;
+    margin: 0;
+    text-align: left;
+    background: transparent;
+    border: 1px solid color-mix(in srgb, currentColor 14%, transparent);
+    border-radius: 12px;
+    box-shadow: none;
+    transition: background-color .16s ease, border-color .16s ease;
+}
+
+#patient .pathology-selection input[type="checkbox"] {
+    appearance: none;
+    display: grid;
+    place-content: center;
+    flex: 0 0 18px;
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    padding: 0;
+    background: transparent;
+    border: 1.5px solid color-mix(in srgb, currentColor 35%, transparent);
+    border-radius: 5px;
+    box-shadow: none;
+    cursor: inherit;
+}
+
+#patient .pathology-selection input[type="checkbox"]:checked {
+    background: var(--pathology-accent);
+    border-color: var(--pathology-accent);
+}
+
+#patient .pathology-selection input[type="checkbox"]:checked::after {
+    content: "";
+    width: 8px;
+    height: 4px;
+    margin-top: -2px;
+    border: solid white;
+    border-width: 0 0 2px 2px;
+    transform: rotate(-45deg);
+}
+
+#patient .pathology-selection label:has(input:focus-visible) {
+    outline: 2px solid var(--pathology-accent);
+    outline-offset: 3px;
+}
+
+#patient .pathology-selection label:has(input:enabled):hover {
+    background: color-mix(in srgb, var(--pathology-accent) 6%, transparent);
+    border-color: var(--pathology-accent);
+}
+
+#patient .pathology-selection .pathology-item > label:has(input:checked) {
+    color: var(--pathology-ink);
+    background: var(--pathology-heading);
+    border-color: var(--pathology-border);
+}
+
+#patient :is(#htaDetails, .pathology-item:has(input[value="Hypertension"])) { --pathology-accent: #176ac0; }
+#patient :is(#diabeteDetails, .pathology-item:has(input[value="Diabète"])) { --pathology-accent: #8053af; }
+#patient .pathology-item:has(input[value="Dyslipidémie"]) { --pathology-accent: #a16a13; }
+#patient .pathology-item:has(input[value="Maladie rénale"]) { --pathology-accent: #168078; }
+#patient .pathology-item:has(input[value="Surpoids / obésité"]) { --pathology-accent: #b65332; }
+#patient .pathology-item:has(input[value="Maladie cœliaque"]) { --pathology-accent: #467c38; }
+
+#patient :is(.pathology-item, #htaDetails, #diabeteDetails, #obesiteDetails) {
+    --pathology-border: color-mix(in srgb, var(--pathology-accent, #176ac0) 25%, white);
+    --pathology-heading: color-mix(in srgb, var(--pathology-accent, #176ac0) 9%, white);
+    --pathology-ink: var(--pathology-accent, #176ac0);
+}
+
+#patient .pathology-selected-details {
+    grid-column: 1 / -1;
+    min-width: 0;
+}
+
+#patient .pathology-detail-title {
+    grid-column: 1 / -1;
+    margin: 0 0 4px;
+    padding: 6px 4px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--pathology-ink);
+    border-radius: 8px;
+}
+
+#patient .pathology-selection label:has(input:disabled) {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+#patient .pathology-item > label:has(input:checked) {
+    color: var(--pathology-ink);
+    background: var(--pathology-heading);
+    border-color: var(--pathology-border);
+}
+
+#patient :is(#htaDetails, #diabeteDetails, #obesiteDetails).est-visible {
+    max-height: none;
+    margin-top: 10px;
+}
+
+#patient :is(#htaDetails, #obesiteDetails) > .hta-details-inner {
+    gap: 12px;
+    padding: 14px;
+    border: 1px solid var(--pathology-border);
+    border-radius: 12px;
+}
+
+#patient .pathology-panel {
+    min-width: 0;
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid var(--pathology-border);
+    border-radius: 10px;
+}
+
+#patient .pathology-panel h4 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    padding: 10px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #2c6ac0;
+    background-color: #eaf2f9;
+
+}
+
+#patient .pathology-panel-number {
+    font-variant-numeric: tabular-nums;
+}
+
+#patient .pathology-panel-fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: 12px;
+    padding: 14px;
+}
+
+#patient .pathology-panel :is(input, select, textarea) {
+    min-width: 0;
+    font-family: inherit;
+    font-size: 12px;
+    border-color: var(--pathology-border);
+    border-radius: 7px;
+}
+
+#patient .pathology-panel .diabete-field > span {
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+#patient :is(.pathology-panel-salt, .pathology-panel-clinical) {
+    grid-column: 1 / -1;
+}
+
+#patient .pathology-panel-salt h4 {
+    color: var(--pathology-ink);
+    background: var(--pathology-heading);
+}
+
+#patient .pathology-panel-clinical h4 {
+    color: var(--pathology-ink);
+    background: var(--pathology-heading);
+}
+
+#patient #diabeteDetails > .diabete-details-inner {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    padding: 14px;
+    border: 1px solid var(--pathology-border);
+    border-radius: 12px;
+}
+
+#patient #diabeteDetails .pathology-panel h4 {
+    color: var(--pathology-ink);
+    background: var(--pathology-heading);
+}
+
+#patient #diabeteDetails .pathology-panel:nth-of-type(3) {
+    grid-column: 1 / -1;
+}
+
+.biology-content {
+    padding: 14px 26px 28px;
+}
+
+.biology-toolbar {
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: end;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.biology-toolbar > .patient-field {
+    width: 100%;
+    max-width: 320px;
+}
+
+.biology-help {
+    margin: 0 0 2px;
+    font-size: 12px;
+    line-height: 1.45;
+    color: #6e6e73;
+}
+
+.biology-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    background: rgba(255, 255, 255, 0.48);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+}
+
+.biology-table {
+    width: 100%;
+    min-width: 980px;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-family: inherit;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.biology-table th, .biology-table td {
+    padding: 10px 12px;
+    text-align: left;
+    vertical-align: middle;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.biology-table thead th {
+    font-size: 12px;
+    font-weight: 600;
+    color: #424245;
+    background: rgba(0, 0, 0, 0.035);
+}
+
+.biology-table thead th:nth-child(1) {
+    width: 22%;
+}
+
+.biology-table thead th:nth-child(2) {
+    width: 14%;
+}
+
+.biology-table thead th:nth-child(3) {
+    width: 17%;
+}
+
+.biology-table thead th:nth-child(4) {
+    width: 27%;
+}
+
+.biology-table thead th:nth-child(5) {
+    width: 20%;
+}
+
+.biology-table tbody th[scope="row"] {
+    font-size: 13px;
+    font-weight: 500;
+    color: #1d1d1f;
+}
+
+.biology-table tbody th[scope="row"] label {
+    margin: 0;
+    font: inherit;
+    color: inherit;
+}
+
+.biology-table input {
+    width: 100%;
+    min-width: 0;
+    padding: 9px 10px;
+    font-size: 13px;
+    font-family: inherit;
+    font-weight: 400;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.5;
+}
+
+.biology-section-row th {
+    padding: 10px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: normal;
+    color: #424245;
+    background: rgba(0, 0, 0, 0.055);
+}
+
+.biology-table tbody tr:last-child th, .biology-table tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.sr-only {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: -1px !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+    clip: rect(0, 0, 0, 0) !important;
+}
+
+#patient .patient-section-group {
+    margin: 0 0 4px;
+}
+
+#patient .patient-cards-grid {
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    align-items: start;
+    gap: 16px;
+}
+
+#patient .patient-cards-grid > .patient-experience-card {
+    box-sizing: border-box;
+    border-radius: 14px;
+}
+
+#patient .patient-cards-grid > .patient-experience-card > summary {
+    box-sizing: border-box;
+    gap: 16px;
+    min-height: 68px;
+    padding: 18px 22px;
+    font-size: 16px;
+    line-height: 1.4;
+    border-radius: 13px;
+}
+
+#patient .patient-cards-grid > .patient-experience-card > summary .patient-card-header {
+    margin: 0;
+    padding: 0;
+}
+
+#patient .patient-cards-grid > .patient-experience-card > summary .patient-card-kicker {
+    margin: 0;
+    font-size: inherit;
+    font-weight: 600;
+    letter-spacing: normal;
+    text-transform: none;
+    color: inherit;
+}
+
+#patient .patient-cards-grid > .patient-experience-card > summary:focus-visible {
+    outline: 2px solid #7b7b85;
+    outline-offset: -3px;
+}
+
+#patient .patient-cards-grid > .patient-experience-card[open] > summary {
+    border-bottom: 1px solid rgba(118,118,128,.16);
+    border-radius: 13px 13px 0 0;
+}
+
+#patient .patient-cards-grid > .patient-experience-card > .section-content {
+    padding: 20px 22px 22px;
+}
+
+#patient .patient-cards-grid > .patient-experience-card:not(.patient-card-wide) .patient-fields-grid {
+    grid-template-columns: minmax(0,1fr);
+}
+
+#patient .patient-cards-grid .patient-field :is(input,select) {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: none;
+}
+
+#patient #denutScreeningPanel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin: 8px 22px 24px;
+    padding: 18px 20px;
+    background: #f7f7f9;
+    border: 1px solid #e7e7ec;
+    border-radius: 12px;
+}
+
+#denutScreeningPanel .nutrition-screening-copy {
+    display: grid;
+    flex: 1;
+    gap: 7px;
+    min-width: 0;
+}
+
+#denutScreeningPanel .nutrition-evaluation-type {
+    justify-self: start;
+    margin: 0;
+}
+
+#denutScreeningTitle {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+#denutScreeningText {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #686871;
+}
+
+#patient #denutEvaluationToggle {
+    flex: 0 0 auto;
+    width: auto;
+    min-height: 40px;
+    margin: 0;
+    padding: 10px 14px;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: #1d1d1f;
+    background: #fff;
+    border: 1px solid #d8d8df;
+    border-radius: 9px;
+    cursor: pointer;
+}
+
+#patient #denutEvaluationToggle:disabled {
+    color: #686871;
+    background: #eeeef2;
+    opacity: 1;
+    cursor: default;
+}
+
+#patient #denutEvaluationToggle:not(:disabled):hover {
+    background: #eaeaee;
+}
+
+#patient #denutEvaluationToggle:focus-visible {
+    outline: 2px solid #7b7b85;
+    outline-offset: 3px;
+}
+
+#calculs .nutrition-energy-card { 
+    padding: 20px; 
+}
+
+#calculs .nutrition-energy-card .nutrition-calc-card-header { 
+    margin-bottom: 14px; 
+}
+
+#calculs .nutrition-energy-card .nutrition-energy-main { 
+    gap: 10px; 
+    margin-bottom: 12px; 
+}
+
+#calculs .nutrition-energy-card .nutrition-energy-main > div { 
+    gap: 6px; 
+    padding: 11px 12px; 
+}
+
+#calculs .nutrition-energy-card .nutrition-energy-main > div > span { 
+    margin-bottom: 0; 
+}
+
+#calculs .nutrition-energy-card .nutrition-energy-main > div > small { 
+    padding-top: 6px; 
+}
+
+#calculs .nutrition-energy-card select { 
+    min-height: 38px; 
+    margin: 0; 
+    padding: 8px 10px; 
+}
+
+#calculs .nutrition-energy-card .nutrition-target-label { 
+    margin: 4px 0 8px; 
+}
+
+#calculs .nutrition-energy-card .nutrition-calc-note { 
+    margin: 10px 0 0; 
+    font-size: 12px; 
+    line-height: 1.5; 
+}
+
+#calculs .nutrition-energy-target-card { 
+    padding: 20px; 
+}
+
+#calculs .nutrition-energy-target-card .nutrition-target-label { 
+    display: block; 
+    margin: 0 0 12px; 
+    font-size: 17px; 
+    font-weight: 600; 
+}
+
+#calculs .nutrition-energy-target-card .nutrition-target-input { 
+    width: 100%; 
+    max-width: 340px; 
+    margin: 0; 
+    box-sizing: border-box; 
+}
+#calculs .nutrition-energy-target-card .nutrition-calc-note { 
+    margin: 12px 0 0; 
+    font-size: 12px; 
+    line-height: 1.5; 
+}
+
+#plan .analyse-diabetes-card > .nutrition-calc-card-header {
+    margin-bottom: 0;
+}
+
+#calculs .nutrition-calculs-container { 
+    gap: 16px; 
+}
+
+#calculs .nutrition-calculs-grid { 
+    gap: 16px; 
+    margin: 0; 
+}
+
+#calculs .nutrition-calculs-container > .nutrition-calc-card { 
+    margin: 0; 
+}
+
+#calculs .nutrition-calc-card { 
+    padding: 20px; 
+}
+
+
+#plan .diabetes-sources-columns > .diabetes-analysis-block {
+    display: grid;
+    grid-template-rows: auto 1fr;
+}
+
+#plan .diabetes-sources-columns { 
+    gap: 18px; 
+}
+
+#plan .diabetes-sources-columns :is(.diabetes-nutrient-table, .diabetes-distribution) {
+    display: flex;
+    flex-direction: column;
+}
+
+#plan .diabetes-sources-columns .diabetes-nutrient-row:not(.diabetes-nutrient-head),
+#plan .diabetes-sources-columns .diabetes-distribution-row { 
+    flex: 1; 
+}
+
+
+.pec-diabetes-two-columns > .pec-diabetes-panel:first-child { 
+    grid-template-rows: auto minmax(1, 1fr); 
+
+}
+
+.pec-diabetes-two-columns > .pec-diabetes-panel:first-child > ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 7px;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
+.pec-diabetes-two-columns > .pec-diabetes-panel:first-child > ul > li { 
+    margin-top: 25px; 
+    margin-bottom: 15px; 
+}
+
+
+/* =========================================================
+   HTA — DONNÉES PATIENT
+   ========================================================= */
+
+.hta-details.est-visible {
+    grid-template-rows: 1fr;
+    max-height: 1050px;
+    margin-top: 8px;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.hta-details-inner {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 12px;
+}
+
+.hta-field-wide {
+    grid-column: 1 / -1;
+}
+
+.hta-pa-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    align-items: center;
+}
+
+@media (max-width: 760px) {
+    .hta-details-inner,
+    .hta-pa-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hta-field-wide {
+        grid-column: auto;
+    }
+}
+
+/* =========================================================
+   HTA — TRAITEMENTS PATIENT
+   ========================================================= */
+
+#htaTraitementGroupe {
+    box-sizing: border-box;
+    grid-column: 1 / -1 !important;
+    width: 100% !important;
+}
+
+#htaTraitementGroupe[hidden] {
+    display: none !important;
+}
+
+#htaTraitementGroupe.est-visible {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 20px;
+    max-height: none;
+    overflow: visible;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#htaTraitementGroupe > .treatment-field,
+#htaClassesTraitement,
+#htaTraitementDetails,
+#htaAucunTraitementDetails,
+#htaTraitementComplexeDetails {
+    grid-column: 1 / -1;
+    width: 100%;
+}
+
+#htaClassesTraitement[hidden],
+#htaTraitementDetails[hidden],
+#htaAucunTraitementDetails[hidden],
+#htaTraitementComplexeDetails[hidden] {
+    display: none !important;
+}
+
+#htaClassesTraitement,
+#htaTraitementDetails {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 20px;
+}
+
+#htaClassesTraitement #htaClasse3Groupe:not([hidden]) {
+    grid-column: 1 / -1;
+}
+
+#htaClassesTraitement:has(#htaClasse2Groupe[hidden]) {
+    grid-template-columns: 1fr;
+}
+
+#patient-traitements #htaTraitementGroupe .treatment-field {
+    min-height: 0;
+}
+
+#patient-traitements #htaTraitementGroupe .treatment-field label,
+#patient-traitements #diabeteTraitementGroupe > .treatment-field > label {
+    margin: 0;
+    min-height: 0;
+}
+
+#patient-traitements #htaTraitementGroupe textarea {
+    height: 84px;
+    min-height: 84px;
+    resize: vertical;
+}
+
+#htaAucunTraitementDetails,
+#htaTraitementComplexeDetails {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+@media (max-width: 760px) {
+    #htaTraitementGroupe.est-visible,
+    #htaClassesTraitement,
+    #htaTraitementDetails {
+        grid-template-columns: 1fr;
+    }
+
+    #htaClassesTraitement #htaClasse3Groupe:not([hidden]) {
+        grid-column: auto;
+    }
+}
+
+
+/* =========================================================
+   CALCULS — ADAPTATION HTA SEL / SODIUM
+   ========================================================= */
+
+.nutrition-hta-card {
+    display: grid;
+    gap: 18px;
+}
+
+.nutrition-hta-controls,
+.nutrition-hta-summary {
+    margin-top: 12px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.nutrition-hta-control {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.nutrition-hta-control label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #424245;
+}
+
+.nutrition-hta-summary > div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 16px;
+    background: rgba(0, 0, 0, 0.025);
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    border-radius: 11px;
+}
+
+.nutrition-hta-summary span {
+    font-size: 12px;
+    color: #6e6e73;
+}
+
+.nutrition-hta-summary strong {
+    font-size: 19px;
+    color: #1d1d1f;
+}
+
+.nutrition-hta-summary small {
+    font-size: 11px;
+    color: #86868b;
+}
+
+.nutrition-hta-warning {
+    margin: 0;
+    padding: 12px 14px;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #704d00;
+    background: rgba(181, 125, 0, 0.08);
+    border: 1px solid rgba(181, 125, 0, 0.18);
+    border-radius: 10px;
+}
+
+.nutrition-hta-warning-strong {
+    color: #7a2f22;
+    background: rgba(153, 57, 40, 0.08);
+    border-color: rgba(153, 57, 40, 0.18);
+}
+
+.nutrition-reference-pathology td {
+    background: rgba(0, 0, 0, 0.018);
+}
+
+body.dark-mode .nutrition-hta-control label,
+body.dark-mode .nutrition-hta-summary strong {
+    color: var(--dark-text) !important;
+}
+
+body.dark-mode .nutrition-hta-summary > div,
+body.dark-mode .nutrition-reference-pathology td {
+    background: rgba(255, 255, 255, 0.035) !important;
+    border-color: var(--dark-border) !important;
+}
+
+body.dark-mode .nutrition-hta-summary span,
+body.dark-mode .nutrition-hta-summary small {
+    color: var(--dark-text-secondary) !important;
+}
+
+@media (max-width: 760px) {
+    .nutrition-hta-controls,
+    .nutrition-hta-summary {
+        grid-template-columns: 1fr;
+    }
+}
+/* Vue d’ensemble : indicateurs plus compacts. */
+#plan .recommendations-summary-card { padding: 14px 18px; }
+#plan .recommendations-summary-card .nutrition-calc-card-header { margin-bottom: 10px; }
+#plan .recommendations-summary-card h3 { font-size: 16px; }
+#plan .recommendations-summary-grid { gap: 10px; }
+#plan .recommendations-summary-grid > div { padding: 8px 10px; }
+#plan .recommendations-summary-grid strong { font-size: 20px; line-height: 1.2; }
+#plan .recommendations-summary-grid span { font-size: 11px; line-height: 1.4; }
+/* Profil et énergie : mêmes espacements et même échelle typographique. */
+#calculs :is(.nutrition-body-card, .nutrition-energy-card) { padding: 16px; }
+#calculs :is(.nutrition-body-card, .nutrition-energy-card) .nutrition-calc-card-header { margin-bottom: 12px; }
+#calculs :is(.nutrition-body-card .nutrition-metric, .nutrition-energy-card .nutrition-energy-main > div) { display: flex; flex-direction: column; align-items: stretch; gap: 5px; min-width: 0; padding: 10px 12px; }
+#calculs :is(.nutrition-body-card .nutrition-metric, .nutrition-energy-card .nutrition-energy-main > div) > span { margin: 0; font-size: 12px; line-height: 1.4; }
+#calculs :is(.nutrition-body-card .nutrition-metric, .nutrition-energy-card .nutrition-energy-main > div) > strong { font-size: 18px; line-height: 1.2; }
+#calculs :is(.nutrition-body-card .nutrition-metric, .nutrition-energy-card .nutrition-energy-main > div) > small { margin: 0; padding: 0; line-height: 1.4; border: 0; }
+#calculs .nutrition-energy-card .nutrition-energy-main { gap: 10px; margin-bottom: 10px; }
+#calculs .nutrition-body-card .nutrition-target-input { margin: 0; }
+
+/* ======================================================
+   ANALYSE HTA
+   ====================================================== */
+
+#plan .analyse-hta-card {
+    margin: 0;
+    padding: 24px;
+    border-radius: 16px;
+}
+
+#plan .analyse-hta-card > .diabetes-analysis-block {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--analysis-border);
+}
+
+#plan .hta-analysis-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+#plan .hta-analysis-header > div {
+    min-width: 0;
+}
+
+#plan .hta-objective-badge {
+    flex: 0 0 auto;
+    padding: 7px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #3f4743;
+    background: #eef4f0;
+    border: 1px solid #dbe7df;
+    border-radius: 999px;
+}
+
+#plan .hta-objective-summary {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+#plan .hta-objective-summary > div,
+#plan .hta-clinical-grid > div {
+    display: grid;
+    gap: 5px;
+    min-width: 0;
+    padding: 14px 15px;
+    background: var(--analysis-surface);
+    border: 1px solid var(--analysis-border);
+    border-radius: 11px;
+}
+
+#plan .hta-objective-summary span,
+#plan .hta-clinical-grid span {
+    font-size: 11px;
+    color: var(--analysis-muted);
+}
+
+#plan .hta-objective-summary strong,
+#plan .hta-clinical-grid strong {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+#plan .hta-analysis-table-wrap {
+    overflow-x: auto;
+    border: 1px solid var(--analysis-border);
+    border-radius: 12px;
+}
+
+#plan .hta-analysis-table {
+    width: 100%;
+    min-width: 720px;
+    border-collapse: collapse;
+}
+
+#plan .hta-analysis-table th,
+#plan .hta-analysis-table td {
+    padding: 13px 15px;
+    font-size: 13px;
+    line-height: 1.45;
+    text-align: left;
+    vertical-align: middle;
+    border-bottom: 1px solid var(--analysis-border);
+}
+
+#plan .hta-analysis-table th {
+    font-size: 11px;
+    font-weight: 650;
+    color: var(--analysis-muted);
+    background: var(--analysis-surface);
+}
+
+#plan .hta-analysis-table tfoot td {
+    border-bottom: 0;
+}
+
+#plan .hta-analysis-table tfoot {
+    font-weight: 650;
+    background: var(--analysis-surface);
+}
+
+#plan .hta-analysis-table tbody tr {
+    transition: background-color .18s ease, box-shadow .18s ease;
+}
+
+#plan .hta-analysis-table tbody tr:hover {
+    background: #f5f5f7;
+    box-shadow: inset 3px 0 0 #b8b8be;
+}
+
+#plan .hta-row-help,
+#plan .hta-partial-note {
+    display: block;
+    font-size: 10px;
+    font-weight: 400;
+    color: var(--analysis-muted);
+}
+
+#plan .hta-partial-note {
+    margin-top: 3px;
+}
+
+#plan .hta-analysis-note {
+    margin-top: 16px;
+    padding: 13px 15px;
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--analysis-muted);
+    background: var(--analysis-surface);
+    border-radius: 10px;
+}
+
+#plan .hta-analysis-note strong {
+    color: inherit;
+}
+
+#plan .hta-sources-columns {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+#plan .hta-source-panel {
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid var(--analysis-border);
+    border-radius: 12px;
+}
+
+#plan .hta-source-panel-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 13px 15px;
+    background: var(--analysis-surface);
+    border-bottom: 1px solid var(--analysis-border);
+}
+
+#plan .hta-source-panel-title strong {
+    font-size: 13px;
+}
+
+#plan .hta-source-panel-title span {
+    font-size: 11px;
+    color: var(--analysis-muted);
+}
+
+#plan .hta-source-row {
+    display: grid;
+    grid-template-columns: 26px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--analysis-border);
+    transition: background-color .18s ease, box-shadow .18s ease;
+}
+
+#plan .hta-source-row:hover {
+    background: #f5f5f7;
+    box-shadow: inset 3px 0 0 #b8b8be;
+}
+
+#plan .hta-source-row:last-child {
+    border-bottom: 0;
+}
+
+#plan .hta-source-rank {
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    font-size: 10px;
+    font-weight: 700;
+    background: var(--analysis-surface);
+    border-radius: 50%;
+}
+
+#plan .diabetes-source-food {
+    display: grid;
+    grid-template-columns: 26px minmax(0, 1fr);
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+#plan .hta-source-name {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+}
+
+#plan .hta-source-name strong {
+    overflow: hidden;
+    font-size: 12px;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#plan .hta-source-name span {
+    font-size: 10px;
+    color: var(--analysis-muted);
+}
+
+#plan .hta-source-value {
+    font-size: 12px;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+#plan .hta-treatment-line {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 15px;
+    background: var(--analysis-surface);
+    border: 1px solid var(--analysis-border);
+    border-radius: 11px;
+}
+
+#plan .hta-treatment-line span {
+    font-size: 12px;
+    color: var(--analysis-muted);
+}
+
+#plan .hta-treatment-line strong {
+    font-size: 13px;
+    text-align: right;
+}
+
+#plan .hta-vigilance-list {
+    display: grid;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+#plan .hta-vigilance-item {
+    display: grid;
+    gap: 4px;
+    padding: 14px 15px;
+    background: #fff8e8;
+    border: 1px solid #ead9ae;
+    border-radius: 11px;
+}
+
+#plan .hta-vigilance-item strong {
+    font-size: 12px;
+}
+
+#plan .hta-vigilance-item span {
+    font-size: 12px;
+    line-height: 1.55;
+    color: #675d43;
+}
+
+#plan .hta-clinical-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr));
+    gap: 10px;
+    margin-top: 14px;
+}
+
+#plan .hta-analysis-empty {
+    padding: 14px 15px;
+    font-size: 12px;
+    color: var(--analysis-muted);
+    border: 1px dashed var(--analysis-border);
+    border-radius: 11px;
+}
+
+/* Espacement et indicateurs de la prise en charge. */
+#priseEnChargePathologies > [id^="priseEnCharge"] + [id^="priseEnCharge"] {
+    margin-top: 18px;
+}
+.pec-hta-table-wrap {
+    margin: 18px 0;
+    overflow: hidden;
+    border: 1px solid var(--analysis-border, #e5e7eb);
+    border-radius: 12px;
+}
+.pec-hta-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    line-height: 1.45;
+}
+.pec-hta-table th,
+.pec-hta-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--analysis-border, #e5e7eb);
+}
+.pec-hta-table thead th {
+    font-weight: 600;
+    background: var(--analysis-surface, #f5f5f7);
+}
+.pec-hta-table tbody th { font-weight: 500; }
+.pec-hta-table td { font-weight: 650; }
+.pec-hta-table tbody tr:last-child > * { border-bottom: 0; }
+.pec-hta-table tbody tr:hover { background: var(--analysis-surface, #f5f5f7); }
+
+/* Ancienneté calculée dans le détail du diabète. */
+#patient #diabeteDureeDiagnostic {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-height: 38px;
+    margin: 0;
+    padding: 10px 12px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 400;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+    color: inherit;
+    background: transparent;
+    border: 1px solid var(--pathology-border);
+    border-radius: 7px;
+    box-shadow: none;
+}
+
+/* Obésité : composants partagés avec les autres pathologies. */
+#patient :is(#obesiteDetails, .pathology-item:has(input[value="Obésité"])) { --pathology-accent: #b65332; }
+#patient #obesiteDetails .pathology-panel h4 {
+    color: var(--pathology-ink);
+    background: var(--pathology-heading);
+}
+.nutrition-obesity-card .nutrition-protein-reference {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+    margin: 16px 0;
+    padding: 16px;
+}
+.nutrition-obesity-card .nutrition-protein-reference > :is(span, strong, small) {
+    position: static;
+    width: auto;
+    margin-top: 1px;
+    margin-left: -12px;
+    line-height: 1.5;
+    white-space: normal;
+}
+.nutrition-obesity-card .nutrition-target-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+    margin: 16px 0;
+}
+.nutrition-obesity-card .nutrition-target-row select { width: 100%; min-width: 0; }
+.nutrition-obesity-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+#analyseObesiteSection { margin-top: 18px; }
+#analyseObesiteContainer {
+    padding: 20px;
+    background: var(--analysis-card, #fff);
+    border: 1px solid var(--analysis-border, #e5e7eb);
+    border-radius: 16px;
+}
+#analyseObesiteContainer .analyse-status {
+    margin: 16px 0;
+    padding: 12px 14px;
+    font-size: 13px;
+    line-height: 1.5;
+    background: var(--analysis-surface, #f5f5f7);
+    border-radius: 10px;
+}
+#analyseObesiteContainer .analyse-detail-list { margin: 16px 0; }
+#analyseObesiteContainer .analyse-detail-row {
+    display: grid;
+    grid-template-columns: minmax(140px, 1fr) minmax(0, 2fr);
+    gap: 16px;
+    padding: 12px 14px;
+    font-size: 13px;
+    line-height: 1.6;
+    border-bottom: 1px solid var(--analysis-border, #e5e7eb);
+}
+#analyseObesiteContainer .analyse-detail-row:hover { background: var(--analysis-surface, #f5f5f7); }
+#analyseObesiteContainer .analyse-priorities,
+#priseEnChargeObesite .pec-priority-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin-top: 18px;
+}
+:is(#analyseObesiteContainer, #priseEnChargeObesite) .pec-priority-head {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+:is(#analyseObesiteContainer, #priseEnChargeObesite) .pec-priority-head > span {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--analysis-muted, #6e6e73);
+}
+#priseEnChargeObesite .pec-priority-actions { margin-top: 12px; }
+#priseEnChargeObesite .pec-priority-actions ul { padding-left: 20px; }
+#priseEnChargeObesite .pec-priority-actions li + li { margin-top: 6px; }
+
+#patient #obesiteDetails {
+    grid-column: 1 / -1;
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    justify-self: stretch;
+}
+
+#plan .diabetes-sources-columns > .diabetes-analysis-block:nth-child(3) {
+    grid-column: 1 / -1;
+}
+#plan .diabetes-sources-columns > .diabetes-analysis-block {
+    min-width: 0;
+    margin: 0;
+    align-content: start;
+}
+#plan .diabetes-sources-columns .diabetes-distribution-summary {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 180px), 1fr));
+    align-content: start;
+    gap: 10px;
+    margin-top: -1px;
+}
+
+#plan .diabetes-sources-columns > .diabetes-analysis-block:nth-child(3) .diabetes-analysis-block-header h4 {
+    margin-bottom: 3px;
+}
+
+#plan #analyseDenutritionSection { margin-top: 18px; }
+#plan #analyseDenutritionSection .analyse-rca-card {
+    margin: 0;
+    padding: 18px 0 0;
+    background: transparent;
+    border: 0;
+    border-top: 1px solid var(--analysis-border);
+    border-radius: 0;
+    box-shadow: none;
+}
+
+#calculs .nutrition-reference-table tbody td:nth-child(3),
+#calculs .nutrition-reference-table tbody td:nth-child(3) :is(strong, span, small) {
+    font-weight: 700;
+}
+
+#calculs .nutrition-reference-table tbody td:nth-child(4),
+#calculs .nutrition-reference-table tbody td:nth-child(4) :is(strong, span, small, a) {
+    font-style: italic;
+    font-weight: 400;
+}
+
+#patient #obesiteDetails.est-visible {
+    margin-bottom: 14px;
+}
+
+#plan .obesity-analysis-table-block { margin-top: 22px; }
+#plan .obesity-analysis-table { min-width: 0; table-layout: fixed; }
+#plan .obesity-analysis-table th,
+#plan .obesity-analysis-table td { overflow-wrap: anywhere; }
+#plan .obesity-analysis-table tbody th {
+    font-size: 13px;
+    font-weight: 500;
+    color: inherit;
+    background: transparent;
+}
+#plan .obesity-analysis-table tbody td { font-weight: 600; }
+#plan .obesity-analysis-table tbody tr:last-child > * { border-bottom: 0; }
+
+#plan .obesity-energy-tables {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    margin-top: 22px;
+}
+#plan .obesity-energy-tables > .obesity-analysis-table-block {
+    display: grid;
+    grid-row: span 2;
+    grid-template-rows: subgrid;
+    min-width: 0;
+    margin-top: 0;
+}
+#plan .obesity-energy-tables .diabetes-analysis-block-header { margin-bottom: 0; }
+
+#plan .obesity-energy-overview {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0;
+    margin-top: 12px;
+    overflow: hidden;
+    border: 1px solid var(--analysis-border, #e5e7eb);
+    border-radius: 10px;
+}
+#plan .obesity-energy-overview > div {
+    min-width: 0;
+    gap: 3px;
+    padding: 10px 14px;
+    border: 0;
+    border-radius: 0;
+}
+#plan .obesity-energy-overview > div + div { border-left: 1px solid var(--analysis-border, #e5e7eb); }
+#plan .obesity-energy-overview strong { font-size: 16px; line-height: 1.4; }
+#plan .obesity-energy-overview span { font-size: 12px; line-height: 1.4; }
+#plan .obesity-energy-overview small { font-size: 11px; line-height: 1.4; }
+
+#plan .obesity-analysis-table :is(th, td):last-child { text-align: right; }
+#plan .obesity-analysis-table:has(thead th:nth-child(3)) th:first-child { width: 44%; }
+#plan .obesity-analysis-table:has(thead th:nth-child(3)) :is(th, td):nth-child(2) { text-align: center; }
+#plan .obesity-analysis-table tfoot th { font-size: 13px; }
+#plan .obesity-partial-note { display: block; margin-top: 4px; font-size: 11px; font-weight: 400; }
+
+#plan #analyseObesiteContainer > .analyse-pathologie-header:not(:first-child),
+#plan #analyseObesiteContainer > .obesity-analysis-table-block,
+#plan #analyseObesiteContainer > .obesity-energy-tables {
+    padding-top: 24px;
+    border-top: 1px solid var(--analysis-border, #e5e7eb);
+}
+
+#plan .obesity-analysis-title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 12px;
+    margin: 6px 0;
+}
+#plan .obesity-analysis-title h3 { margin: 0; }
+#plan .obesity-completeness-badge {
+    padding: 4px 9px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--analysis-muted, #6e6e73);
+    background: var(--analysis-surface, #f5f5f7);
+    border: 1px solid var(--analysis-border, #e5e7eb);
+    border-radius: 999px;
+}
+#plan .obesity-missing-fields { margin: 4px 0 8px; font-size: 12px; }
+#plan .obesity-energy-summary-wrap { margin-top: 12px; }
+#plan .obesity-energy-summary { width: 100%; min-width: 0; table-layout: fixed; }
+#plan .obesity-energy-summary :is(th, td) { padding: 10px; text-align: center; overflow-wrap: anywhere; }
+#plan .obesity-energy-summary td { font-size: 14px; font-weight: 600; border-bottom: 0; }
+
+#anamnese .anm-food-picker {
+    width: 100%;
+    text-align: left;
+}
+#anamnese .anm-food-search {
+    display: block;
+    max-width: 320px;
+    margin-left: 0;
+    margin-right: auto;
+    text-align: left;
+}
+
+#anamnese .anm-food-name > strong {
+    font-style: italic;
+}
+#anamnese .anm-table thead th {
+    font-weight: 700;
+}
+#anamnese .anm-food-search:focus::placeholder {
+    opacity: 0;
+}
+
+#plan #analyseDenutritionContainer .diabetes-carbs-table-wrap {
+    align-self: start;
+}
+
+/* Prises en charge : rubriques et cartes communes au modèle obésité. */
+#priseEnChargePathologies .pec-diabetes-two-columns {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+}
+#priseEnChargePathologies :is(.pec-diabetes-card > .pec-diabetes-panel, .pec-diabetes-two-columns > .pec-diabetes-panel) {
+    padding: 0;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+}
+#priseEnChargePathologies :is(.pec-diabetes-card > .pec-diabetes-panel, .pec-diabetes-two-columns > .pec-diabetes-panel) > ul {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+#priseEnChargePathologies :is(.pec-diabetes-card > .pec-diabetes-panel, .pec-diabetes-two-columns > .pec-diabetes-panel) > ul > li {
+    min-width: 0;
+    margin: 0;
+    padding: 16px;
+    font-size: 13px;
+    line-height: 1.55;
+    background: rgba(255,255,255,.58);
+    border: 1px solid rgba(0,0,0,.08);
+    border-radius: 12px;
+}
+#priseEnChargePathologies .pec-diabetes-item > h4 { margin: 0 0 8px; font-size: 14px; font-weight: 600; }
+#priseEnChargeDenutrition .denut-pec-step { display: block; margin-bottom: 8px; font-size: 11px; font-weight: 600; color: #6e6e73; }
+#priseEnChargeDenutrition .pec-diabetes-item :is(ul, ol) { padding-left: 20px; font-size: 13px; line-height: 1.55; }
+#priseEnChargeDenutrition .pec-diabetes-item li + li { margin-top: 6px; }
+#priseEnChargeDenutrition .pec-diabetes-item h5 { margin: 14px 0 6px; font-size: 12px; }
+#priseEnChargeDenutrition :is(.denut-reference-box, .denut-pec-sources) { font-size: 11px; line-height: 1.5; color: #6e6e73; }
+#priseEnChargeDenutrition .denut-pec-badge { padding: 7px 10px; font-size: 11px; font-weight: 600; border: 1px solid rgba(0,0,0,.09); border-radius: 999px; }
+@media (max-width: 700px) {
+    #priseEnChargePathologies :is(.pec-diabetes-card > .pec-diabetes-panel, .pec-diabetes-two-columns > .pec-diabetes-panel) > ul { grid-template-columns: minmax(0, 1fr); }
+}
+body.dark-mode #priseEnChargePathologies :is(.pec-diabetes-card > .pec-diabetes-panel, .pec-diabetes-two-columns > .pec-diabetes-panel) > ul > li {
+    background: rgba(255,255,255,.03);
+    border-color: rgba(255,255,255,.1);
+}
+
+#priseEnChargePathologies .pec-actions-panel { margin-top: 12px; font-size: 13px; line-height: 1.55; }
+
+
+/* Analyses : présentation commune des apports, repères et résultats biologiques. */
+#plan .micronutrition-analysis-block {
+    min-width: 0;
+}
+
+#plan .micronutrition-analysis-block .hta-analysis-table {
+    min-width: 850px;
+    table-layout: fixed;
+}
+
+#plan .micronutrition-analysis-block tr > :nth-child(1) { width: 24%; }
+#plan .micronutrition-analysis-block tr > :nth-child(2) { width: 14%; }
+#plan .micronutrition-analysis-block tr > :nth-child(3) { width: 23%; }
+#plan .micronutrition-analysis-block tr > :nth-child(4) { width: 19%; }
+#plan .micronutrition-analysis-block tr > :nth-child(5) { width: 20%; }
+
+#plan .micronutrition-analysis-block :is(th, td) {
+    padding: 14px 16px;
+    vertical-align: top;
+    overflow-wrap: anywhere;
+}
+
+#plan .micronutrition-analysis-block tr > :nth-child(n+2) {
+    text-align: center;
+}
+
+#plan .micronutrition-analysis-block tbody th {
+    font-size: 12px;
+    color: #1d1d1fe5;
+    background: transparent;
+}
+
+#plan .micronutrition-analysis-block small {
+    margin-top: 6px;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--analysis-muted);
+}
+
+#plan .micronutrition-analysis-block td:nth-child(3) > small {
+    font-style: italic;
+}
+
+#plan .micronutrition-analysis-block .recommendation-status {
+    max-width: 100%;
+    line-height: 1.4;
+    white-space: normal;
+}
+
+#plan .micronutrition-analysis-block tbody tr:last-child > * {
+    border-bottom: 0;
+}
+
+
+#plan #analyseObesiteContainer > .micronutrition-analysis-block,
+#plan #analyseDenutritionMicronutriments > .micronutrition-analysis-block {
+    margin-top: 24px;
+    padding-top: 24px;
+    border-top: 1px solid var(--analysis-border, #e5e7eb);
+}
+
+/* =========================================================
+   V1.4 — RATION DE TRAVAIL / SLIDERS CONTEXTUELS
+   Les repères pathologiques sont informatifs ; les curseurs
+   ne modifient jamais automatiquement les autres macros.
+   ========================================================= */
+
+.nutrition-macros-card .nutrition-calc-card-header p {
+    margin: 7px 0 0;
+    max-width: 860px;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #6e6e73;
+}
+
+.nutrition-macro-context {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.nutrition-macro-context-main,
+.nutrition-macro-context-notes,
+.nutrition-macro-active {
+    min-width: 0;
+    padding: 14px 15px;
+    background: #f7f7f9;
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    border-radius: 12px;
+}
+
+.nutrition-macro-context-main span,
+.nutrition-macro-active span {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .055em;
+    text-transform: uppercase;
+    color: #86868b;
+}
+
+.nutrition-macro-context-main strong,
+.nutrition-macro-active strong {
+    display: block;
+    font-size: 14px;
+    line-height: 1.35;
+    color: #1d1d1f;
+}
+
+.nutrition-macro-context-main small,
+.nutrition-macro-active small {
+    display: block;
+    margin-top: 5px;
+    font-size: 11px;
+    line-height: 1.45;
+    color: #6e6e73;
+}
+
+.nutrition-macro-context-notes {
+    display: grid;
+    align-content: start;
+    gap: 7px;
+}
+
+.nutrition-macro-context-notes p {
+    margin: 0;
+    font-size: 11px;
+    line-height: 1.45;
+    color: #52525a;
+}
+
+.nutrition-macro-active {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 12px;
+}
+
+.nutrition-macro-active > div {
+    min-width: 0;
+}
+
+.nutrition-macro-active > small {
+    max-width: 430px;
+    margin: 0;
+    text-align: right;
+}
+
+.nutrition-macro-editor {
+    margin-top: 12px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.55);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+}
+
+.nutrition-macro-editor > summary {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: 13px 44px 13px 15px;
+    list-style: none;
+    cursor: pointer;
+}
+
+.nutrition-macro-editor > summary::-webkit-details-marker,
+.nutrition-macro-editor > summary::marker {
+    display: none;
+}
+
+.nutrition-macro-editor > summary::after {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    content: "+";
+    width: 24px;
+    height: 24px;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: center;
+    color: #6e6e73;
+    background: rgba(0, 0, 0, 0.045);
+    border-radius: 7px;
+    transform: translateY(-50%);
+}
+
+.nutrition-macro-editor[open] > summary::after {
+    content: "−";
+}
+
+.nutrition-macro-editor > summary span {
+    font-size: 13px;
+    font-weight: 650;
+    color: #1d1d1f;
+}
+
+.nutrition-macro-editor > summary small {
+    font-size: 10px;
+    color: #86868b;
+}
+
+.nutrition-macro-editor-body {
+    padding: 0 15px 15px;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.nutrition-macro-editor #nutritionMacros.nutrition-macros-grid {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+    margin-top: 15px !important;
+}
+
+.nutrition-macro-editor #nutritionMacros > .nutrition-macro-item {
+    padding: 14px !important;
+    background: #f8f8fa;
+    border: 1px solid rgba(0, 0, 0, 0.075);
+    border-radius: 12px;
+}
+
+.nutrition-macro-reference {
+    min-height: 76px;
+    margin-bottom: 12px;
+    padding: 9px 10px;
+    background: rgba(255, 255, 255, 0.78);
+    border: 1px solid rgba(0, 0, 0, 0.055);
+    border-radius: 9px;
+}
+
+.nutrition-macro-reference > span,
+.nutrition-macro-reference > strong,
+.nutrition-macro-reference > small {
+    display: block;
+}
+
+.nutrition-macro-reference > span {
+    margin-bottom: 3px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .05em;
+    text-transform: uppercase;
+    color: #8e8e93;
+}
+
+.nutrition-macro-reference > strong {
+    font-size: 13px;
+    font-weight: 650;
+    color: #1d1d1f;
+}
+
+.nutrition-macro-reference > small {
+    margin-top: 3px;
+    font-size: 9px;
+    line-height: 1.35;
+    color: #77777d;
+}
+
+.nutrition-macro-editor .macro-slider {
+    margin: 13px 0 15px;
+    background: linear-gradient(
+        to right,
+        #1d1d1f 0%,
+        #1d1d1f calc(var(--valeur, 0) * 1%),
+        rgba(0, 0, 0, 0.10) calc(var(--valeur, 0) * 1%),
+        rgba(0, 0, 0, 0.10) 100%
+    );
+}
+
+.nutrition-macro-editor .nutrition-macro-values {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 6px 10px;
+}
+
+.nutrition-macro-editor .nutrition-macro-gkg {
+    grid-column: 1 / -1;
+    font-size: 10px;
+    color: #77777d;
+}
+
+.nutrition-macro-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 24px;
+    padding: 4px 8px;
+    font-size: 9px;
+    font-weight: 700;
+    white-space: nowrap;
+    border-radius: 999px;
+}
+
+.nutrition-macro-status.ok {
+    color: #166534;
+    background: #eaf7ee;
+}
+
+.nutrition-macro-status.warning {
+    color: #9a5b00;
+    background: #fff4dd;
+}
+
+.nutrition-macro-status.neutral {
+    color: #5f5f66;
+    background: #ececf0;
+}
+
+.nutrition-macro-editor-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 13px;
+    padding-top: 13px;
+    border-top: 1px solid rgba(0, 0, 0, 0.065);
+}
+
+.nutrition-macro-total {
+    min-width: 0;
+}
+
+.nutrition-macro-total span,
+.nutrition-macro-total strong,
+.nutrition-macro-total small {
+    display: block;
+}
+
+.nutrition-macro-total span {
+    font-size: 10px;
+    color: #77777d;
+}
+
+.nutrition-macro-total strong {
+    margin-top: 2px;
+    font-size: 17px;
+    color: #1d1d1f;
+}
+
+.nutrition-macro-total small {
+    margin-top: 3px;
+    max-width: 560px;
+    font-size: 10px;
+    line-height: 1.4;
+    color: #77777d;
+}
+
+.nutrition-macro-total.warning strong {
+    color: #9a5b00;
+}
+
+.nutrition-macro-total.ok strong {
+    color: #166534;
+}
+
+.nutrition-macro-actions {
+    display: flex;
+    flex: 0 0 auto;
+    gap: 8px;
+}
+
+.nutrition-macro-actions button {
+    width: auto;
+    min-height: 36px;
+    padding: 8px 12px;
+}
+
+.nutrition-macro-actions button:disabled {
+    cursor: not-allowed;
+    opacity: .45;
+}
+
+body.dark-mode .nutrition-macro-context-main,
+body.dark-mode .nutrition-macro-context-notes,
+body.dark-mode .nutrition-macro-active,
+body.dark-mode .nutrition-macro-editor,
+body.dark-mode .nutrition-macro-editor #nutritionMacros > .nutrition-macro-item,
+body.dark-mode .nutrition-macro-reference {
+    background: rgba(255, 255, 255, 0.045);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+body.dark-mode .nutrition-macro-context-main strong,
+body.dark-mode .nutrition-macro-active strong,
+body.dark-mode .nutrition-macro-editor > summary span,
+body.dark-mode .nutrition-macro-reference > strong,
+body.dark-mode .nutrition-macro-total strong {
+    color: #f5f5f7;
+}
+
+body.dark-mode .nutrition-macro-context-main small,
+body.dark-mode .nutrition-macro-active small,
+body.dark-mode .nutrition-macro-context-notes p,
+body.dark-mode .nutrition-macro-reference > span,
+body.dark-mode .nutrition-macro-reference > small,
+body.dark-mode .nutrition-macro-total span,
+body.dark-mode .nutrition-macro-total small {
+    color: #a1a1aa;
+}
+
+@media (max-width: 900px) {
+    .nutrition-macro-context {
+        grid-template-columns: 1fr;
+    }
+
+    .nutrition-macro-active,
+    .nutrition-macro-editor-footer {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .nutrition-macro-active > small {
+        max-width: none;
+        text-align: left;
+    }
+
+    .nutrition-macro-editor #nutritionMacros.nutrition-macros-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .nutrition-macro-actions {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+}
+
+.nutrition-macro-active-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: 8px;
+}
+
+.nutrition-macro-active-badge {
+    display: inline-flex;
+    padding: 3px 7px;
+    font-size: 9px;
+    font-weight: 650;
+    border-radius: 999px;
+}
+
+.nutrition-macro-active-badge.ok {
+    color: #166534;
+    background: #eaf7ee;
+}
+
+.nutrition-macro-active-badge.warning {
+    color: #9a5b00;
+    background: #fff4dd;
+}
+
+.nutrition-macro-active-badge.neutral {
+    color: #5f5f66;
+    background: #ececf0;
+}
+
+
+/* =========================================================
+   COMPOSITION V2 — QUALITÉ DES DONNÉES
+   ========================================================= */
+
+/* =========================================================
+   COMPOSITION V2 — INFOBULLE DE QUALITÉ DES DONNÉES
+   ========================================================= */
+
+.analysis-quality-tooltip[hidden] {
+    display: none !important;
+}
+
+.analysis-quality-tooltip {
+    position: fixed;
+    z-index: 2147483647;
+    box-sizing: border-box;
+    width: max-content;
+    max-width: min(340px, calc(100vw - 24px));
+    padding: 9px 11px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.45;
+    text-align: left;
+    color: #ffffff;
+    background: rgba(29, 29, 31, 0.96);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 9px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.20);
+    pointer-events: none;
+}
+
+
+/* Calculs : hiérarchie et alignement de la ration de travail. */
+.nutrition-macros-card .nutrition-macro-context {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: 12px;
+}
+.nutrition-macros-card .nutrition-macro-context-main,
+.nutrition-macros-card .nutrition-macro-context-notes {
+    padding: 12px 14px;
+    background: transparent;
+}
+.nutrition-macros-card .nutrition-macro-active {
+    flex-wrap: wrap;
+    gap: 12px 24px;
+    padding: 18px;
+}
+.nutrition-macros-card .nutrition-macro-active > div { flex: 1 1 420px; }
+.nutrition-macros-card .nutrition-macro-active > small {
+    flex: 1 1 220px;
+    max-width: 320px;
+    text-align: left;
+}
+.nutrition-macros-card .nutrition-macro-active > div > strong {
+    font-size: 17px;
+    line-height: 1.5;
+    font-variant-numeric: tabular-nums;
+}
+.nutrition-macros-card .nutrition-macro-active-badges {
+    gap: 6px;
+    margin-top: 10px;
+}
+.nutrition-macros-card .nutrition-macro-active-badge {
+    margin: 0;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: normal;
+    text-transform: none;
+}
+.nutrition-macros-card .nutrition-macro-editor > summary { padding: 16px 48px 16px 18px; }
+.nutrition-macros-card .nutrition-macro-editor > summary small { font-size: 11px; line-height: 1.5; }
+.nutrition-macros-card .nutrition-macro-editor > summary:focus-visible {
+    outline: 2px solid #6685a3;
+    outline-offset: -3px;
+}
+.nutrition-macros-card .nutrition-macro-editor-body { padding: 0 18px 18px; }
+.nutrition-macros-card #nutritionMacros.nutrition-macros-grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 235px), 1fr)) !important;
+    align-items: stretch;
+    gap: 14px !important;
+}
+.nutrition-macros-card .nutrition-macro-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin: 0;
+}
+.nutrition-macros-card .nutrition-macro-header > span { font-size: 14px; font-weight: 600; }
+.nutrition-macros-card .nutrition-macro-header > strong {
+    font-size: 24px;
+    line-height: 1.2;
+    font-variant-numeric: tabular-nums;
+}
+.nutrition-macros-card .nutrition-macro-reference {
+    min-height: 0;
+    margin: 0;
+    padding: 12px 0 0;
+    background: transparent;
+    border: 0;
+    border-top: 1px solid rgba(128, 128, 128, .2);
+    border-radius: 0;
+}
+.nutrition-macros-card .nutrition-macro-reference > span { font-size: 10px; }
+.nutrition-macros-card .nutrition-macro-reference > small { font-size: 11px; line-height: 1.5; }
+.nutrition-macros-card .nutrition-macro-editor .macro-slider {
+    width: 100%;
+    margin: 10px 0;
+}
+.nutrition-macros-card .nutrition-macro-editor .nutrition-macro-values {
+    grid-template-columns: 1fr;
+    align-content: start;
+    gap: 6px;
+    min-height: 92px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(128, 128, 128, .2);
+}
+.nutrition-macros-card .nutrition-macro-values > strong { font-size: 19px; font-variant-numeric: tabular-nums; }
+.nutrition-macros-card .nutrition-macro-editor .nutrition-macro-gkg { font-size: 11px; }
+.nutrition-macros-card .nutrition-macro-status {
+    justify-self: start;
+    font-size: 11px;
+    font-weight: 500;
+    white-space: normal;
+}
+.nutrition-macros-card .nutrition-macro-editor-footer { flex-wrap: wrap; gap: 16px; padding-top: 16px; }
+.nutrition-macros-card .nutrition-macro-total { flex: 1 1 240px; }
+.nutrition-macros-card .nutrition-macro-total :is(span, small) { font-size: 11px; line-height: 1.5; }
+.nutrition-macros-card .nutrition-macro-actions { flex: 1 1 300px; flex-wrap: wrap; justify-content: flex-end; }
+.nutrition-macros-card .nutrition-macro-actions button { flex: 1 1 180px; min-height: 40px; white-space: normal; }
+/* Commandes précises et accessibles des macronutriments. */
+.nutrition-macros-card .macro-adjustment { display: grid; gap: 8px; min-width: 0; }
+.nutrition-macros-card .macro-range-control { display: grid; grid-template-columns: 36px minmax(0, 1fr) 36px; align-items: center; gap: 10px; }
+.nutrition-macros-card .macro-step { width: 36px; height: 36px; min-height: 36px; margin: 0; padding: 0; font-size: 20px; line-height: 1; color: inherit; background: transparent; border: 1px solid rgba(128,128,128,.3); border-radius: 10px; box-shadow: none; cursor: pointer; }
+.nutrition-macros-card .macro-step:hover:not(:disabled) { background: rgba(128,128,128,.12); }
+.nutrition-macros-card .macro-step:disabled { opacity: .35; cursor: default; }
+.nutrition-macros-card .nutrition-macro-editor .macro-slider {
+    box-sizing: border-box;
+    width: 100%; height: 36px; min-height: 0; margin: 0; padding: 0;
+    background: transparent; border: 0; border-radius: 0; box-shadow: none;
+    appearance: none; -webkit-appearance: none;
+}
+.nutrition-macros-card .macro-slider::-webkit-slider-runnable-track {
+    height: 6px; border-radius: 999px;
+    background: linear-gradient(to right, #657c93 calc(var(--valeur) * 1%), #d8dce1 calc(var(--valeur) * 1%));
+}
+.nutrition-macros-card .macro-slider::-webkit-slider-thumb {
+    width: 22px; height: 22px; margin-top: -8px; background: #fff;
+    border: 1px solid #b7bec7; border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0,0,0,.18); transform: none;
+}
+.nutrition-macros-card .macro-slider::-moz-range-track { height: 6px; background: #d8dce1; }
+.nutrition-macros-card .macro-slider::-moz-range-progress { height: 6px; background: #657c93; }
+.nutrition-macros-card .macro-slider::-moz-range-thumb { width: 22px; height: 22px; background: #fff; border: 1px solid #b7bec7; transform: none; }
+.nutrition-macros-card :is(.macro-step, .macro-slider, .macro-exact):focus-visible { outline: 2px solid #657c93; outline-offset: 3px; }
+.nutrition-macros-card .macro-exact-control { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.nutrition-macros-card .macro-exact-control label { margin: 0; font-size: 11px; font-weight: 400; color: inherit; }
+.nutrition-macros-card .macro-exact-control > div { display: flex; align-items: center; gap: 5px; font-size: 12px; }
+.nutrition-macros-card .macro-exact-control .macro-exact { box-sizing: border-box; width: 64px; min-height: 36px; height: 36px; margin: 0; padding: 6px; font-size: 13px; font-weight: 600; text-align: center; color: inherit; background: transparent; border: 1px solid rgba(128,128,128,.3); border-radius: 8px; box-shadow: none; }
+
+#calculs section.nutrition-macros-card { display: block; }
+.nutrition-macros-card #nutritionMacros > .nutrition-macro-item {
+    display: grid;
+    grid-template-rows: subgrid;
+    gap: 14px;
+    min-width: 0;
+    padding: 16px !important;
+    grid-row: span 4;
+}
+
+/* Anamnèse — validation explicite avant interprétation clinique */
+.anm-validation-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin: 0 0 20px;
+    padding: 15px 16px;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.025);
+}
+
+.anm-validation-copy {
+    min-width: 0;
+}
+
+.anm-validation-heading {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+
+.anm-validation-heading h3 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 650;
+}
+
+.anm-validation-copy p {
+    margin: 0;
+    max-width: 760px;
+    color: #6e6e73;
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.anm-validation-state {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 650;
+    white-space: nowrap;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    background: rgba(0, 0, 0, 0.035);
+}
+
+.anm-validation-state.is-ready {
+    color: #19683a;
+    background: rgba(30, 130, 76, 0.09);
+    border-color: rgba(30, 130, 76, 0.18);
+}
+
+.anm-validation-state.is-warning {
+    color: #78570c;
+    background: rgba(191, 139, 18, 0.10);
+    border-color: rgba(191, 139, 18, 0.20);
+}
+
+.anm-validation-button {
+    flex: 0 0 auto;
+    min-height: 38px;
+    padding: 9px 13px;
+    border: 0;
+    border-radius: 9px;
+    background: #1d1d1f;
+    color: #ffffff;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.anm-validation-button:hover:not(:disabled) {
+    opacity: 0.88;
+}
+
+.anm-validation-button:disabled {
+    cursor: default;
+    opacity: 0.48;
+}
+
+@media (max-width: 760px) {
+    .anm-validation-card {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .anm-validation-button {
+        width: 100%;
+    }
+}
+
+
+/* Icône d'information commune aux repères et à la qualité des données. */
+.analysis-quality-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 15px;
+    height: 15px;
+    margin-left: 6px;
+    font-size: 0;
+    font-weight: 700;
+    line-height: 1;
+    vertical-align: middle;
+    color: #737780;
+    background: transparent;
+    border-radius: 50%;
+    cursor: help;
+    position: relative;
+    box-sizing: border-box;
+    flex: 0 0 auto;
+    min-width: 15px;
+    min-height: 15px;
+    margin: 0 0 0 5px;
+    padding: 0;
+    border: 1px solid #bfc3c9;
+    box-shadow: none;
+}
+.analysis-quality-icon::before {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    margin: 0;
+    padding: 0;
+    content: "i";
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    font-style: normal;
+    line-height: 13px;
+    letter-spacing: 0;
+    text-indent: 0;
+    text-transform: none;
+    text-align: center;
+    background: transparent;
+}
+.analysis-quality-icon::after { content: none; }
+.analysis-quality-icon:hover,
+.analysis-quality-icon:focus-visible {
+    outline: 2px solid #657c93;
+    outline-offset: 3px;
+    color: #42464e;
+    background: #f1f2f4;
+    border-color: #9399a2;
+}
+.nutrition-macros-card .nutrition-macro-reference > .analysis-quality-icon { display: inline-flex; margin-top: 6px; }
+body.dark-mode .analysis-quality-icon { color: #cedfeb; background: #283745; border-color: #737780; }
+.analysis-quality-tooltip { font-size: 12px; font-weight: 400; line-height: 1.55; padding: 11px 13px; border-radius: 10px; }
+
+/* Dénutrition : terminaison nette du tableau des prises alimentaires. */
+#plan #analyseDenutritionContainer .diabetes-carbs-table-wrap,
+#plan #analyseDenutritionContainer .diabetes-carbs-table,
+#plan #analyseDenutritionContainer .diabetes-carbs-table tbody tr:hover {
+    box-shadow: none;
+}
+#plan #analyseDenutritionContainer .diabetes-carbs-table tbody tr:last-child > * {
+    border-bottom: 0;
+}
